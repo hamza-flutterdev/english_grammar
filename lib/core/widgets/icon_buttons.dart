@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_colors.dart';
+
 class BackIconButton extends StatelessWidget {
   const BackIconButton({super.key});
 
@@ -9,12 +11,10 @@ class BackIconButton extends StatelessWidget {
       onTap: () {
         Navigator.pop(context);
       },
-      child:Icon(Icons.arrow_back_ios_new,color: Colors.white,)
+      child: Icon(Icons.arrow_back_ios_new, color: Colors.white),
     );
   }
 }
-
-
 
 class NotificationIconButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -25,9 +25,7 @@ class NotificationIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child:Image.asset(
-        'images/notifications.png',
-      ),
+      child: Image.asset('images/notifications.png'),
     );
   }
 }
@@ -41,9 +39,7 @@ class MoonIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Image.asset(
-        'images/moon_icon.png',
-      ),
+      child: Image.asset('images/moon_icon.png'),
     );
   }
 }
@@ -57,15 +53,13 @@ class TrIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Image.asset(
-        'images/try_icon.png',
-      ),
+      child: Image.asset('images/try_icon.png'),
     );
   }
 }
 
-class compaignIconButton extends StatelessWidget {
-  const compaignIconButton({super.key});
+class CampaignIconButton extends StatelessWidget {
+  const CampaignIconButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +67,11 @@ class compaignIconButton extends StatelessWidget {
       onTap: () {
         Navigator.pop(context);
       },
-      child: Image.asset(
-        'images/Compaigns.svg',
-      ),
+      child: Image.asset('images/Compaigns.svg'),
     );
   }
 }
+
 class MenuIcon extends StatelessWidget {
   const MenuIcon({super.key});
 
@@ -88,10 +81,115 @@ class MenuIcon extends StatelessWidget {
       onTap: () {
         Navigator.pop(context);
       },
-      child: Image.asset(
-        'images/menu_icon.svg',
-        height: 20,
-        width: 20,
+      child: Image.asset('images/menu_icon.svg', height: 20, width: 20),
+    );
+  }
+}
+
+class IconActionButton extends StatelessWidget {
+  final VoidCallback onTap;
+  final IconData icon;
+  final Color color;
+  final double size;
+  final EdgeInsetsGeometry padding;
+
+  const IconActionButton({
+    super.key,
+    required this.onTap,
+    required this.icon,
+    required this.color,
+    this.size = 24,
+    this.padding = const EdgeInsets.all(8),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: padding,
+        child: Icon(icon, color: color, size: size),
+      ),
+    );
+  }
+}
+
+class SendButton extends StatelessWidget {
+  final VoidCallback? onTap;
+  final bool isLoading;
+
+  const SendButton({super.key, required this.onTap, this.isLoading = false});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: isLoading ? null : onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 4),
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: isLoading ? greyColor.withValues(alpha: 0.3) : kSkyColor,
+          shape: BoxShape.circle,
+        ),
+        child:
+            isLoading
+                ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(kWhite),
+                  ),
+                )
+                : const Icon(Icons.send, color: kWhite, size: 20),
+      ),
+    );
+  }
+}
+
+class ImageActionButton extends StatelessWidget {
+  final VoidCallback onTap;
+  final String assetPath;
+  final Color? color;
+  final double size;
+  final double? width;
+  final bool isCircular;
+  final Color? backgroundColor;
+  final EdgeInsetsGeometry padding;
+
+  const ImageActionButton({
+    super.key,
+    required this.onTap,
+    required this.assetPath,
+    this.color,
+    this.size = 24,
+    this.width,
+    this.isCircular = false,
+    this.backgroundColor,
+    this.padding = const EdgeInsets.all(8),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final image = Image.asset(
+      assetPath,
+      width: size,
+      height: size,
+      color: color,
+      fit: BoxFit.contain,
+    );
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: width,
+        padding: padding,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          shape: isCircular ? BoxShape.circle : BoxShape.rectangle,
+          borderRadius: isCircular ? null : BorderRadius.circular(8),
+        ),
+        child: image,
       ),
     );
   }

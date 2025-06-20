@@ -13,22 +13,30 @@ const Color kBlack0D = Color(0xFF0D0D0D);
 
 // Grays
 const Color greyColor = Color(0xff626262);
+const kSilver = Color(0xff999898);
 
 //green
-const greenColor = Color(0xff00AB3F);
+const kGreenColor = Color(0xff00AB3F);
+const kDarkGreenColor = Color(0xff008631);
+const kBrightTeal = Color(0xFF25ABC7);
+const kMintGreen = Color(0xFF59C896);
+
+//blue
+const kBlue = Color(0xff305DDD);
+const kIndigo = Color(0xff6609A9);
+const kViolet = Color(0xffA900FF);
+const kCoral = Color(0xFFFA7F72);
+const kSkyColor = Color(0xFF569CD4);
+const kPurple = Color(0xFFA865E1);
+const kAquaBlue = Color(0xFF00D2B6);
 
 //red
 const kRed = Color(0xffE1020A);
 const kLightRed = Color(0xffF9DEDF);
 const kOrange = Color(0xffFF7600);
 const kYellow = Color(0xffFFBB00);
-const kBlue = Color(0xff305DDD);
-const kIndigo = Color(0xff6609A9);
-const kViolet = Color(0xffA900FF);
-const kCoral = Color(0xffFF7F50);
-const kSilver = Color(0xff999898);
 const kGold = Color(0xffCEA247);
-const skyColor = Color(0xFF569CD4);
+const kWarmGold = Color(0xFFEFB75E);
 
 //text color
 const Color blackTextColor = Color(0xFF000000);
@@ -38,9 +46,10 @@ const cyanTextColor = Color(0xFF35BEAE);
 const skyTextColor = Color(0xFF569CD4);
 
 //app primary
-const appBarBgColor = Colors.white;
-const primaryColor = Color(0xFF35BEAE);
-const bgColor = Colors.white;
+const appBarBgColor = Color(0xFF043B5A);
+const primaryColor = Color(0XFF075784);
+const secondaryColor = Color(0xFF043B5A);
+const bgColor = Color(0XFF075784);
 const Color borderColor = Colors.grey;
 const skyBorderColor = Color(0xFF569CD4);
 const Color suffixIconColor = Color(0xff8E8E8E);
@@ -51,8 +60,5 @@ const Color dividerColor = Color(0xffEDEDED);
 const kGradient = LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
-  colors: [
-    Color(0xFFF6C9B7),
-    Color(0xFFF2A78D),
-  ],
+  colors: [Color(0xFFF6C9B7), Color(0xFFF2A78D)],
 );

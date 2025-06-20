@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 
 Widget regularText({
@@ -7,16 +5,16 @@ Widget regularText({
   required double textSize,
   Color? textColor,
   FontWeight? textWeight,
-  TextAlign? textAlign
-}){
+  TextAlign? textAlign,
+}) {
   return Text(
     textAlign: textAlign,
-  textTitle,
+    textTitle,
     style: TextStyle(
       fontSize: textSize,
-      fontWeight:textWeight ,
+      fontWeight: textWeight,
       color: textColor,
-      fontFamily: 'Poppins'
+      fontFamily: 'Poppins',
     ),
   );
 }

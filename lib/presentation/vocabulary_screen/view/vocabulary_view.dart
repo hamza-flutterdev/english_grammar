@@ -1,4 +1,3 @@
-
 import 'package:english_grammer/core/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,20 +5,16 @@ import '../../../core/widgets/custom_appBar.dart';
 import '../controller/vocabulary_controller.dart'; // Corrected import
 
 class VocabularyView extends StatelessWidget {
-  final VocabularyController contrl = Get.put(VocabularyController()); // Instantiate the correct controller
+  final VocabularyController contrl = Get.put(
+    VocabularyController(),
+  ); // Instantiate the correct controller
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(0, 60),
-        child: CustomAppBar(
-          title: 'English Vocabulary',
-
-          textColor: Colors.white,
-          textSize: 24,
-          textWeight: FontWeight.w400,
-        ),
+        child: CustomAppBar(subtitle: 'English Vocabulary'),
       ),
 
       body: SingleChildScrollView(
@@ -32,9 +27,16 @@ class VocabularyView extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color:  Color(0XFF25abc7),
+                color: Color(0XFF25abc7),
               ),
-                child: Center(child: regularText(textTitle: contrl.headingTitle[0], textSize: 20, textColor: Colors.white))),
+              child: Center(
+                child: regularText(
+                  textTitle: contrl.headingTitle[0],
+                  textSize: 20,
+                  textColor: Colors.white,
+                ),
+              ),
+            ),
             Obx(() {
               if (contrl.categories1.isEmpty) {
                 return Center(child: CircularProgressIndicator());
@@ -47,26 +49,32 @@ class VocabularyView extends StatelessWidget {
                   ),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount:contrl.categoryTitle.length,
+                  itemCount: contrl.categoryTitle.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: (){
-                        Get.to(VocabularyCategoryScreen(
-                          title:contrl.categoryTitle[index],
-                        ));
+                      onTap: () {
+                        Get.to(
+                          VocabularyCategoryScreen(
+                            title: contrl.categoryTitle[index],
+                          ),
+                        );
                       },
                       child: Container(
-                        height: 86, width: 100,
+                        height: 86,
+                        width: 100,
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.blueGrey.shade100),
-                            color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.blueGrey.shade100),
+                          color: Colors.grey.shade200,
                         ),
-                        child: Center(child:  regularText(
+                        child: Center(
+                          child: regularText(
                             textTitle: contrl.categoryTitle[index],
-                            textSize: 18, textColor: Colors.black,
-                        )),
+                            textSize: 18,
+                            textColor: Colors.black,
+                          ),
+                        ),
                       ),
                     );
                   },
@@ -83,7 +91,14 @@ class VocabularyView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 color: Color(0XFF25abc7),
               ),
-                child: Center(child: regularText(textTitle: contrl.headingTitle[1], textSize: 20, textColor: Colors.white))),
+              child: Center(
+                child: regularText(
+                  textTitle: contrl.headingTitle[1],
+                  textSize: 20,
+                  textColor: Colors.white,
+                ),
+              ),
+            ),
             Obx(() {
               if (contrl.categories2.isEmpty) {
                 return Center(child: CircularProgressIndicator());
@@ -96,24 +111,32 @@ class VocabularyView extends StatelessWidget {
                   ),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount:contrl.categoryTitle2.length,
+                  itemCount: contrl.categoryTitle2.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: (){
-                        Get.to(VocabularyCategoryScreen(title:contrl.categoryTitle2[index],));
+                      onTap: () {
+                        Get.to(
+                          VocabularyCategoryScreen(
+                            title: contrl.categoryTitle2[index],
+                          ),
+                        );
                       },
                       child: Container(
-                        height: 86, width: 100,
+                        height: 86,
+                        width: 100,
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: Colors.blueGrey.shade100),
                           color: Colors.grey.shade200,
                         ),
-                        child: Center(child:  regularText(
+                        child: Center(
+                          child: regularText(
                             textTitle: contrl.categoryTitle2[index],
-                            textSize: 18, textColor: Colors.black,
-                        )),
+                            textSize: 18,
+                            textColor: Colors.black,
+                          ),
+                        ),
                       ),
                     );
                   },
@@ -123,14 +146,21 @@ class VocabularyView extends StatelessWidget {
 
             // 3rd
             Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.056,
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color:  Color(0XFF25abc7),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.056,
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(0XFF25abc7),
+              ),
+              child: Center(
+                child: regularText(
+                  textTitle: contrl.headingTitle[2],
+                  textSize: 20,
+                  textColor: Colors.white,
                 ),
-                child: Center(child: regularText(textTitle: contrl.headingTitle[2], textSize: 20, textColor: Colors.white))),
+              ),
+            ),
             Obx(() {
               if (contrl.categories3.isEmpty) {
                 return Center(child: CircularProgressIndicator());
@@ -143,25 +173,33 @@ class VocabularyView extends StatelessWidget {
                   ),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount:contrl.categoryTitle3.length,
+                  itemCount: contrl.categoryTitle3.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: (){
-                        Get.to(VocabularyCategoryScreen(title:contrl.categoryTitle3[index],));
+                      onTap: () {
+                        Get.to(
+                          VocabularyCategoryScreen(
+                            title: contrl.categoryTitle3[index],
+                          ),
+                        );
                       },
                       child: Container(
-                        height: 86, width: 100,
+                        height: 86,
+                        width: 100,
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: Colors.blueGrey.shade100),
                           color: Colors.grey.shade200,
                         ),
-                        child: Center(child:  regularText(
-                          textAlign: TextAlign.center,
-                          textTitle: contrl.categoryTitle3[index],
-                          textSize: 18, textColor: Colors.black,
-                        )),
+                        child: Center(
+                          child: regularText(
+                            textAlign: TextAlign.center,
+                            textTitle: contrl.categoryTitle3[index],
+                            textSize: 18,
+                            textColor: Colors.black,
+                          ),
+                        ),
                       ),
                     );
                   },
@@ -171,14 +209,21 @@ class VocabularyView extends StatelessWidget {
 
             // 4th
             Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.056,
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  color:  Color(0XFF25abc7),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.056,
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(0XFF25abc7),
+              ),
+              child: Center(
+                child: regularText(
+                  textTitle: contrl.headingTitle[3],
+                  textSize: 20,
+                  textColor: Colors.white,
                 ),
-                child: Center(child: regularText(textTitle: contrl.headingTitle[3], textSize: 20, textColor: Colors.white))),
+              ),
+            ),
             Obx(() {
               if (contrl.categories4.isEmpty) {
                 return Center(child: CircularProgressIndicator());
@@ -191,24 +236,32 @@ class VocabularyView extends StatelessWidget {
                   ),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount:contrl.categoryTitle4.length,
+                  itemCount: contrl.categoryTitle4.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: (){
-                        Get.to(VocabularyCategoryScreen(title:contrl.categoryTitle4[index],));
+                      onTap: () {
+                        Get.to(
+                          VocabularyCategoryScreen(
+                            title: contrl.categoryTitle4[index],
+                          ),
+                        );
                       },
                       child: Container(
-                        height: 86, width: 100,
+                        height: 86,
+                        width: 100,
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: Colors.blueGrey.shade100),
                           color: Colors.grey.shade200,
                         ),
-                        child: Center(child:  regularText(
-                          textTitle: contrl.categoryTitle4[index],
-                          textSize: 18, textColor: Colors.black,
-                        )),
+                        child: Center(
+                          child: regularText(
+                            textTitle: contrl.categoryTitle4[index],
+                            textSize: 18,
+                            textColor: Colors.black,
+                          ),
+                        ),
                       ),
                     );
                   },
@@ -218,14 +271,21 @@ class VocabularyView extends StatelessWidget {
 
             // 5th
             Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.056,
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  color:  Color(0XFF25abc7),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.056,
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(0XFF25abc7),
+              ),
+              child: Center(
+                child: regularText(
+                  textTitle: contrl.headingTitle[4],
+                  textSize: 20,
+                  textColor: Colors.white,
                 ),
-                child: Center(child: regularText(textTitle: contrl.headingTitle[4], textSize: 20, textColor: Colors.white))),
+              ),
+            ),
             Obx(() {
               if (contrl.categories5.isEmpty) {
                 return Center(child: CircularProgressIndicator());
@@ -238,25 +298,33 @@ class VocabularyView extends StatelessWidget {
                   ),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount:contrl.categoryTitle5.length,
+                  itemCount: contrl.categoryTitle5.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: (){
-                        Get.to(VocabularyCategoryScreen(title:contrl.categoryTitle5[index],));
+                      onTap: () {
+                        Get.to(
+                          VocabularyCategoryScreen(
+                            title: contrl.categoryTitle5[index],
+                          ),
+                        );
                       },
                       child: Container(
-                        height: 86, width: 100,
+                        height: 86,
+                        width: 100,
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: Colors.blueGrey.shade100),
                           color: Colors.grey.shade200,
                         ),
-                        child: Center(child:  regularText(
-                          textAlign: TextAlign.center,
-                          textTitle: contrl.categoryTitle5[index],
-                          textSize: 18, textColor: Colors.black,
-                        )),
+                        child: Center(
+                          child: regularText(
+                            textAlign: TextAlign.center,
+                            textTitle: contrl.categoryTitle5[index],
+                            textSize: 18,
+                            textColor: Colors.black,
+                          ),
+                        ),
                       ),
                     );
                   },
@@ -266,14 +334,21 @@ class VocabularyView extends StatelessWidget {
 
             // 6th
             Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.056,
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  color:  Color(0XFF25abc7),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.056,
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(0XFF25abc7),
+              ),
+              child: Center(
+                child: regularText(
+                  textTitle: contrl.headingTitle[5],
+                  textSize: 20,
+                  textColor: Colors.white,
                 ),
-                child: Center(child: regularText(textTitle: contrl.headingTitle[5], textSize: 20, textColor: Colors.white))),
+              ),
+            ),
             Obx(() {
               if (contrl.categories6.isEmpty) {
                 return Center(child: CircularProgressIndicator());
@@ -286,25 +361,33 @@ class VocabularyView extends StatelessWidget {
                   ),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount:contrl.categoryTitle6.length,
+                  itemCount: contrl.categoryTitle6.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: (){
-                        Get.to(VocabularyCategoryScreen(title:contrl.categoryTitle6[index],));
+                      onTap: () {
+                        Get.to(
+                          VocabularyCategoryScreen(
+                            title: contrl.categoryTitle6[index],
+                          ),
+                        );
                       },
                       child: Container(
-                        height: 86, width: 100,
+                        height: 86,
+                        width: 100,
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: Colors.blueGrey.shade100),
                           color: Colors.grey.shade200,
                         ),
-                        child: Center(child:  regularText(
-                          textAlign: TextAlign.center,
-                          textTitle: contrl.categoryTitle6[index],
-                          textSize: 18, textColor: Colors.black,
-                        )),
+                        child: Center(
+                          child: regularText(
+                            textAlign: TextAlign.center,
+                            textTitle: contrl.categoryTitle6[index],
+                            textSize: 18,
+                            textColor: Colors.black,
+                          ),
+                        ),
                       ),
                     );
                   },
@@ -314,14 +397,21 @@ class VocabularyView extends StatelessWidget {
 
             // 7th
             Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.056,
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  color:  Color(0XFF25abc7),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.056,
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(0XFF25abc7),
+              ),
+              child: Center(
+                child: regularText(
+                  textTitle: contrl.headingTitle[6],
+                  textSize: 20,
+                  textColor: Colors.white,
                 ),
-                child: Center(child: regularText(textTitle: contrl.headingTitle[6], textSize: 20, textColor: Colors.white))),
+              ),
+            ),
             Obx(() {
               if (contrl.categories7.isEmpty) {
                 return Center(child: CircularProgressIndicator());
@@ -334,32 +424,39 @@ class VocabularyView extends StatelessWidget {
                   ),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount:contrl.categoryTitle7.length,
+                  itemCount: contrl.categoryTitle7.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: (){
-                        Get.to(VocabularyCategoryScreen(title:contrl.categoryTitle7[index],));
+                      onTap: () {
+                        Get.to(
+                          VocabularyCategoryScreen(
+                            title: contrl.categoryTitle7[index],
+                          ),
+                        );
                       },
                       child: Container(
-                        height: 86, width: 100,
+                        height: 86,
+                        width: 100,
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: Colors.blueGrey.shade100),
                           color: Colors.grey.shade200,
                         ),
-                        child: Center(child:  regularText(
-                          textAlign: TextAlign.center,
-                          textTitle: contrl.categoryTitle7[index],
-                          textSize: 18, textColor: Colors.black,
-                        )),
+                        child: Center(
+                          child: regularText(
+                            textAlign: TextAlign.center,
+                            textTitle: contrl.categoryTitle7[index],
+                            textSize: 18,
+                            textColor: Colors.black,
+                          ),
+                        ),
                       ),
                     );
                   },
                 );
               }
             }),
-
           ],
         ),
       ),
@@ -367,13 +464,12 @@ class VocabularyView extends StatelessWidget {
   }
 }
 
-
 class VocabularyCategoryScreen extends StatefulWidget {
   final String title;
-  const VocabularyCategoryScreen({super.key,
-    required this.title,});
+  const VocabularyCategoryScreen({super.key, required this.title});
   @override
-  State<VocabularyCategoryScreen> createState() => _VocabularyCategoryScreenState();
+  State<VocabularyCategoryScreen> createState() =>
+      _VocabularyCategoryScreenState();
 }
 
 class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
@@ -384,13 +480,7 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(0, 60),
-        child: CustomAppBar(
-          title: widget.title,
-
-          textColor: Colors.white,
-          textSize: 24,
-          textWeight: FontWeight.w400,
-        ),
+        child: CustomAppBar(subtitle: widget.title),
       ),
       body: ListView(
         children: [
@@ -398,9 +488,10 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
             if (controller.categories1.isEmpty) {
               return Center(child: CircularProgressIndicator());
             } else {
-              final filteredList = controller.categories1.where((category) {
-                return category['subCategory'] == widget.title;
-              }).toList();
+              final filteredList =
+                  controller.categories1.where((category) {
+                    return category['subCategory'] == widget.title;
+                  }).toList();
               return ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -416,21 +507,26 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
                     ),
                     child: ListTile(
                       leading: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 14,
-                          child: regularText(textTitle: '${index+1}', textSize: 16, textColor: Colors.black)),
-                      title: regularText(
-                          textTitle: category['english_words'] ?? '',
-                          textSize: 18,
+                        backgroundColor: Colors.white,
+                        radius: 14,
+                        child: regularText(
+                          textTitle: '${index + 1}',
+                          textSize: 16,
                           textColor: Colors.black,
-                          textWeight: FontWeight.w600
+                        ),
                       ),
-                      subtitle:  regularText(
+                      title: regularText(
+                        textTitle: category['english_words'] ?? '',
+                        textSize: 18,
+                        textColor: Colors.black,
+                        textWeight: FontWeight.w600,
+                      ),
+                      subtitle: regularText(
                         textTitle: category['urdu_words'] ?? '',
                         textSize: 18,
                         textColor: Colors.blue,
                       ),
-                      trailing: Icon(Icons.play_circle, color: Colors.blue,),
+                      trailing: Icon(Icons.play_circle, color: Colors.blue),
                     ),
                   );
                 },
@@ -441,9 +537,10 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
             if (controller.categories2.isEmpty) {
               return Center(child: CircularProgressIndicator());
             } else {
-              final filteredList = controller.categories2.where((category) {
-                return category['subCategory'] == widget.title;
-              }).toList();
+              final filteredList =
+                  controller.categories2.where((category) {
+                    return category['subCategory'] == widget.title;
+                  }).toList();
               return ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -459,21 +556,26 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
                     ),
                     child: ListTile(
                       leading: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 14,
-                          child: regularText(textTitle: '${index+1}', textSize: 16, textColor: Colors.black)),
-                      title: regularText(
-                          textTitle: category['english_words'] ?? '',
-                          textSize: 18,
+                        backgroundColor: Colors.white,
+                        radius: 14,
+                        child: regularText(
+                          textTitle: '${index + 1}',
+                          textSize: 16,
                           textColor: Colors.black,
-                          textWeight: FontWeight.w600
+                        ),
                       ),
-                      subtitle:  regularText(
+                      title: regularText(
+                        textTitle: category['english_words'] ?? '',
+                        textSize: 18,
+                        textColor: Colors.black,
+                        textWeight: FontWeight.w600,
+                      ),
+                      subtitle: regularText(
                         textTitle: category['urdu_words'] ?? '',
                         textSize: 18,
                         textColor: Colors.blue,
                       ),
-                      trailing: Icon(Icons.play_circle, color: Colors.blue,),
+                      trailing: Icon(Icons.play_circle, color: Colors.blue),
                     ),
                   );
                 },
@@ -485,9 +587,10 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
             if (controller.categories3.isEmpty) {
               return Center(child: CircularProgressIndicator());
             } else {
-              final filteredList = controller.categories3.where((category) {
-                return category['subCategory'] == widget.title;
-              }).toList();
+              final filteredList =
+                  controller.categories3.where((category) {
+                    return category['subCategory'] == widget.title;
+                  }).toList();
               return ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -503,21 +606,26 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
                     ),
                     child: ListTile(
                       leading: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 14,
-                          child: regularText(textTitle: '${index+1}', textSize: 16, textColor: Colors.black)),
-                      title: regularText(
-                          textTitle: category['english_words'] ?? '',
-                          textSize: 18,
+                        backgroundColor: Colors.white,
+                        radius: 14,
+                        child: regularText(
+                          textTitle: '${index + 1}',
+                          textSize: 16,
                           textColor: Colors.black,
-                          textWeight: FontWeight.w600
+                        ),
                       ),
-                      subtitle:  regularText(
+                      title: regularText(
+                        textTitle: category['english_words'] ?? '',
+                        textSize: 18,
+                        textColor: Colors.black,
+                        textWeight: FontWeight.w600,
+                      ),
+                      subtitle: regularText(
                         textTitle: category['urdu_words'] ?? '',
                         textSize: 18,
                         textColor: Colors.blue,
                       ),
-                      trailing: Icon(Icons.play_circle, color: Colors.blue,),
+                      trailing: Icon(Icons.play_circle, color: Colors.blue),
                     ),
                   );
                 },
@@ -528,9 +636,10 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
             if (controller.categories4.isEmpty) {
               return Center(child: CircularProgressIndicator());
             } else {
-              final filteredList = controller.categories4.where((category) {
-                return category['subCategory'] == widget.title;
-              }).toList();
+              final filteredList =
+                  controller.categories4.where((category) {
+                    return category['subCategory'] == widget.title;
+                  }).toList();
               return ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -546,21 +655,26 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
                     ),
                     child: ListTile(
                       leading: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 14,
-                          child: regularText(textTitle: '${index+1}', textSize: 16, textColor: Colors.black)),
-                      title: regularText(
-                          textTitle: category['english_words'] ?? '',
-                          textSize: 18,
+                        backgroundColor: Colors.white,
+                        radius: 14,
+                        child: regularText(
+                          textTitle: '${index + 1}',
+                          textSize: 16,
                           textColor: Colors.black,
-                          textWeight: FontWeight.w600
+                        ),
                       ),
-                      subtitle:  regularText(
+                      title: regularText(
+                        textTitle: category['english_words'] ?? '',
+                        textSize: 18,
+                        textColor: Colors.black,
+                        textWeight: FontWeight.w600,
+                      ),
+                      subtitle: regularText(
                         textTitle: category['urdu_words'] ?? '',
                         textSize: 18,
                         textColor: Colors.blue,
                       ),
-                      trailing: Icon(Icons.play_circle, color: Colors.blue,),
+                      trailing: Icon(Icons.play_circle, color: Colors.blue),
                     ),
                   );
                 },
@@ -572,9 +686,10 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
             if (controller.categories5.isEmpty) {
               return Center(child: CircularProgressIndicator());
             } else {
-              final filteredList = controller.categories5.where((category) {
-                return category['subCategory'] == widget.title;
-              }).toList();
+              final filteredList =
+                  controller.categories5.where((category) {
+                    return category['subCategory'] == widget.title;
+                  }).toList();
               return ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -590,21 +705,26 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
                     ),
                     child: ListTile(
                       leading: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 14,
-                          child: regularText(textTitle: '${index+1}', textSize: 16, textColor: Colors.black)),
-                      title: regularText(
-                          textTitle: category['english_words'] ?? '',
-                          textSize: 18,
+                        backgroundColor: Colors.white,
+                        radius: 14,
+                        child: regularText(
+                          textTitle: '${index + 1}',
+                          textSize: 16,
                           textColor: Colors.black,
-                          textWeight: FontWeight.w600
+                        ),
                       ),
-                      subtitle:  regularText(
+                      title: regularText(
+                        textTitle: category['english_words'] ?? '',
+                        textSize: 18,
+                        textColor: Colors.black,
+                        textWeight: FontWeight.w600,
+                      ),
+                      subtitle: regularText(
                         textTitle: category['urdu_words'] ?? '',
                         textSize: 18,
                         textColor: Colors.blue,
                       ),
-                      trailing: Icon(Icons.play_circle, color: Colors.blue,),
+                      trailing: Icon(Icons.play_circle, color: Colors.blue),
                     ),
                   );
                 },
@@ -615,9 +735,10 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
             if (controller.categories6.isEmpty) {
               return Center(child: CircularProgressIndicator());
             } else {
-              final filteredList = controller.categories6.where((category) {
-                return category['subCategory'] == widget.title;
-              }).toList();
+              final filteredList =
+                  controller.categories6.where((category) {
+                    return category['subCategory'] == widget.title;
+                  }).toList();
               return ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -633,21 +754,26 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
                     ),
                     child: ListTile(
                       leading: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 14,
-                          child: regularText(textTitle: '${index+1}', textSize: 16, textColor: Colors.black)),
-                      title: regularText(
-                          textTitle: category['english_words'] ?? '',
-                          textSize: 18,
+                        backgroundColor: Colors.white,
+                        radius: 14,
+                        child: regularText(
+                          textTitle: '${index + 1}',
+                          textSize: 16,
                           textColor: Colors.black,
-                          textWeight: FontWeight.w600
+                        ),
                       ),
-                      subtitle:  regularText(
+                      title: regularText(
+                        textTitle: category['english_words'] ?? '',
+                        textSize: 18,
+                        textColor: Colors.black,
+                        textWeight: FontWeight.w600,
+                      ),
+                      subtitle: regularText(
                         textTitle: category['urdu_words'] ?? '',
                         textSize: 18,
                         textColor: Colors.blue,
                       ),
-                      trailing: Icon(Icons.play_circle, color: Colors.blue,),
+                      trailing: Icon(Icons.play_circle, color: Colors.blue),
                     ),
                   );
                 },
@@ -659,9 +785,10 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
             if (controller.categories7.isEmpty) {
               return Center(child: CircularProgressIndicator());
             } else {
-              final filteredList = controller.categories7.where((category) {
-                return category['subCategory'] == widget.title;
-              }).toList();
+              final filteredList =
+                  controller.categories7.where((category) {
+                    return category['subCategory'] == widget.title;
+                  }).toList();
               return ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -677,30 +804,34 @@ class _VocabularyCategoryScreenState extends State<VocabularyCategoryScreen> {
                     ),
                     child: ListTile(
                       leading: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 14,
-                          child: regularText(textTitle: '${index+1}', textSize: 16, textColor: Colors.black)),
-                      title: regularText(
-                          textTitle: category['english_words'] ?? '',
-                          textSize: 18,
+                        backgroundColor: Colors.white,
+                        radius: 14,
+                        child: regularText(
+                          textTitle: '${index + 1}',
+                          textSize: 16,
                           textColor: Colors.black,
-                          textWeight: FontWeight.w600
+                        ),
                       ),
-                      subtitle:  regularText(
+                      title: regularText(
+                        textTitle: category['english_words'] ?? '',
+                        textSize: 18,
+                        textColor: Colors.black,
+                        textWeight: FontWeight.w600,
+                      ),
+                      subtitle: regularText(
                         textTitle: category['urdu_words'] ?? '',
                         textSize: 18,
                         textColor: Colors.blue,
                       ),
-                      trailing: Icon(Icons.play_circle, color: Colors.blue,),
+                      trailing: Icon(Icons.play_circle, color: Colors.blue),
                     ),
                   );
                 },
               );
             }
           }),
-
         ],
-      )
+      ),
     );
   }
 }

@@ -1,39 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../theme/app_colors.dart';
+import 'icon_buttons.dart';
 
-class CustomAppBar extends StatelessWidget {
-
-  final String title;
-  final double textSize;
-  final FontWeight? textWeight;
-  final Color textColor;
-  final IconButton? leadingIcon;
-  final IconButton? actionIcon;
-
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final List<Widget>? actions;
+  final String subtitle;
+  final bool useBackButton;
+  final VoidCallback? onBackTap;
 
   const CustomAppBar({
     super.key,
-    required this.title,
-    required this.textSize,
-    this.textWeight,
-    required this.textColor,
-    this.leadingIcon, this.actionIcon,
+    required this.subtitle,
+    this.useBackButton = true,
+    this.actions,
+    this.onBackTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      iconTheme: IconThemeData(color: Colors.white),
-      leading: leadingIcon,
-      backgroundColor: Color(0XFF25abc7),
-      title: Text(title,
-        style: TextStyle(color: textColor, fontSize: textSize, fontWeight: textWeight),
-      ),
+      backgroundColor: appBarBgColor,
       centerTitle: true,
-      actions: [
-        if (actionIcon != null) actionIcon!,
-        SizedBox(width: 10,),
-      ],
+      leading:
+          useBackButton
+              ? BackIconButton()
+              : Builder(
+                builder: (context) {
+                  return IconActionButton(
+                    onTap: () => Scaffold.of(context).openDrawer(),
+                    icon: Icons.menu,
+                    color: kWhite,
+                    size: 30,
+                  );
+                },
+              ),
+      title: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Text(
+          subtitle,
+          style: context.textTheme.titleMedium?.copyWith(
+            color: kWhite,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+
+      actions: actions,
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

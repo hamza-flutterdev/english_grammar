@@ -16,73 +16,69 @@ class _TensesViewState extends State<TensesView> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size(0, 60),
-        child: CustomAppBar(
-          title: 'English Tenses ',
-          textColor: Colors.white,
-          textSize: 24,
-          textWeight: FontWeight.w400,
-        ),
+        child: CustomAppBar(subtitle: 'English Tenses '),
       ),
       body: ListView.builder(
         itemCount: 1,
         itemBuilder: (context, index) {
           return Column(
             children: [
-             //  // 1st
-             //  Container(
-             //    height: 56, width: double.infinity,
-             //    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-             //    decoration: BoxDecoration(
-             //        borderRadius: BorderRadius.circular(10),
-             //      color:  Color(0XFF25abc7),
-             //    ),
-             //    child: Center(
-             //      child: Text(
-             //        controller.headingTitle[index],
-             //        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-             //      ),
-             //    ),
-             //  ),
-             // GridView.builder(
-             //   shrinkWrap: true,
-             //     physics: NeverScrollableScrollPhysics(),
-             //     itemCount: controller.prTCategory.length,
-             //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-             //         crossAxisCount: 2,
-             //       childAspectRatio: 2.4,
-             //       mainAxisSpacing: 16
-             //     ),
-             //     itemBuilder: (context, index){
-             //   return GestureDetector(
-             //     onTap: (){
-             //       Get.to(TensesCategoriesScreen(title:  controller.prTCategory[index],));
-             //     },
-             //     child: Container(
-             //       width: 140,
-             //       height: 100,
-             //       margin: EdgeInsets.symmetric(horizontal: 10),
-             //       decoration: BoxDecoration(
-             //           color: Colors.grey.shade100.withValues(alpha: .7),
-             //           borderRadius: BorderRadius.circular(10),
-             //           border: Border.all(color: Colors.grey.shade200)
-             //       ),
-             //       child: Center(child: regularText(
-             //           textAlign: TextAlign.center,
-             //           textTitle: controller.prTCategory[index], textSize: 16, textColor: Colors.black)),
-             //     ),
-             //   );
-             // }),
+              //  // 1st
+              //  Container(
+              //    height: 56, width: double.infinity,
+              //    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              //    decoration: BoxDecoration(
+              //        borderRadius: BorderRadius.circular(10),
+              //      color:  Color(0XFF25abc7),
+              //    ),
+              //    child: Center(
+              //      child: Text(
+              //        controller.headingTitle[index],
+              //        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+              //      ),
+              //    ),
+              //  ),
+              // GridView.builder(
+              //   shrinkWrap: true,
+              //     physics: NeverScrollableScrollPhysics(),
+              //     itemCount: controller.prTCategory.length,
+              //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //         crossAxisCount: 2,
+              //       childAspectRatio: 2.4,
+              //       mainAxisSpacing: 16
+              //     ),
+              //     itemBuilder: (context, index){
+              //   return GestureDetector(
+              //     onTap: (){
+              //       Get.to(TensesCategoriesScreen(title:  controller.prTCategory[index],));
+              //     },
+              //     child: Container(
+              //       width: 140,
+              //       height: 100,
+              //       margin: EdgeInsets.symmetric(horizontal: 10),
+              //       decoration: BoxDecoration(
+              //           color: Colors.grey.shade100.withValues(alpha: .7),
+              //           borderRadius: BorderRadius.circular(10),
+              //           border: Border.all(color: Colors.grey.shade200)
+              //       ),
+              //       child: Center(child: regularText(
+              //           textAlign: TextAlign.center,
+              //           textTitle: controller.prTCategory[index], textSize: 16, textColor: Colors.black)),
+              //     ),
+              //   );
+              // }),
 
               // 2nd
+              SizedBox(
+                height: 600,
+                width: double.infinity,
+                child: TenseCategoryPager(),
+              ),
 
-          SizedBox(
-              height: 600,width: double.infinity,
-              child: TenseCategoryPager()),
               //
               //
               //
@@ -179,7 +175,6 @@ class _TensesViewState extends State<TensesView> {
               //     }),
               //
               //   SizedBox(height: 40,),
-
             ],
           );
         },
@@ -187,7 +182,6 @@ class _TensesViewState extends State<TensesView> {
     );
   }
 }
-
 
 //
 // class TenseCategoryPager extends StatefulWidget {
@@ -342,9 +336,6 @@ class _TensesViewState extends State<TensesView> {
 //   }
 // }
 
-
-
-
 class TenseCategoryPager extends StatefulWidget {
   @override
   _TenseCategoryPagerState createState() => _TenseCategoryPagerState();
@@ -384,7 +375,11 @@ class _TenseCategoryPagerState extends State<TenseCategoryPager> {
           child: Center(
             child: Text(
               controller.psTCategory[_currentPage],
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
@@ -402,14 +397,21 @@ class _TenseCategoryPagerState extends State<TenseCategoryPager> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  Get.to(() => TensesCategoriesScreen(title: controller.psTCategory[index]));
+                  Get.to(
+                    () => TensesCategoriesScreen(
+                      title: controller.psTCategory[index],
+                    ),
+                  );
                 },
                 child: Column(
                   children: [
                     Container(
                       width: 240,
                       height: 200,
-                      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 10,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade100.withOpacity(0.7),
                         borderRadius: BorderRadius.circular(10),
@@ -422,13 +424,20 @@ class _TenseCategoryPagerState extends State<TenseCategoryPager> {
                             child: Text(
                               controller.psTCategory[index],
                               textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w400),
+                              style: const TextStyle(
+                                fontSize: 24,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           ),
 
                           const SizedBox(height: 16),
-                          regularText(textTitle: tabTitlesUR[index], textSize: 20, textColor: Colors.blue)
-                        
+                          regularText(
+                            textTitle: tabTitlesUR[index],
+                            textSize: 20,
+                            textColor: Colors.blue,
+                          ),
                         ],
                       ),
                     ),
@@ -460,21 +469,30 @@ class _TenseCategoryPagerState extends State<TenseCategoryPager> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  _pageController.animateToPage(index,
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.easeInOut);
+                  _pageController.animateToPage(
+                    index,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeInOut,
+                  );
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   margin: const EdgeInsets.symmetric(horizontal: 6),
                   decoration: BoxDecoration(
-                    color: _currentPage == index ? const Color(0XFF25abc7) : Colors.grey.shade200,
+                    color:
+                        _currentPage == index
+                            ? const Color(0XFF25abc7)
+                            : Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
                     tabTitlesEN[index],
                     style: TextStyle(
-                      color: _currentPage == index ? Colors.white : Colors.black,
+                      color:
+                          _currentPage == index ? Colors.white : Colors.black,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -487,6 +505,4 @@ class _TenseCategoryPagerState extends State<TenseCategoryPager> {
       ],
     );
   }
-
 }
-

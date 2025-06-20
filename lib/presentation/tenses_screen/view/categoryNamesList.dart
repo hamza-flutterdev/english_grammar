@@ -26,12 +26,7 @@ class _TensesCategoriesScreenState extends State<TensesCategoriesScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(0, 60),
-        child: CustomAppBar(
-          title: widget.title,
-          textColor: Colors.white,
-          textSize: 24,
-          textWeight: FontWeight.w400,
-        ),
+        child: CustomAppBar(subtitle: widget.title),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -40,9 +35,10 @@ class _TensesCategoriesScreenState extends State<TensesCategoriesScreen> {
               if (controller.tensesCat.isEmpty) {
                 return Center(child: CircularProgressIndicator());
               } else {
-                final filteredList = controller.tensesCat.where((category) {
-                  return category['category_name'] == widget.title;
-                }).toList();
+                final filteredList =
+                    controller.tensesCat.where((category) {
+                      return category['category_name'] == widget.title;
+                    }).toList();
 
                 return ListView.builder(
                   shrinkWrap: true,
@@ -52,13 +48,17 @@ class _TensesCategoriesScreenState extends State<TensesCategoriesScreen> {
                     final List<Widget> widgets = [];
 
                     final category = filteredList[index];
-                    final englishText = category['english_words']?.toLowerCase() ?? '';
+                    final englishText =
+                        category['english_words']?.toLowerCase() ?? '';
 
                     // Always show 'Definition' at index 0
                     if (index == 0) {
                       widgets.add(
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
                           padding: EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -80,7 +80,10 @@ class _TensesCategoriesScreenState extends State<TensesCategoriesScreen> {
                     if (englishText.contains('subject')) {
                       widgets.add(
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
                           padding: EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -88,7 +91,8 @@ class _TensesCategoriesScreenState extends State<TensesCategoriesScreen> {
                           ),
                           child: Center(
                             child: regularText(
-                              textTitle: indexLabels[index] ?? 'Negative Sentences' ,
+                              textTitle:
+                                  indexLabels[index] ?? 'Negative Sentences',
                               textSize: 16,
                               textColor: Colors.black,
                               textWeight: FontWeight.bold,
@@ -101,7 +105,10 @@ class _TensesCategoriesScreenState extends State<TensesCategoriesScreen> {
                     // Main content blocks
                     widgets.addAll([
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: Colors.blueGrey.shade100),
@@ -118,7 +125,10 @@ class _TensesCategoriesScreenState extends State<TensesCategoriesScreen> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: Colors.blueGrey.shade100),

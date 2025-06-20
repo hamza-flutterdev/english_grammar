@@ -20,12 +20,7 @@ class _AlphabetScreenViewState extends State<AlphabetScreenView> {
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size(0, 60),
-        child: CustomAppBar(
-          title: 'Alphabet Screen',
-          textColor: Colors.white,
-          textSize: 24,
-          textWeight: FontWeight.w400,
-        ),
+        child: CustomAppBar(subtitle: 'Alphabet Screen'),
       ),
       body: Obx(() {
         if (controller.alphabetCateg.isEmpty) {
