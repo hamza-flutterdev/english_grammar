@@ -1,274 +1,385 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import '../controller/dictionary_screen_contrl.dart';
-//
-// class DictionarySearchScreen extends StatefulWidget {
-//   const DictionarySearchScreen({super.key});
-//
-//   @override
-//   State<DictionarySearchScreen> createState() => _DictionarySearchScreenState();
-// }
-//
-// class _DictionarySearchScreenState extends State<DictionarySearchScreen> {
-//   final DictionaryController controller = Get.put(DictionaryController());
-//   final FocusNode _searchFocusNode = FocusNode();
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text('Dictionary')),
-//       body: Column(
-//         children: [
-//           // Search bar
-//           Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: TextField(
-//               focusNode: _searchFocusNode,
-//               controller: controller.searchController,
-//               decoration: InputDecoration(
-//                 hintText: 'Enter word to search...',
-//                 suffixIcon: IconButton(
-//                   icon: const Icon(Icons.search),
-//                   onPressed: () => controller.performSearch(controller.searchController.text),
-//                 ),
-//               ),
-//               onChanged: (value) {
-//                 // Only search if suggestions are active
-//                 if (controller.showSuggestions.value) {
-//                   controller.performSearch(value);
-//                 }
-//               },
-//             ),
-//           ),
-//
-//           // "You searched" section
-//           Obx(() {
-//             if (controller.selectedWord.isNotEmpty && controller.selectedMeaning.isNotEmpty) {
-//               return Padding(
-//                 padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-//                 child: Container(
-//                   width: double.infinity,
-//                   decoration: BoxDecoration(
-//                     color: Colors.grey[200],
-//                     borderRadius: BorderRadius.circular(8),
-//                   ),
-//                   padding: const EdgeInsets.all(8.0),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       const Text(
-//                         'You searched:',
-//                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-//                       ),
-//                       const SizedBox(height: 4),
-//                       Row(
-//                         children: [
-//                           const Text(
-//                             'English: ',
-//                             style: TextStyle(fontWeight: FontWeight.bold),
-//                           ),
-//                           Expanded(child: Text(controller.selectedWord.value)),
-//                         ],
-//                       ),
-//                       const SizedBox(height: 4),
-//                       Row(
-//                         crossAxisAlignment: CrossAxisAlignment.start,
-//                         children: [
-//                           const Text(
-//                             'Urdu: ',
-//                             style: TextStyle(fontWeight: FontWeight.bold),
-//                           ),
-//                           Expanded(
-//                             child: Text(
-//                               controller.selectedMeaning.value,
-//                               textDirection: TextDirection.rtl,
-//                               style: const TextStyle(fontSize: 16),
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               );
-//             } else {
-//               return const SizedBox.shrink();
-//             }
-//           }),
-//
-//           // Suggestions List
-//           Expanded(
-//             child: Obx(() {
-//               if (!controller.showSuggestions.value) {
-//                 return const SizedBox.shrink();
-//               }
-//
-//               if (controller.searchResults.isEmpty) {
-//                 return const Center(child: Text('No results found.'));
-//               } else {
-//                 return ListView.builder(
-//                   itemCount: controller.searchResults.length,
-//                   itemBuilder: (context, index) {
-//                     final item = controller.searchResults[index];
-//                     final word = item['word'] ?? '';
-//                     final meaning = item['meaning'] ?? 'No meaning found';
-//
-//                     return ListTile(
-//                       title: Text(word),
-//                       subtitle: Text(meaning),
-//                       onTap: () {
-//                         controller.onWordTap(context, word, meaning);
-//                       },
-//                     );
-//                   },
-//                 );
-//               }
-//             }),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-
-
-
+import 'package:english_grammer/core/constants/constant.dart';
+import 'package:english_grammer/core/theme/app_colors.dart';
+import 'package:english_grammer/core/theme/app_styles.dart';
+import 'package:english_grammer/core/widgets/custom_appBar.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import '../../../data/database/db_helper.dart';
+import 'package:get/get.dart';
+import '../../../core/widgets/icon_buttons.dart';
+import '../../../core/widgets/search_bar.dart';
+import '../controller/dictionary_controller.dart';
+import 'detail_section.dart';
 
-class DictionarySearchScreen extends StatefulWidget {
+class DictionarySearchScreen extends StatelessWidget {
   const DictionarySearchScreen({super.key});
 
   @override
-  _DictionarySearchScreenState createState() => _DictionarySearchScreenState();
-}
-
-class _DictionarySearchScreenState extends State<DictionarySearchScreen> {
-  final TextEditingController _controller = TextEditingController();
-  final DbHelper _dbHelper = DbHelper();
-  List<Map<String, dynamic>> _searchResults = [];
-  String _selectedWord = '';
-  String _selectedMeaning = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _dbHelper.initDatabase(); // Initialize the database
-  }
-
-  void _performSearch(String query) async {
-    if (query.trim().isEmpty) return;
-
-    final results = await _dbHelper.searchWord(query);
-    if (results.isEmpty) {
-      Fluttertoast.showToast(msg: "No word in dictionary. Try another word.");
-    }
-
-    setState(() {
-      _searchResults = results;
-      _selectedWord = '';
-      _selectedMeaning = '';
-    });
-  }
-
-  void _onWordTap(String word, String meaning) {
-    print('Tapped: $word - $meaning'); // Debugging output
-    setState(() {
-      _selectedWord = word;
-      _selectedMeaning = meaning;
-      _controller.clear();
-      _searchResults = [];
-    });
-    FocusScope.of(context).unfocus(); // Hide keyboard
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.put(DictionaryController());
+
     return Scaffold(
-      appBar: AppBar(title: Text('Dictionary')),
+      backgroundColor: bgColor,
+      appBar: CustomAppBar(subtitle: 'Dictionary'),
       body: Column(
         children: [
           // Search bar
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                hintText: 'Enter word to search...',
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () => _performSearch(_controller.text),
-                ),
-              ),
-              onChanged: (value) => _performSearch(value),
+            padding: const EdgeInsets.all(kBodyHp),
+            child: SearchBarField(
+              controller: controller.searchController,
+              onSearch: controller.performSearch,
             ),
           ),
 
-          // You searched section
-          if (_selectedWord.isNotEmpty && _selectedMeaning.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              child: Container(
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'You searched:',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Text(
-                          'English: ',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+          // Content area
+          Expanded(
+            child: Obx(() {
+              // Show word details if a word is selected
+              if (controller.selectedWord.isNotEmpty &&
+                  controller.selectedMeaning.isNotEmpty) {
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: kBodyHp),
+                  child: Column(
+                    children: [
+                      // Basic word information container
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(kBodyHp),
+                        decoration: roundedPrimaryBorderDecoration,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.menu_book_rounded,
+                                      color: kWhite,
+                                      size: secondaryIcon(context),
+                                    ),
+                                    const SizedBox(width: kElementWidthGap),
+                                    Text(
+                                      'Word:',
+                                      style: bodyBoldMediumStyle.copyWith(
+                                        color: kWhite,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                // Right side: Two action buttons
+                                Row(
+                                  children: [
+                                    Tooltip(
+                                      message: 'Speak Word',
+                                      child: IconActionButton(
+                                        onTap: () {},
+                                        icon: Icons.play_circle,
+                                        color: kWhite,
+                                        size: secondaryIcon(context),
+                                      ),
+                                    ),
+                                    const SizedBox(width: kElementWidthGap),
+                                    Tooltip(
+                                      message: 'Copy All',
+                                      child: IconActionButton(
+                                        onTap:
+                                            () => controller.copyToClipboard(
+                                              '${controller.selectedMeaning.value}\n'
+                                              '${controller.selectedWord.value}\n\n'
+                                              '${controller.aiResponse.value}',
+                                            ),
+                                        icon: Icons.copy,
+                                        color: kWhite,
+                                        size: secondaryIcon(context),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: kElementGap),
+
+                            // English and Urdu words
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'English:',
+                                  style: bodyBoldSmallStyle.copyWith(
+                                    color: kWhite,
+                                  ),
+                                ),
+                                const SizedBox(width: kElementWidthGap),
+                                Expanded(
+                                  child: Text(
+                                    controller.selectedMeaning.value,
+                                    style: bodySmallStyle.copyWith(
+                                      color: kWhite,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: kElementInnerGap),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Urdu:',
+                                  style: bodyBoldSmallStyle.copyWith(
+                                    color: kWhite,
+                                  ),
+                                ),
+                                const SizedBox(width: kElementInnerGap),
+                                Expanded(
+                                  child: Text(
+                                    controller.selectedWord.value,
+                                    textDirection: TextDirection.rtl,
+                                    style: bodySmallStyle.copyWith(
+                                      color: kWhite,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        Expanded(child: Text(_selectedWord)),
+                      ),
+
+                      const SizedBox(height: kElementGap),
+
+                      // Loading state
+                      if (controller.isLoadingAiDetails.value) ...[
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(kBodyHp),
+                          decoration: roundedPrimaryBorderDecoration,
+                          child: Row(
+                            children: [
+                              const SizedBox(
+                                width: kBodyHp,
+                                height: kBodyHp,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: kWhite,
+                                ),
+                              ),
+                              const SizedBox(width: kElementWidthGap),
+                              Text(
+                                'Analyzing word...',
+                                style: bodyBoldSmallStyle.copyWith(
+                                  color: kWhite,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: kElementGap),
+                      ],
+                      // Show parsed sections
+                      if (!controller.isLoadingAiDetails.value &&
+                          controller.wordDetails.value != null) ...[
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(kBodyHp),
+                          decoration: roundedPrimaryBorderDecoration,
+                          child: Column(
+                            children: [
+                              const SizedBox(height: kElementGap),
+                              // Definition
+                              WordDetailSection(
+                                controller: controller,
+                                title: 'Definition',
+                                content:
+                                    controller.wordDetails.value!.definition,
+                              ),
+                              const SizedBox(height: kElementGap),
+                              // Part of Speech
+                              WordDetailSection(
+                                controller: controller,
+                                title: 'Part of Speech',
+                                content:
+                                    controller.wordDetails.value!.partOfSpeech,
+                              ),
+                              const SizedBox(height: kElementGap),
+                              // Pronunciation
+                              WordDetailSection(
+                                controller: controller,
+                                title: 'Pronunciation',
+                                content:
+                                    controller.wordDetails.value!.pronunciation,
+                              ),
+                              const SizedBox(height: kElementGap),
+                              // Examples
+                              WordDetailSection(
+                                controller: controller,
+                                title: 'Examples',
+                                content: controller.wordDetails.value!.examples,
+                              ),
+                              const SizedBox(height: kElementGap),
+                              // Synonyms
+                              WordDetailSection(
+                                controller: controller,
+                                title: 'Synonyms',
+                                content: controller.wordDetails.value!.synonyms,
+                              ),
+                              const SizedBox(height: kElementGap),
+                              // Antonyms
+                              WordDetailSection(
+                                controller: controller,
+                                title: 'Antonyms',
+                                content: controller.wordDetails.value!.antonyms,
+                              ),
+                              const SizedBox(height: kElementGap),
+                            ],
+                          ),
+                        ),
+                      ],
+                      // Error state
+                      if (!controller.isLoadingAiDetails.value &&
+                          controller.aiError.isNotEmpty) ...[
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(kBodyHp),
+                          decoration: roundedPrimaryBorderDecoration,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.error_outline,
+                                color: kRed.withValues(alpha: 0.7),
+                                size: secondaryIcon(context),
+                              ),
+                              const SizedBox(width: kElementWidthGap),
+                              Expanded(
+                                child: Text(
+                                  controller.aiError.value,
+                                  style: bodyBoldSmallStyle.copyWith(
+                                    color: kRed.withValues(alpha: 0.7),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+
+                      // Initial state
+                      if (!controller.isLoadingAiDetails.value &&
+                          controller.aiResponse.isEmpty &&
+                          controller.aiError.isEmpty) ...[
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(kBodyHp),
+                          decoration: roundedPrimaryBorderDecoration,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.tips_and_updates_outlined,
+                                color: kWhite,
+                                size: secondaryIcon(context),
+                              ),
+                              const SizedBox(width: kElementWidthGap),
+                              Expanded(
+                                child: Text(
+                                  'Auto-generating detailed analysis...',
+                                  style: bodyBoldSmallStyle.copyWith(
+                                    color: kWhite,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: kElementGap),
+                      ],
+                    ],
+                  ),
+                );
+              }
+              // Show search results or search states
+              else {
+                if (!controller.hasSearched.value) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.search,
+                          size: primaryIcon(context),
+                          color: kWhite,
+                        ),
+                        const SizedBox(height: kElementGap),
+                        Text(
+                          'Start typing to search for words',
+                          style: bodySmallStyle.copyWith(color: kWhite),
+                        ),
                       ],
                     ),
-                    SizedBox(height: 4),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  );
+                }
+                if (controller.isSearching.value) {
+                  return const Center(
+                    child: CircularProgressIndicator(color: kWhite),
+                  );
+                }
+                if (controller.searchResults.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Urdu: ',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        Icon(
+                          Icons.search_off,
+                          size: primaryIcon(context),
+                          color: kRed.withValues(alpha: 0.75),
                         ),
-                        Expanded(
-                          child: Text(
-                            _selectedMeaning,
-                            textDirection: TextDirection.rtl,
-                            style: TextStyle(fontSize: 16),
+                        const SizedBox(height: kElementGap),
+                        Text(
+                          'No results found',
+                          style: bodySmallStyle.copyWith(
+                            color: kRed.withValues(alpha: 0.75),
                           ),
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-            ),
-
-          // Search results
-          Expanded(
-            child: _searchResults.isEmpty
-                ? Center(child: Text('No results found.'))
-                : ListView.builder(
-              itemCount: _searchResults.length,
-              itemBuilder: (context, index) {
-                final item = _searchResults[index];
-                final word = item['word'] ?? '';
-                final meaning = item['meaning'] ?? 'No meaning found';
-
-                return ListTile(
-                  title: Text(word),
-                  subtitle: Text(meaning),
-                  onTap: () => _onWordTap(word, meaning),
+                  );
+                }
+                return ListView.builder(
+                  itemCount: controller.searchResults.length,
+                  itemBuilder: (context, index) {
+                    final item = controller.searchResults[index];
+                    final word = item['word'] ?? '';
+                    final meaning = item['meaning'] ?? 'No meaning found';
+                    return Card(
+                      margin: kCardMargin,
+                      color: primaryColor,
+                      child: ListTile(
+                        onTap: () => controller.onWordTap(word, meaning),
+                        leading: const Icon(
+                          Icons.menu_book_rounded,
+                          color: kWhite,
+                        ),
+                        title: Text(
+                          word,
+                          textAlign: TextAlign.right,
+                          style: bodyBoldMediumStyle.copyWith(color: kWhite),
+                        ),
+                        subtitle: Text(
+                          meaning,
+                          style: bodyBoldMediumStyle.copyWith(color: kWhite),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: kWhite,
+                          size: secondaryIcon(context),
+                        ),
+                      ),
+                    );
+                  },
                 );
-              },
-            ),
+              }
+            }),
           ),
         ],
       ),

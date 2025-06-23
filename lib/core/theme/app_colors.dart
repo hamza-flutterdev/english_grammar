@@ -47,8 +47,8 @@ const skyTextColor = Color(0xFF569CD4);
 
 //app primary
 const appBarBgColor = Color(0xFF043B5A);
-const primaryColor = Color(0XFF075784);
-const secondaryColor = Color(0xFF043B5A);
+const secondaryColor = Color(0XFF075784);
+const primaryColor = Color(0xFF043B5A);
 const bgColor = Color(0XFF075784);
 const Color borderColor = Colors.grey;
 const skyBorderColor = Color(0xFF569CD4);

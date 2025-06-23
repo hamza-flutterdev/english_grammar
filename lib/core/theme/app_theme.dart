@@ -8,15 +8,13 @@ abstract class AppTheme {
 
   // BUTTON STYLES
   static final ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
-    backgroundColor: primaryColor,
+    backgroundColor: secondaryColor,
     textStyle: buttonTextStyle,
     foregroundColor: Colors.white,
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
     minimumSize: const Size(double.maxFinite, 50),
     shadowColor: Colors.grey.withValues(alpha: 0.5),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
-    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
   );
 
   static final ButtonStyle textButtonStyle = TextButton.styleFrom(
@@ -27,9 +25,7 @@ abstract class AppTheme {
     shadowColor: Colors.grey.withValues(alpha: 0.5),
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
     minimumSize: const Size(double.maxFinite, 50),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
-    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
   );
 
   static final ButtonStyle outlinedButtonStyle = OutlinedButton.styleFrom(
@@ -49,9 +45,7 @@ abstract class AppTheme {
   );
 
   static const UnderlineInputBorder greyUnderLineBorder = UnderlineInputBorder(
-    borderSide: BorderSide(
-      color: greyBorderColor,
-    ),
+    borderSide: BorderSide(color: greyBorderColor),
   );
 
   // FINAL THEME DATA
@@ -79,9 +73,7 @@ abstract class AppTheme {
         borderSide: BorderSide(color: kRed),
       ),
       focusedErrorBorder: greyUnderLineBorder,
-      hintStyle: bodyMediumStyle.copyWith(
-        color: textGreyColor,
-      ),
+      hintStyle: bodyMediumStyle.copyWith(color: textGreyColor),
       fillColor: Colors.white,
       filled: true,
       suffixIconColor: suffixIconColor,
@@ -96,22 +88,11 @@ abstract class AppTheme {
       titleTextStyle: titleLargeStyle,
       iconTheme: IconThemeData(color: Colors.black),
     ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: elevatedButtonStyle,
-    ),
-    textButtonTheme: TextButtonThemeData(
-      style: textButtonStyle,
-    ),
-    outlinedButtonTheme: OutlinedButtonThemeData(
-      style: outlinedButtonStyle,
-    ),
-    drawerTheme: DrawerThemeData(
-      backgroundColor: Colors.white
-    ),
-    cardTheme: CardThemeData(
-      color: kWhite,
-      elevation: 3
-    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(style: elevatedButtonStyle),
+    textButtonTheme: TextButtonThemeData(style: textButtonStyle),
+    outlinedButtonTheme: OutlinedButtonThemeData(style: outlinedButtonStyle),
+    drawerTheme: DrawerThemeData(backgroundColor: Colors.white),
+    cardTheme: CardThemeData(color: kWhite, elevation: 3),
     tabBarTheme: TabBarThemeData(
       unselectedLabelColor: Colors.black,
       dividerColor: Colors.transparent,
@@ -120,9 +101,9 @@ abstract class AppTheme {
       labelStyle: bodySmallStyle,
       unselectedLabelStyle: bodySmallStyle,
       indicator: BoxDecoration(
-        color: primaryColor,
+        color: secondaryColor,
         borderRadius: BorderRadius.circular(12),
       ),
-    )
+    ),
   );
 }

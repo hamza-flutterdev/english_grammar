@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/widgets/custom_appBar.dart';
-import '../../../core/widgets/custom_drawer.dart';
 import '../../../core/widgets/text_widget.dart';
 
 class ConversationView extends StatefulWidget {
@@ -15,6 +14,7 @@ class ConversationView extends StatefulWidget {
 
 class _ConversationViewState extends State<ConversationView> {
   final ConversationController controller = Get.put(ConversationController());
+  // final Set<String> expandedCategories = {};
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +28,7 @@ class _ConversationViewState extends State<ConversationView> {
         if (controller.conversationData.isEmpty) {
           return Center(child: CircularProgressIndicator());
         } else {
+          // final Map<String, List<Map<String, dynamic>>> groupedData = {};
           final filteredList =
               controller.conversationData.where((category) {
                 return category['category_name'] == 'Conversations';

@@ -1,8 +1,9 @@
+import 'package:english_grammer/core/theme/app_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../theme/app_colors.dart';
 import 'icon_buttons.dart';
+import '../constants/constant.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
@@ -32,7 +33,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     onTap: () => Scaffold.of(context).openDrawer(),
                     icon: Icons.menu,
                     color: kWhite,
-                    size: 30,
+                    size: secondaryIcon(context),
                   );
                 },
               ),
@@ -40,10 +41,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         padding: const EdgeInsets.only(bottom: 8.0),
         child: Text(
           subtitle,
-          style: context.textTheme.titleMedium?.copyWith(
-            color: kWhite,
-            fontWeight: FontWeight.bold,
-          ),
+          style: titleSmallBoldStyle.copyWith(color: kWhite),
         ),
       ),
 

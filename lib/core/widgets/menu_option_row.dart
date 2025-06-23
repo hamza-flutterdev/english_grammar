@@ -1,6 +1,7 @@
+import 'package:english_grammer/core/constants/constant.dart';
 import 'package:english_grammer/core/theme/app_colors.dart';
+import 'package:english_grammer/core/theme/app_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../../core/widgets/icon_buttons.dart';
 
 class MenuOptionRow extends StatelessWidget {
@@ -25,50 +26,47 @@ class MenuOptionRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mobileWidth = MediaQuery.of(context).size.width;
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ImageActionButton(
-          padding: EdgeInsets.all(12),
-          onTap: onTap,
-          assetPath: assetPath,
-          size: iconSize ?? mobileWidth * 0.12,
-          isCircular: true,
-          backgroundColor: backgroundColor,
-        ),
-        const SizedBox(width: 12),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: context.textTheme.titleSmall?.copyWith(color: kWhite),
-                ),
-                if (subtitle != null)
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ImageActionButton(
+            padding: EdgeInsets.all(12),
+            assetPath: assetPath,
+            size: iconSize ?? primaryIcon(context),
+            isCircular: true,
+            backgroundColor: backgroundColor,
+          ),
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
-                    subtitle!,
-                    style: context.textTheme.bodySmall?.copyWith(color: kWhite),
+                    title,
+                    style: titleSmallBoldStyle.copyWith(color: kWhite),
                   ),
-              ],
-            ),
-
-            Text(
-              urduText,
-              textAlign: TextAlign.right,
-              textDirection: TextDirection.rtl,
-              style: context.textTheme.bodySmall?.copyWith(
-                color: kWhite,
-                fontSize: 10,
+                  if (subtitle != null)
+                    Text(
+                      subtitle!,
+                      style: bodyMediumStyle.copyWith(color: kWhite),
+                    ),
+                ],
               ),
-            ),
-          ],
-        ),
-      ],
+
+              Text(
+                urduText,
+                textAlign: TextAlign.right,
+                textDirection: TextDirection.rtl,
+                style: bodyMediumStyle.copyWith(color: kWhite),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
