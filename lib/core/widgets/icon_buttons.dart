@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../constants/constant.dart';
 import '../theme/app_colors.dart';
 
 class BackIconButton extends StatelessWidget {
@@ -11,7 +12,11 @@ class BackIconButton extends StatelessWidget {
       onTap: () {
         Navigator.pop(context);
       },
-      child: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+      child: Icon(
+        Icons.arrow_back_ios_new,
+        color: kWhite,
+        size: secondaryIcon(context),
+      ),
     );
   }
 }
@@ -90,25 +95,37 @@ class IconActionButton extends StatelessWidget {
   final VoidCallback onTap;
   final IconData icon;
   final Color color;
-  final double size;
+  final double? size;
   final EdgeInsetsGeometry padding;
+  final Color? backgroundColor;
+  final bool isCircular;
 
   const IconActionButton({
     super.key,
     required this.onTap,
     required this.icon,
     required this.color,
-    this.size = 24,
-    this.padding = const EdgeInsets.all(8),
+    this.size,
+    this.padding = const EdgeInsets.all(kElementInnerGap),
+    this.backgroundColor,
+    this.isCircular = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final resolvedSize = size ?? secondaryIcon(context);
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: padding,
-        child: Icon(icon, color: color, size: size),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          shape: isCircular ? BoxShape.circle : BoxShape.rectangle,
+          borderRadius:
+              isCircular ? null : BorderRadius.circular(kBorderRadius),
+        ),
+        child: Icon(icon, color: color, size: resolvedSize),
       ),
     );
   }
@@ -148,10 +165,10 @@ class SendButton extends StatelessWidget {
 }
 
 class ImageActionButton extends StatelessWidget {
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final String assetPath;
   final Color? color;
-  final double size;
+  final double? size;
   final double? width;
   final bool isCircular;
   final Color? backgroundColor;
@@ -159,10 +176,10 @@ class ImageActionButton extends StatelessWidget {
 
   const ImageActionButton({
     super.key,
-    required this.onTap,
+    this.onTap,
     required this.assetPath,
     this.color,
-    this.size = 24,
+    this.size,
     this.width,
     this.isCircular = false,
     this.backgroundColor,

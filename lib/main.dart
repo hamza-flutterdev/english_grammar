@@ -8,12 +8,14 @@ void main() {
   runApp(
     DevicePreview(
       enabled: false, // Set to false before production release
-      builder: (context) => GrammerApp(),
+      builder: (context) => GrammarApp(),
     ),
   );
 }
 
-class GrammerApp extends StatelessWidget {
+class GrammarApp extends StatelessWidget {
+  const GrammarApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -22,8 +24,8 @@ class GrammerApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       title: 'Learn English',
-      initialRoute: AppRoutes.splash, // Set initial route here
-      getPages: RoutePages.routes, // Use the defined routes
+      initialRoute: AppRoutes.splash,
+      getPages: RoutePages.routes,
       theme: ThemeData(
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,

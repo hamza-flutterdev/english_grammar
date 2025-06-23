@@ -21,6 +21,12 @@ const TextStyle titleLargeStyle = TextStyle(
   fontWeight: FontWeight.w500,
   color: blackTextColor,
 );
+const TextStyle titleBoldLargeStyle = TextStyle(
+  fontFamily: fontFamily,
+  fontSize: 22,
+  fontWeight: FontWeight.bold,
+  color: blackTextColor,
+);
 
 const TextStyle titleMediumStyle = TextStyle(
   fontFamily: fontFamily,
@@ -33,6 +39,12 @@ const TextStyle titleSmallStyle = TextStyle(
   fontFamily: fontFamily,
   fontSize: 16,
   fontWeight: FontWeight.w500,
+  color: blackTextColor,
+);
+const TextStyle titleSmallBoldStyle = TextStyle(
+  fontFamily: fontFamily,
+  fontSize: 16,
+  fontWeight: FontWeight.bold,
   color: blackTextColor,
 );
 
@@ -49,10 +61,23 @@ const TextStyle bodyMediumStyle = TextStyle(
   color: blackTextColor,
 );
 
+const TextStyle bodyBoldMediumStyle = TextStyle(
+  fontFamily: fontFamily,
+  fontSize: 14,
+  fontWeight: FontWeight.bold,
+  color: blackTextColor,
+);
+
 const TextStyle bodySmallStyle = TextStyle(
   fontFamily: fontFamily,
   fontSize: 12,
   fontWeight: FontWeight.w400,
+);
+
+const TextStyle bodyBoldSmallStyle = TextStyle(
+  fontFamily: fontFamily,
+  fontSize: 12,
+  fontWeight: FontWeight.bold,
 );
 
 const TextStyle buttonTextStyle = TextStyle(
@@ -101,6 +126,12 @@ final BoxDecoration roundedGreenBorderDecoration = BoxDecoration(
   color: kGreenColor.withValues(alpha: 0.3),
   borderRadius: BorderRadius.circular(10),
   border: Border.all(color: kGreenColor, width: 1.0),
+);
+
+final BoxDecoration roundedPrimaryBorderDecoration = BoxDecoration(
+  color: primaryColor.withValues(alpha: 0.3),
+  borderRadius: BorderRadius.circular(10),
+  border: Border.all(color: primaryColor, width: 1.0),
 );
 
 final BoxDecoration rounderGreyBorderDecoration = BoxDecoration(
