@@ -1,27 +1,24 @@
 import 'package:english_grammer/presentation/alphabet_screen/controller/alphabet_screen_control.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../core/constants/constant.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../core/widgets/custom_appBar.dart';
+import '../../../core/theme/app_styles.dart';
+import '../../../core/widgets/custom_appbar.dart';
 import '../../../core/widgets/search_bar.dart';
-import '../../../core/widgets/text_widget.dart';
+import '../../../core/widgets/speak_button.dart';
 
-class AlphabetScreenView extends StatefulWidget {
-  const AlphabetScreenView({super.key});
+class AlphabetScreenView extends StatelessWidget {
+  AlphabetScreenView({super.key});
 
-  @override
-  State<AlphabetScreenView> createState() => _AlphabetScreenViewState();
-}
-
-class _AlphabetScreenViewState extends State<AlphabetScreenView> {
   final AlphabetsController controller = Get.put(AlphabetsController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      appBar: CustomAppBar(subtitle: 'Alphabet Screen'),
+      appBar: const CustomAppBar(subtitle: 'Alphabetical Order'),
       body: Column(
         children: [
           Padding(
@@ -32,83 +29,88 @@ class _AlphabetScreenViewState extends State<AlphabetScreenView> {
             ),
           ),
           Expanded(
-            child: Obx(() {
-              if (controller.alphabetCateg.isEmpty) {
-                return Center(child: CircularProgressIndicator());
-              }
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kBodyHp),
+              child: Obx(() {
+                if (controller.alphabetCateg.isEmpty) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-              final filteredList =
-                  controller.filteredAlphabetCateg.where((category) {
-                    return category['category_name'] == 'vocabulary2';
-                  }).toList();
+                final filteredList =
+                    controller.filteredAlphabetCateg
+                        .where(
+                          (category) =>
+                              category['category_name'] == 'vocabulary2',
+                        )
+                        .toList();
 
-              if (filteredList.isEmpty && controller.isSearching.value) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.search_off, size: 64, color: Colors.grey),
-                      SizedBox(height: 16),
-                      regularText(
-                        textTitle: 'No results found',
-                        textSize: 18,
-                        textColor: Colors.grey,
-                      ),
-                      SizedBox(height: 8),
-                      regularText(
-                        textTitle: 'Try searching with different keywords',
-                        textSize: 14,
-                        textColor: Colors.grey,
-                      ),
-                    ],
-                  ),
-                );
-              }
-
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: filteredList.length,
-                itemBuilder: (context, index) {
-                  final category = filteredList[index];
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade100.withValues(alpha: .7),
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey.shade200),
-                    ),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 14,
-                        child: regularText(
-                          textTitle:
-                              (category['english_words'] as String)
-                                      .trim()
-                                      .isNotEmpty
-                                  ? category['english_words'][0].toUpperCase()
-                                  : '',
-                          textSize: 16,
-                          textColor: Colors.black,
+                if (filteredList.isEmpty && controller.isSearching.value) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.search_off,
+                          size: primaryIcon(context),
+                          color: kRed.withValues(alpha: 0.7),
                         ),
-                      ),
-                      title: regularText(
-                        textTitle: category['english_words'] ?? '',
-                        textSize: 18,
-                        textColor: Colors.black,
-                        textWeight: FontWeight.w600,
-                      ),
-                      subtitle: regularText(
-                        textTitle: category['urdu_words'] ?? '',
-                        textSize: 16,
-                        textColor: Colors.blue,
-                      ),
-                      trailing: Icon(Icons.play_circle, color: Colors.blue),
+                        const SizedBox(height: kElementGap),
+                        Text(
+                          'No results found',
+                          style: bodySmallStyle.copyWith(
+                            color: kRed.withValues(alpha: 0.7),
+                          ),
+                        ),
+                      ],
                     ),
                   );
-                },
-              );
-            }),
+                }
+
+                return ListView.builder(
+                  itemCount: filteredList.length,
+                  itemBuilder: (context, index) {
+                    final category = filteredList[index];
+                    final urdu = category['urdu_words']?.toString() ?? '';
+                    final english = category['english_words']?.toString() ?? '';
+
+                    return Card(
+                      color: primaryColor,
+                      elevation: 2,
+                      child: ListTile(
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                urdu,
+                                textAlign: TextAlign.right,
+                                style: titleSmallBoldStyle.copyWith(
+                                  color: kWhite,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: kElementInnerGap),
+                            Text(
+                              english,
+                              style: titleSmallStyle.copyWith(color: kWhite),
+                            ),
+                          ],
+                        ),
+                        trailing: SpeakButton(
+                          textToSpeak:
+                              english.isNotEmpty ? english : 'No phrase',
+                          color: kWhite,
+                          size: secondaryIcon(context),
+                        ),
+                        contentPadding: kContentPadding,
+                      ),
+                    );
+                  },
+                );
+              }),
+            ),
           ),
         ],
       ),

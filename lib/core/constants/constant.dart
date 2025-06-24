@@ -11,7 +11,7 @@ const double kElementWidthGap = 8.0;
 const kContentPadding = EdgeInsets.symmetric(horizontal: 12, vertical: 4);
 
 /// ========== Margins ==========
-const kCardMargin = EdgeInsets.symmetric(vertical: 8, horizontal: 12);
+const kMargin = EdgeInsets.symmetric(vertical: 8);
 
 /// ========== Elevation ==========
 const double kCardElevation = 2.0;
@@ -20,7 +20,7 @@ const double kCardElevation = 2.0;
 const double kBorderRadius = 8.0;
 
 /// ========== Icon Sizes ==========
-double primaryIcon(BuildContext context) => mobileWidth(context) * 0.12;
+double primaryIcon(BuildContext context) => mobileWidth(context) * 0.1;
 double secondaryIcon(BuildContext context) => mobileWidth(context) * 0.07;
 
 /// ========== MediaQuery Helpers ==========

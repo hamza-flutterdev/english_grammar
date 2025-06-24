@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/widgets/custom_appBar.dart';
+import '../../../core/widgets/custom_appbar.dart';
 import '../../../core/widgets/text_widget.dart';
 import '../controller/tenses_controller.dart';
 

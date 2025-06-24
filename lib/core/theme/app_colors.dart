@@ -29,6 +29,7 @@ const kCoral = Color(0xFFFA7F72);
 const kSkyColor = Color(0xFF569CD4);
 const kPurple = Color(0xFFA865E1);
 const kAquaBlue = Color(0xFF00D2B6);
+const kSlatePurple = Color(0xFF7C83FD);
 
 //red
 const kRed = Color(0xffE1020A);

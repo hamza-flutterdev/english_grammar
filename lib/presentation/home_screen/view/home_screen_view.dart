@@ -1,11 +1,10 @@
-import 'package:english_grammer/core/constants/app_strings.dart';
 import 'package:english_grammer/core/constants/constant.dart';
 import 'package:english_grammer/core/theme/app_colors.dart';
 import 'package:english_grammer/core/widgets/menu_option_row.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/widgets/custom_appBar.dart';
+import '../../../core/widgets/custom_appbar.dart';
 import '../../../core/widgets/custom_drawer.dart';
 import '../../../routes/app_routes.dart';
 
@@ -17,7 +16,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       drawer: CustomDrawer(),
       backgroundColor: bgColor,
-      appBar: CustomAppBar(subtitle: AppString.homeBar, useBackButton: false),
+      appBar: CustomAppBar(subtitle: 'English Learning', useBackButton: false),
       body: Stack(
         children: [
           // Background ellipse
@@ -33,8 +32,8 @@ class HomeScreen extends StatelessWidget {
 
           // Vocabulary (Category wise)
           Positioned(
-            top: mobileHeight(context) * 0.1,
-            left: mobileWidth(context) * 0.1,
+            top: mobileHeight(context) * 0.06,
+            left: mobileWidth(context) * 0.14,
             child: MenuOptionRow(
               title: 'Vocabulary',
               subtitle: '(Category wise)',
@@ -49,7 +48,7 @@ class HomeScreen extends StatelessWidget {
 
           // Vocabulary (Alphabetical Order)
           Positioned(
-            top: mobileHeight(context) * 0.22,
+            top: mobileHeight(context) * 0.16,
             left: mobileWidth(context) * 0.32,
             child: MenuOptionRow(
               title: 'Vocabulary',
@@ -65,8 +64,8 @@ class HomeScreen extends StatelessWidget {
 
           // Phrases
           Positioned(
-            top: mobileHeight(context) * 0.34,
-            left: mobileWidth(context) * 0.44,
+            top: mobileHeight(context) * 0.28,
+            left: mobileWidth(context) * 0.41,
             child: MenuOptionRow(
               title: 'Phrases',
               urduText: 'جملے',
@@ -79,7 +78,7 @@ class HomeScreen extends StatelessWidget {
           ),
           // Grammar
           Positioned(
-            top: mobileHeight(context) * 0.48,
+            top: mobileHeight(context) * 0.40,
             left: mobileWidth(context) * 0.42,
             child: MenuOptionRow(
               title: 'Grammar',
@@ -91,11 +90,24 @@ class HomeScreen extends StatelessWidget {
               },
             ),
           ),
-
+          // Tenses
+          Positioned(
+            top: mobileHeight(context) * 0.52,
+            left: mobileWidth(context) * 0.38,
+            child: MenuOptionRow(
+              title: 'Tenses',
+              urduText: ' زمان',
+              assetPath: 'assets/images/tenses.png',
+              backgroundColor: kSlatePurple,
+              onTap: () {
+                Get.toNamed(AppRoutes.tenses);
+              },
+            ),
+          ),
           // Conversation
           Positioned(
-            top: mobileHeight(context) * 0.60,
-            left: mobileWidth(context) * 0.30,
+            top: mobileHeight(context) * 0.64,
+            left: mobileWidth(context) * 0.24,
             child: MenuOptionRow(
               title: 'Conversation',
               urduText: 'مکالمہ',
@@ -109,8 +121,8 @@ class HomeScreen extends StatelessWidget {
 
           // Dictionary
           Positioned(
-            top: mobileHeight(context) * 0.70,
-            left: mobileWidth(context) * 0.1,
+            top: mobileHeight(context) * 0.72,
+            left: mobileWidth(context) * 0.06,
             child: MenuOptionRow(
               title: 'Dictionary',
               urduText: 'لغت',

@@ -1,14 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:carousel_slider/carousel_slider.dart';
 import '../../../data/database/db_helper.dart';
 
 class TensesController extends GetxController {
   final DbHelper dbHelper = DbHelper();
 
+  // Carousel state management
+  final RxInt currentPage = 0.obs;
+  final CarouselSliderController carouselController =
+      CarouselSliderController();
+
   @override
   void onInit() {
     super.onInit();
-    fetchFamilyMembersData(); // Call the new function
+    fetchTensesData();
   }
 
   List<String> categoryTitle = [
@@ -47,13 +53,12 @@ class TensesController extends GetxController {
 
   var tensesCat = [].obs;
 
-  Future<void> fetchFamilyMembersData() async {
-    // Renamed the function
+  Future<void> fetchTensesData() async {
     try {
       await dbHelper.initDatabase();
-      tensesCat.value = await dbHelper.fetchFamilyMembers(categoryTitle);
+      tensesCat.value = await dbHelper.fetchBySubcategories(categoryTitle);
     } catch (e) {
-      print("Error: $e");
+      debugPrint("Error: $e");
     }
   }
 }

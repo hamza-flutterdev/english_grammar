@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/constants/constant.dart';
 import '../../../core/theme/app_styles.dart';
-import '../../../core/widgets/custom_appBar.dart';
+import '../../../core/widgets/custom_appbar.dart';
+import '../../../core/widgets/speak_button.dart';
 import '../controller/phrases_controller.dart';
 
-class PhrasesCategoryScreen extends StatelessWidget {
-  const PhrasesCategoryScreen({super.key});
+class PhrasesScreen extends StatelessWidget {
+  const PhrasesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final PhrasesController controller = Get.put(PhrasesController());
+    final controller = Get.put(PhrasesController());
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -31,61 +32,53 @@ class PhrasesCategoryScreen extends StatelessWidget {
         padding: EdgeInsets.all(kBodyHp),
         child: Obx(() {
           if (controller.categories.isEmpty) {
-            return Center(child: CircularProgressIndicator());
-          } else {
-            final filteredList =
-                controller.categories.where((category) {
-                  return category['category_name'] == 'Phrases';
-                }).toList();
-
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: filteredList.length,
-              itemBuilder: (context, index) {
-                final category = filteredList[index];
-                return Card(
-                  color: primaryColor,
-                  elevation: 2,
-                  margin: kCardMargin,
-                  child: ListTile(
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Flexible(
-                              child: Text(
-                                category['urdu_words'] ?? ''.toString(),
-                                textAlign: TextAlign.right,
-                                style: titleSmallBoldStyle.copyWith(
-                                  color: kWhite,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: kElementInnerGap),
-                        Flexible(
-                          child: Text(
-                            category['english_words'] ?? ''.toString(),
-                            style: titleSmallStyle?.copyWith(color: kWhite),
-                          ),
-                        ),
-                      ],
-                    ),
-                    trailing: Icon(
-                      Icons.play_circle,
-                      color: kWhite,
-                      size: secondaryIcon(context),
-                    ),
-                    contentPadding: kContentPadding,
-                  ),
-                );
-              },
-            );
+            return const Center(child: CircularProgressIndicator());
           }
+
+          final phraseCategories =
+              controller.categories
+                  .where((category) => category['category_name'] == 'Phrases')
+                  .toList();
+
+          return ListView.builder(
+            itemCount: phraseCategories.length,
+            itemBuilder: (context, index) {
+              final category = phraseCategories[index];
+              return Card(
+                color: primaryColor,
+                elevation: 2,
+                //  margin: kMargin,
+                child: ListTile(
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          category['urdu_words']?.toString() ?? '',
+                          textAlign: TextAlign.right,
+                          style: titleSmallBoldStyle.copyWith(color: kWhite),
+                        ),
+                      ),
+                      const SizedBox(height: kElementInnerGap),
+                      Text(
+                        category['english_words']?.toString() ?? '',
+                        style: titleSmallStyle.copyWith(color: kWhite),
+                      ),
+                    ],
+                  ),
+                  trailing: SpeakButton(
+                    textToSpeak:
+                        category['english_words']?.toString() ?? 'No phrase',
+                    color: kWhite,
+                    size: secondaryIcon(context),
+                  ),
+                  contentPadding: kContentPadding,
+                ),
+              );
+            },
+          );
         }),
       ),
     );

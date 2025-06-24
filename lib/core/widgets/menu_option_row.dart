@@ -26,19 +26,19 @@ class MenuOptionRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ImageActionButton(
-            padding: EdgeInsets.all(12),
+            padding: EdgeInsets.all(kElementGap),
             assetPath: assetPath,
             size: iconSize ?? primaryIcon(context),
             isCircular: true,
             backgroundColor: backgroundColor,
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: kElementWidthGap),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
