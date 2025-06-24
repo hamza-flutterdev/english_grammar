@@ -41,7 +41,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         padding: const EdgeInsets.only(bottom: 8.0),
         child: Text(
           subtitle,
-          style: titleSmallBoldStyle.copyWith(color: kWhite),
+          style: titleBoldMediumStyle.copyWith(color: kWhite),
         ),
       ),
 

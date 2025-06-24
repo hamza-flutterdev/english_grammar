@@ -1,3 +1,4 @@
+// ignore_for_file: invalid_use_of_protected_member
 import 'package:english_grammer/data/database/db_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -54,11 +55,11 @@ class AlphabetsController extends GetxController {
   Future<void> fetchAlphabetsData() async {
     try {
       await dbHelper.initDatabase();
-      alphabetCateg.value = await dbHelper.fetchFamilyMembers(categoryTitle);
+      alphabetCateg.value = await dbHelper.fetchBySubcategories(categoryTitle);
       // Initialize filtered list with all data
       filteredAlphabetCateg.value = alphabetCateg.value;
     } catch (e) {
-      print('Error: $e');
+      debugPrint('Error: $e');
     }
   }
 
@@ -66,10 +67,8 @@ class AlphabetsController extends GetxController {
     isSearching.value = query.isNotEmpty;
 
     if (query.isEmpty) {
-      // If search is empty, show all data
       filteredAlphabetCateg.value = alphabetCateg.value;
     } else {
-      // Filter data based on search query
       filteredAlphabetCateg.value =
           alphabetCateg.where((category) {
             final englishWord =

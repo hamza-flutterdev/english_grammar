@@ -1,67 +1,77 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-
 import '../../../data/database/db_helper.dart';
 
 class VocabularyController extends GetxController {
   final DbHelper dbHelper = DbHelper();
+  var allCategories = <String, List<dynamic>>{}.obs;
+  var isLoading = true.obs;
+
+  final List<VocabularySection> sections = [
+    VocabularySection(
+      heading: 'People & Relationships',
+      categories: [
+        'Family Members',
+        'Occupations',
+        'Employment',
+        'Personality types',
+      ],
+    ),
+    VocabularySection(
+      heading: 'Emotions & Mental State',
+      categories: ['Emotions', 'Ailments'],
+    ),
+    VocabularySection(
+      heading: 'Body & Health',
+      categories: ['Body parts', 'Health'],
+    ),
+    VocabularySection(
+      heading: 'Time & Grammar',
+      categories: ['Time adverb', 'Periods of time'],
+    ),
+    VocabularySection(
+      heading: 'Law & Society',
+      categories: ['Legal English', 'Warefare Weapons'],
+    ),
+    VocabularySection(
+      heading: 'Economics & Finance',
+      categories: ['Economics', 'Business & Banking'],
+    ),
+    VocabularySection(
+      heading: 'Food & Nutrition',
+      categories: ['Fruit', 'Vegetables', 'Food'],
+    ),
+  ];
 
   @override
   void onInit() {
     super.onInit();
-    fetchFamilyMembersData(); // Call the new function
+    loadData();
   }
 
-  List<String> categoryTitle = [
-    'Family Members',
-    'Occupations',
-    'Employment',
-    'Personality types',
-  ];
-  List<String> categoryTitle2 = ['Emotions', 'Ailments'];
-  List<String> categoryTitle3 = ['Body parts', 'Health'];
-  List<String> categoryTitle4 = ['Time adverb', 'Periods of time'];
-  List<String> categoryTitle5 = ['Legal English', 'Warefare Weapons'];
-  List<String> categoryTitle6 = ['Economics', 'Business & Banking'];
-  List<String> categoryTitle7 = ['Fruit', 'Vegetables', 'Food'];
-
-  List<String> headingTitle = [
-    'People & Relationships',
-    'Emotions & Mental State',
-    'Body & Health',
-    'Time & Grammar',
-    'Law & Society',
-    'Economics & Finance',
-    'Food & Nutrition',
-    'Home & Living',
-    'Nature & Environment',
-    'Colors & Shapes',
-    'Clothing & Accessories',
-    'Transportation & Tools',
-    'Art & Entertainment',
-  ];
-
-  var categories1 = [].obs;
-  var categories2 = [].obs;
-  var categories3 = [].obs;
-  var categories4 = [].obs;
-  var categories5 = [].obs;
-  var categories6 = [].obs;
-  var categories7 = [].obs;
-
-  Future<void> fetchFamilyMembersData() async {
-    // Renamed the function
+  Future<void> loadData() async {
     try {
+      isLoading.value = true;
       await dbHelper.initDatabase();
-      categories1.value = await dbHelper.fetchFamilyMembers(categoryTitle);
-      categories2.value = await dbHelper.fetchFamilyMembers(categoryTitle2);
-      categories3.value = await dbHelper.fetchFamilyMembers(categoryTitle3);
-      categories4.value = await dbHelper.fetchFamilyMembers(categoryTitle4);
-      categories5.value = await dbHelper.fetchFamilyMembers(categoryTitle5);
-      categories6.value = await dbHelper.fetchFamilyMembers(categoryTitle6);
-      categories7.value = await dbHelper.fetchFamilyMembers(categoryTitle7);
-      // categories.value = await dbHelper.fetchEmotions(); // Use the new function
+
+      for (var section in sections) {
+        for (String category in section.categories) {
+          final data = await dbHelper.fetchBySubcategories([category]);
+          allCategories[category] = data;
+        }
+      }
+
+      isLoading.value = false;
     } catch (e) {
-      print("Error: $e");
+      debugPrint("Error loading vocabulary: $e");
+      isLoading.value = false;
     }
   }
+}
+
+class VocabularySection {
+  final String heading;
+  final List<String> categories;
+
+  VocabularySection({required this.heading, required this.categories});
 }

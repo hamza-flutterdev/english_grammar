@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:io';
@@ -16,66 +17,59 @@ class DbHelper {
       try {
         await Directory(dirname(path)).create(recursive: true);
       } catch (e) {
-        print("Error creating directory");
+        debugPrint("Error creating directory");
       }
 
       ByteData data = await rootBundle.load('assets/database/learnenglish.db');
       List<int> bytes = data.buffer.asUint8List(
-          data.offsetInBytes, data.lengthInBytes
+        data.offsetInBytes,
+        data.lengthInBytes,
       );
       await File(path).writeAsBytes(bytes);
     } else {
-      print("Database already exists.");
+      debugPrint("Database already exists.");
     }
     _db = await openDatabase(path);
   }
 
-  /// Function to fetch Family Members data
-  Future<List<Map<String, dynamic>>> fetchFamilyMembers(List<String> myList) async {
-    if (_db == null) {
-      throw Exception("Database not initialized. Call initDatabase first.");
-    }
-    final List<String> familyRecord =myList;
+  Future<List<Map<String, dynamic>>> fetchBySubcategories(
+    List<String> myList,
+  ) async {
+    final List<String> familyRecord = myList;
     final placeholders = List.filled(familyRecord.length, '?').join(', ');
     final List<Map<String, dynamic>> familyMap = await _db.query(
       'english_data',
       where: 'subCategory IN ($placeholders)',
       whereArgs: familyRecord,
     );
-    return familyMap; // Returning the raw data as a list of maps
+    return familyMap;
   }
 
   Future<List<Map<String, dynamic>>> searchWord(String query) async {
-    if (_db == null) {
-      throw Exception("Database not initialized. Call initDatabase first.");
-    }
-
-    // Trim and check for space at the end
     final trimmed = query.trim();
     final hasTrailingSpace = query.endsWith(' ');
 
-    List<Map<String, dynamic>> result;
+    List<Map<String, dynamic>> exactMatches = [];
+    List<Map<String, dynamic>> partialMatches = [];
 
     if (hasTrailingSpace) {
-      // Exact match only (either Urdu or English)
-      result = await _db.query(
+      exactMatches = await _db.query(
         'dictionary',
         where: 'word = ? OR meaning = ?',
         whereArgs: [trimmed, trimmed],
       );
     } else {
-      // Suggest similar matches
-      result = await _db.query(
+      exactMatches = await _db.query(
         'dictionary',
-        where: 'word LIKE ? OR meaning LIKE ?',
-        whereArgs: ['%$trimmed%', '%$trimmed%'],
+        where: 'word = ? OR meaning = ?',
+        whereArgs: [trimmed, trimmed],
+      );
+      partialMatches = await _db.query(
+        'dictionary',
+        where: '(word LIKE ? OR meaning LIKE ?) AND word != ? AND meaning != ?',
+        whereArgs: ['%$trimmed%', '%$trimmed%', trimmed, trimmed],
       );
     }
-
-    return result;
+    return [...exactMatches, ...partialMatches];
   }
-
-
-
 }
-

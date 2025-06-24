@@ -1,79 +1,112 @@
-import 'package:english_grammer/presentation/conversation/controller/conversation_controller.dart';
+import 'package:english_grammer/core/constants/constant.dart';
+import 'package:english_grammer/core/theme/app_colors.dart';
+import 'package:english_grammer/core/theme/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/widgets/custom_appbar.dart';
+import '../../../core/widgets/section_header.dart';
+import '../../../routes/app_routes.dart';
+import '../controller/conversation_controller.dart';
 
-import '../../../core/widgets/custom_appBar.dart';
-import '../../../core/widgets/text_widget.dart';
-
-class ConversationView extends StatefulWidget {
-  const ConversationView({super.key});
-
-  @override
-  State<ConversationView> createState() => _ConversationViewState();
-}
-
-class _ConversationViewState extends State<ConversationView> {
+class ConversationView extends StatelessWidget {
   final ConversationController controller = Get.put(ConversationController());
-  // final Set<String> expandedCategories = {};
+
+  ConversationView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: Size(0, 60),
-        child: CustomAppBar(subtitle: 'Conversations Screen'),
-      ),
-      body: Obx(() {
-        if (controller.conversationData.isEmpty) {
-          return Center(child: CircularProgressIndicator());
-        } else {
-          // final Map<String, List<Map<String, dynamic>>> groupedData = {};
-          final filteredList =
-              controller.conversationData.where((category) {
-                return category['category_name'] == 'Conversations';
-              }).toList();
-          return ListView.builder(
-            shrinkWrap: true,
-            // physics: NeverScrollableScrollPhysics(),
-            itemCount: filteredList.length,
-            itemBuilder: (context, index) {
-              final category = filteredList[index];
-              return Container(
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.blueGrey.shade100),
-                  color: Colors.grey.shade100,
+      backgroundColor: bgColor,
+      appBar: const CustomAppBar(subtitle: 'Conversations'),
+      body: SingleChildScrollView(
+        child: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(kBodyHp),
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          return Padding(
+            padding: const EdgeInsets.all(kBodyHp),
+            child: Column(
+              children: List.generate(
+                controller.sections.length,
+                (index) => ConversationSectionWidget(
+                  controller: controller,
+                  sectionIndex: index,
                 ),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 14,
-                    child: regularText(
-                      textTitle: '${index + 1}',
-                      textSize: 16,
-                      textColor: Colors.black,
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
+
+class ConversationSectionWidget extends StatelessWidget {
+  final ConversationController controller;
+  final int sectionIndex;
+
+  const ConversationSectionWidget({
+    super.key,
+    required this.controller,
+    required this.sectionIndex,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final section = controller.sections[sectionIndex];
+    return Column(
+      children: [
+        SectionHeader(title: section.heading),
+        const SizedBox(height: kElementInnerGap),
+        Obx(() {
+          bool sectionLoaded = section.categories.every(
+            (category) => controller.allCategories.containsKey(category),
+          );
+          if (!sectionLoaded) {
+            return const Padding(
+              padding: EdgeInsets.all(20),
+              child: CircularProgressIndicator(),
+            );
+          }
+          return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 2.4,
+              mainAxisSpacing: kElementGap,
+              crossAxisSpacing: kElementWidthGap,
+            ),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: section.categories.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  Get.toNamed(
+                    AppRoutes.conversationCategory,
+                    arguments: section.categories[index],
+                  );
+                },
+                child: Container(
+                  decoration: roundedPrimaryBorderDecoration,
+                  child: Center(
+                    child: Text(
+                      section.categories[index],
+                      style: bodyBoldMediumStyle.copyWith(color: kWhite),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  title: regularText(
-                    textTitle: category['english_words'] ?? '',
-                    textSize: 18,
-                    textColor: Colors.black,
-                    textWeight: FontWeight.w600,
-                  ),
-                  subtitle: regularText(
-                    textTitle: category['urdu_words'] ?? '',
-                    textSize: 20,
-                    textColor: Colors.blue,
-                  ),
-                  trailing: Icon(Icons.play_circle, color: Colors.blue),
                 ),
               );
             },
           );
-        }
-      }),
+        }),
+        const SizedBox(height: kElementGap),
+      ],
     );
   }
 }

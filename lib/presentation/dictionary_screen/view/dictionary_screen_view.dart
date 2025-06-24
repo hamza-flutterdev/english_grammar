@@ -1,11 +1,12 @@
 import 'package:english_grammer/core/constants/constant.dart';
 import 'package:english_grammer/core/theme/app_colors.dart';
 import 'package:english_grammer/core/theme/app_styles.dart';
-import 'package:english_grammer/core/widgets/custom_appBar.dart';
+import 'package:english_grammer/core/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/widgets/icon_buttons.dart';
 import '../../../core/widgets/search_bar.dart';
+import '../../../core/widgets/speak_button.dart';
 import '../controller/dictionary_controller.dart';
 import 'detail_section.dart';
 
@@ -15,7 +16,6 @@ class DictionarySearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(DictionaryController());
-
     return Scaffold(
       backgroundColor: bgColor,
       appBar: CustomAppBar(subtitle: 'Dictionary'),
@@ -67,19 +67,15 @@ class DictionarySearchScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-
-                                // Right side: Two action buttons
                                 Row(
                                   children: [
-                                    Tooltip(
-                                      message: 'Speak Word',
-                                      child: IconActionButton(
-                                        onTap: () {},
-                                        icon: Icons.play_circle,
-                                        color: kWhite,
-                                        size: secondaryIcon(context),
-                                      ),
+                                    SpeakButton(
+                                      textToSpeak:
+                                          controller.selectedMeaning.value,
+                                      color: kWhite,
+                                      size: secondaryIcon(context),
                                     ),
+
                                     const SizedBox(width: kElementWidthGap),
                                     Tooltip(
                                       message: 'Copy All',
@@ -100,8 +96,6 @@ class DictionarySearchScreen extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: kElementGap),
-
-                            // English and Urdu words
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -147,10 +141,7 @@ class DictionarySearchScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-
                       const SizedBox(height: kElementGap),
-
-                      // Loading state
                       if (controller.isLoadingAiDetails.value) ...[
                         Container(
                           width: double.infinity,
@@ -178,7 +169,6 @@ class DictionarySearchScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: kElementGap),
                       ],
-                      // Show parsed sections
                       if (!controller.isLoadingAiDetails.value &&
                           controller.wordDetails.value != null) ...[
                         Container(
@@ -237,7 +227,6 @@ class DictionarySearchScreen extends StatelessWidget {
                           ),
                         ),
                       ],
-                      // Error state
                       if (!controller.isLoadingAiDetails.value &&
                           controller.aiError.isNotEmpty) ...[
                         Container(
@@ -264,8 +253,6 @@ class DictionarySearchScreen extends StatelessWidget {
                           ),
                         ),
                       ],
-
-                      // Initial state
                       if (!controller.isLoadingAiDetails.value &&
                           controller.aiResponse.isEmpty &&
                           controller.aiError.isEmpty) ...[
@@ -297,9 +284,7 @@ class DictionarySearchScreen extends StatelessWidget {
                     ],
                   ),
                 );
-              }
-              // Show search results or search states
-              else {
+              } else {
                 if (!controller.hasSearched.value) {
                   return Center(
                     child: Column(
@@ -345,38 +330,52 @@ class DictionarySearchScreen extends StatelessWidget {
                     ),
                   );
                 }
-                return ListView.builder(
-                  itemCount: controller.searchResults.length,
-                  itemBuilder: (context, index) {
-                    final item = controller.searchResults[index];
-                    final word = item['word'] ?? '';
-                    final meaning = item['meaning'] ?? 'No meaning found';
-                    return Card(
-                      margin: kCardMargin,
-                      color: primaryColor,
-                      child: ListTile(
-                        onTap: () => controller.onWordTap(word, meaning),
-                        leading: const Icon(
-                          Icons.menu_book_rounded,
-                          color: kWhite,
-                        ),
-                        title: Text(
-                          word,
-                          textAlign: TextAlign.right,
-                          style: bodyBoldMediumStyle.copyWith(color: kWhite),
-                        ),
-                        subtitle: Text(
-                          meaning,
-                          style: bodyBoldMediumStyle.copyWith(color: kWhite),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          color: kWhite,
-                          size: secondaryIcon(context),
-                        ),
-                      ),
-                    );
-                  },
+                return Padding(
+                  padding: const EdgeInsets.all(kBodyHp),
+                  child: Container(
+                    padding: const EdgeInsets.all(kElementGap),
+                    decoration: roundedPrimaryBorderDecoration,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: controller.searchResults.length,
+                      itemBuilder: (context, index) {
+                        final item = controller.searchResults[index];
+                        final word = item['word'] ?? '';
+                        final meaning = item['meaning'] ?? 'No meaning found';
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () => controller.onWordTap(word, meaning),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Text(
+                                    word,
+                                    textAlign: TextAlign.right,
+                                    style: bodyBoldLargeStyle.copyWith(
+                                      color: kWhite,
+                                    ),
+                                  ),
+                                  const SizedBox(height: kElementInnerGap),
+                                  Text(
+                                    meaning,
+                                    style: bodyBoldLargeStyle.copyWith(
+                                      color: kWhite,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Divider(
+                              color: Colors.white54,
+                              height: mobileHeight(context) * 0.025,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
                 );
               }
             }),

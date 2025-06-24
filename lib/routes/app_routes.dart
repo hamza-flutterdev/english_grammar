@@ -7,4 +7,8 @@ class AppRoutes {
   static const String grammar = '/grammar';
   static const String conversation = '/conversation';
   static const String dictionary = '/dictionary';
+  static const String vocabularyCategory = '/vocabularyCategory';
+  static const String conversationCategory = '/conversationCategory';
+  static const String grammarDetail = '/grammarDetail';
+  static const String tenses = '/tenses';
 }
