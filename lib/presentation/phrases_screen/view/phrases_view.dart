@@ -16,18 +16,7 @@ class PhrasesScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: bgColor,
-      appBar: CustomAppBar(
-        subtitle: 'English Phrases',
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: kBodyHp),
-            child: Text(
-              'جملے',
-              style: titleBoldLargeStyle.copyWith(color: kWhite),
-            ),
-          ),
-        ],
-      ),
+      appBar: CustomAppBar(subtitle: 'English Phrases'),
       body: Padding(
         padding: EdgeInsets.all(kBodyHp),
         child: Obx(() {

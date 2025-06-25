@@ -13,7 +13,7 @@ class SectionHeader extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: mobileHeight(context) * 0.055,
-      margin: kMargin,
+      margin: kVerticalMargin,
       decoration: roundedDarkPrimaryBorderDecoration,
       child: Center(
         child: Text(title, style: titleSmallBoldStyle.copyWith(color: kWhite)),

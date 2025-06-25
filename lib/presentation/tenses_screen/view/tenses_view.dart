@@ -1,11 +1,15 @@
-import 'package:english_grammer/core/widgets/text_widget.dart';
+import 'package:english_grammer/core/constants/constant.dart';
+import 'package:english_grammer/core/theme/app_colors.dart';
+import 'package:english_grammer/core/theme/app_styles.dart';
+import 'package:english_grammer/core/widgets/section_header.dart';
 import 'package:english_grammer/presentation/tenses_screen/controller/tenses_controller.dart';
+import 'package:english_grammer/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '../../../core/enums/enums.dart';
+import '../../../core/widgets/carousel_widget.dart';
 import '../../../core/widgets/custom_appbar.dart';
-import 'categoryNamesList.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class TensesView extends StatelessWidget {
   const TensesView({super.key});
@@ -14,157 +18,101 @@ class TensesView extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(TensesController());
 
-    final List<String> tabTitlesEN = [
-      'Past Indefinite',
-      'Past Continuous',
-      'Past Perfect',
-      'Past Perfect Continuous',
-    ];
-
-    final List<String> tabTitlesUR = [
-      'ماضی غیر معینہ مدت',
-      'ماضی کا مسلسل تناؤ',
-      'ماضی کا مسلسل تناؤ',
-      'ماضی کامل مسلسل تناؤ',
-    ];
-
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: bgColor,
       appBar: CustomAppBar(subtitle: 'English Tenses'),
       body: Obx(
-        () => Column(
-          children: [
-            Container(
-              height: 56,
-              width: double.infinity,
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color(0XFF25abc7),
-              ),
-              child: Center(
-                child: Text(
-                  controller.psTCategory[controller.currentPage.value],
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+        () => SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(kBodyHp),
+                child: SectionHeader(
+                  title:
+                      controller.currentCategory[controller.currentItem.value],
                 ),
               ),
-            ),
-            ClipRect(
-              child: CarouselSlider.builder(
+
+              CarouselWidget(
+                items: controller.currentCategory,
+                urduTitles: controller.currentCategoryUrdu,
+                imgPath: controller.tensesImages,
                 carouselController: controller.carouselController,
-                itemCount: controller.psTCategory.length,
-                options: CarouselOptions(
-                  height: 230,
-                  enlargeCenterPage: true,
-                  viewportFraction: 0.65,
-                  onPageChanged: (index, reason) {
-                    controller.currentPage.value = index;
-                  },
+                onIndexChanged: (index) => controller.currentItem.value = index,
+                onItemTap: (index) {
+                  Get.toNamed(
+                    AppRoutes.tensesCategories,
+                    arguments: controller.currentCategory[index],
+                  );
+                },
+                currentIndex: controller.currentItem.value,
+                autoPlay: true,
+                viewportFraction: 0.65,
+                iconPosition: IconPosition.bottom,
+                titleTextStyle: titleBoldMediumStyle.copyWith(
+                  color: kWhite,
+                  fontSize: 16,
                 ),
-                itemBuilder: (context, index, realIndex) {
-                  return GestureDetector(
-                    onTap: () {
-                      Get.to(
-                        () => TensesCategoriesScreen(
-                          title: controller.psTCategory[index],
-                        ),
-                      );
-                    },
-                    child: Container(
-                      width: 240,
-                      height: 200,
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100.withOpacity(0.7),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey.shade200),
-                      ),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 16),
-                          Center(
-                            child: Text(
-                              controller.psTCategory[index],
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 24,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          regularText(
-                            textTitle: tabTitlesUR[index],
-                            textSize: 20,
-                            textColor: Colors.blue,
-                          ),
-                        ],
-                      ),
+                urduTextStyle: titleBoldMediumStyle.copyWith(
+                  color: kWhite,
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(height: kBodyHp),
+              AnimatedSmoothIndicator(
+                activeIndex: controller.currentItem.value,
+                count: controller.currentCategory.length,
+                effect: WormEffect(
+                  activeDotColor: primaryColor,
+                  dotColor: kWhite,
+                  dotHeight: mobileWidth(context) * 0.025,
+                  dotWidth: mobileWidth(context) * 0.025,
+                ),
+              ),
+              const SizedBox(height: kBodyHp),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kBodyHp),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Tenses',
+                      style: titleBoldMediumStyle.copyWith(color: kWhite),
                     ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 20),
-            AnimatedSmoothIndicator(
-              activeIndex: controller.currentPage.value,
-              count: controller.psTCategory.length,
-              effect: WormEffect(
-                activeDotColor: const Color(0XFF25abc7),
-                dotColor: Colors.grey.shade300,
-                dotHeight: 10,
-                dotWidth: 10,
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              height: 40,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: tabTitlesEN.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      controller.carouselController.animateToPage(index);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                      margin: const EdgeInsets.symmetric(horizontal: 6),
-                      decoration: BoxDecoration(
-                        color:
-                            controller.currentPage.value == index
-                                ? const Color(0XFF25abc7)
-                                : Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                    GestureDetector(
+                      onTap: () => Get.toNamed(AppRoutes.tensesList),
                       child: Text(
-                        tabTitlesEN[index],
-                        style: TextStyle(
-                          color:
-                              controller.currentPage.value == index
-                                  ? Colors.white
-                                  : Colors.black,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        'Show All',
+                        style: titleBoldMediumStyle.copyWith(color: kWhite),
                       ),
                     ),
-                  );
-                },
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-          ],
+              const SizedBox(height: kBodyHp),
+              CarouselWidget(
+                items: controller.headingTitle,
+                carouselController: controller.bottomCarouselController,
+                imgPath: controller.iconImages,
+                onIndexChanged:
+                    (index) => controller.onBottomCarouselChanged(index),
+                onItemTap: (index) => controller.onTenseTypeSelected(index),
+                currentIndex: controller.bottomCarousel.value,
+                selectedIndex: controller.selectedTenseType.value,
+                autoPlay: false,
+                viewportFraction: 0.5,
+                enlargeCenterPage: true,
+                height: mobileHeight(context) * 0.2,
+                itemMargin: kHorizontalMargin,
+                enableInfiniteScroll: true,
+                smallerIcons: true,
+                containerColors: controller.bottomCarouselContainerColors,
+                iconColors: controller.bottomCarouselIconColors,
+                iconPosition: IconPosition.top,
+                titleTextStyle: titleSmallBoldStyle.copyWith(color: kWhite),
+              ),
+            ],
+          ),
         ),
       ),
     );

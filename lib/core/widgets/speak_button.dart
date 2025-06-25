@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../data/tts/tts_controller.dart';
+import '../tts/tts_controller.dart';
 import 'icon_buttons.dart';
 
 class SpeakButton extends StatelessWidget {
@@ -22,13 +21,27 @@ class SpeakButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final TTSController tts = Get.put(TTSController());
 
-    return Tooltip(
-      message: message,
-      child: IconActionButton(
-        onTap: () => tts.speak(textToSpeak),
-        icon: Icons.play_circle,
-        color: color,
-        size: size,
+    return Obx(
+      () => Tooltip(
+        message:
+            tts.isSpeaking(textToSpeak)
+                ? 'Stop Speaking'
+                : (message ?? 'Speak Word'),
+        child: IconActionButton(
+          onTap: () {
+            if (tts.isSpeaking(textToSpeak)) {
+              tts.stop();
+            } else {
+              tts.speak(textToSpeak);
+            }
+          },
+          icon:
+              tts.isSpeaking(textToSpeak)
+                  ? Icons.stop_circle
+                  : Icons.play_circle,
+          color: color,
+          size: size,
+        ),
       ),
     );
   }

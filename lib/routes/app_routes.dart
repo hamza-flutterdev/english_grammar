@@ -11,4 +11,6 @@ class AppRoutes {
   static const String conversationCategory = '/conversationCategory';
   static const String grammarDetail = '/grammarDetail';
   static const String tenses = '/tenses';
+  static const String tensesList = '/tensesList';
+  static const String tensesCategories = '/tensesCategories';
 }
