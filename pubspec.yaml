@@ -75,6 +75,8 @@ flutter:
      - assets/
      - assets/database/
      - assets/images/
+     - assets/images/home-img/
+     - assets/images/tense-img/
 
   fonts:
     - family: Montserrat

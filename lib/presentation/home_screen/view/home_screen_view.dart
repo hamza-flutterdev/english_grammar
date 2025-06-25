@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
             child: Transform.translate(
               offset: Offset(-mobileWidth(context) * 0.32, 0),
               child: Image.asset(
-                'assets/images/ellipse.png',
+                'assets/images/home-img/ellipse.png',
                 color: primaryColor,
               ),
             ),
@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
               title: 'Vocabulary',
               subtitle: '(Category wise)',
               urduText: 'ذخیرہ الفاظ',
-              assetPath: 'assets/images/vocabulary.png',
+              assetPath: 'assets/images/home-img/vocabulary.png',
               backgroundColor: kBrightTeal,
               onTap: () {
                 Get.toNamed(AppRoutes.vocabulary);
@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
               title: 'Vocabulary',
               subtitle: '(Alphabetical Order)',
               urduText: 'ذخیرہ الفاظ',
-              assetPath: 'assets/images/alphabet.png',
+              assetPath: 'assets/images/home-img/alphabet.png',
               backgroundColor: kWarmGold,
               onTap: () {
                 Get.toNamed(AppRoutes.alphabet);
@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
             child: MenuOptionRow(
               title: 'Phrases',
               urduText: 'جملے',
-              assetPath: 'assets/images/phrases.png',
+              assetPath: 'assets/images/home-img/phrases.png',
               backgroundColor: kMintGreen,
               onTap: () {
                 Get.toNamed(AppRoutes.phrases);
@@ -83,7 +83,7 @@ class HomeScreen extends StatelessWidget {
             child: MenuOptionRow(
               title: 'Grammar',
               urduText: 'گرامر',
-              assetPath: 'assets/images/grammar.png',
+              assetPath: 'assets/images/home-img/grammar.png',
               backgroundColor: kCoral,
               onTap: () {
                 Get.toNamed(AppRoutes.grammar);
@@ -96,8 +96,8 @@ class HomeScreen extends StatelessWidget {
             left: mobileWidth(context) * 0.38,
             child: MenuOptionRow(
               title: 'Tenses',
-              urduText: ' زمان',
-              assetPath: 'assets/images/tenses.png',
+              urduText: 'زمانے',
+              assetPath: 'assets/images/home-img/tenses.png',
               backgroundColor: kSlatePurple,
               onTap: () {
                 Get.toNamed(AppRoutes.tenses);
@@ -106,12 +106,12 @@ class HomeScreen extends StatelessWidget {
           ),
           // Conversation
           Positioned(
-            top: mobileHeight(context) * 0.64,
+            top: mobileHeight(context) * 0.62,
             left: mobileWidth(context) * 0.24,
             child: MenuOptionRow(
               title: 'Conversation',
               urduText: 'مکالمہ',
-              assetPath: 'assets/images/convo.png',
+              assetPath: 'assets/images/home-img/convo.png',
               backgroundColor: kPurple,
               onTap: () {
                 Get.toNamed(AppRoutes.conversation);
@@ -121,12 +121,12 @@ class HomeScreen extends StatelessWidget {
 
           // Dictionary
           Positioned(
-            top: mobileHeight(context) * 0.72,
-            left: mobileWidth(context) * 0.06,
+            top: mobileHeight(context) * 0.71,
+            left: mobileWidth(context) * 0.08,
             child: MenuOptionRow(
               title: 'Dictionary',
               urduText: 'لغت',
-              assetPath: 'assets/images/dictionary.png',
+              assetPath: 'assets/images/home-img/dictionary.png',
               backgroundColor: kAquaBlue,
               onTap: () {
                 Get.toNamed(AppRoutes.dictionary);
@@ -141,7 +141,7 @@ class HomeScreen extends StatelessWidget {
             child: Opacity(
               opacity: 0.24,
               child: Image.asset(
-                'assets/images/black_board.png',
+                'assets/images/home-img/black_board.png',
                 width: mobileWidth(context) * 0.3,
               ),
             ),

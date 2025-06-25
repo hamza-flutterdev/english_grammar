@@ -5,6 +5,8 @@ import 'package:english_grammer/presentation/dictionary_screen/view/dictionary_s
 import 'package:english_grammer/presentation/grammar_categories/view/grammar_categories.dart';
 import 'package:english_grammer/presentation/grammar_screen/view/grammar_screen_view.dart';
 import 'package:english_grammer/presentation/phrases_screen/view/phrases_view.dart';
+import 'package:english_grammer/presentation/tenses_categories/view/tenses_categories.dart';
+import 'package:english_grammer/presentation/tenses_list/view/tenses_list_screen.dart';
 import 'package:english_grammer/presentation/vocabulary_screen/view/vocabulary_view.dart';
 import 'package:english_grammer/presentation/vocabulory_category/view/vocabulory_category_screen.dart';
 import 'package:english_grammer/routes/app_routes.dart';
@@ -25,6 +27,11 @@ class RoutePages {
     GetPage(name: AppRoutes.alphabet, page: () => AlphabetScreenView()),
     GetPage(name: AppRoutes.grammarDetail, page: () => GrammarDetailView()),
     GetPage(name: AppRoutes.tenses, page: () => TensesView()),
+    GetPage(name: AppRoutes.tensesList, page: () => TensesListScreen()),
+    GetPage(
+      name: AppRoutes.tensesCategories,
+      page: () => TensesCategoriesScreen(),
+    ),
     GetPage(
       name: AppRoutes.conversationCategory,
       page: () => ConversationCategoryScreen(),

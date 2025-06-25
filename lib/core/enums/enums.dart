@@ -1,0 +1,1 @@
+enum IconPosition { top, bottom }

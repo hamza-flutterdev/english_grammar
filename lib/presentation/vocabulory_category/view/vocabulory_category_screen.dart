@@ -33,7 +33,7 @@ class VocabularyCategoryScreen extends StatelessWidget {
             return Card(
               color: primaryColor,
               elevation: 2,
-              margin: kMargin,
+              margin: kVerticalMargin,
               child: ListTile(
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -11,7 +11,8 @@ const double kElementWidthGap = 8.0;
 const kContentPadding = EdgeInsets.symmetric(horizontal: 12, vertical: 4);
 
 /// ========== Margins ==========
-const kMargin = EdgeInsets.symmetric(vertical: 8);
+const kVerticalMargin = EdgeInsets.symmetric(vertical: 8);
+const kHorizontalMargin = EdgeInsets.symmetric(horizontal: 8);
 
 /// ========== Elevation ==========
 const double kCardElevation = 2.0;
