@@ -70,7 +70,7 @@ class VocabularySectionWidget extends StatelessWidget {
 
           if (!sectionLoaded) {
             return Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(kBodyHp),
               child: CircularProgressIndicator(),
             );
           }
@@ -98,7 +98,7 @@ class VocabularySectionWidget extends StatelessWidget {
                   child: Center(
                     child: Text(
                       section.categories[index],
-                      style: bodyBoldMediumStyle.copyWith(color: kWhite),
+                      style: bodyBoldMediumStyle,
                     ),
                   ),
                 ),

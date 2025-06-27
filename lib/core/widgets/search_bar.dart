@@ -20,7 +20,7 @@ class SearchBarField extends StatelessWidget {
     this.backgroundColor = Colors.transparent,
     this.borderColor = primaryColor,
     this.iconColor = kWhite,
-    this.textColor = kWhite,
+    this.textColor = kBlack,
   });
 
   @override

@@ -50,10 +50,10 @@ const cyanTextColor = Color(0xFF35BEAE);
 const skyTextColor = Color(0xFF569CD4);
 
 //app primary
-const appBarBgColor = Color(0xFF043B5A);
-const secondaryColor = Color(0XFF075784);
-const primaryColor = Color(0xFF043B5A);
-const bgColor = Color(0XFF075784);
+const appBarBgColor = Color(0xFF0F85B2);
+const secondaryColor = Color(0xFFC5EFFF);
+const primaryColor = Color(0xFF0F85B2);
+const bgColor = Color(0xFFC5EFFF);
 const Color borderColor = Colors.grey;
 const skyBorderColor = Color(0xFF569CD4);
 const Color suffixIconColor = Color(0xff8E8E8E);

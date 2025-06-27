@@ -34,14 +34,19 @@ class GrammarDetailView extends StatelessWidget {
               final textToSpeak =
                   englishText.isNotEmpty ? englishText : 'No phrase';
 
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: roundedPrimaryBorderDecoration,
+              return Card(
+                color: primaryColor,
+                elevation: 2,
                 child: ListTile(
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      Text(
+                        englishText,
+                        style: titleSmallStyle.copyWith(color: kWhite),
+                      ),
+                      const SizedBox(height: kElementInnerGap),
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
@@ -49,11 +54,6 @@ class GrammarDetailView extends StatelessWidget {
                           textAlign: TextAlign.right,
                           style: titleSmallBoldStyle.copyWith(color: kWhite),
                         ),
-                      ),
-                      const SizedBox(height: kElementInnerGap),
-                      Text(
-                        englishText,
-                        style: titleSmallStyle.copyWith(color: kWhite),
                       ),
                     ],
                   ),

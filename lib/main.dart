@@ -26,10 +26,6 @@ class GrammarApp extends StatelessWidget {
       title: 'Learn English',
       initialRoute: AppRoutes.splash,
       getPages: RoutePages.routes,
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
     );
   }
 }

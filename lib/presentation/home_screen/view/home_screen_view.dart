@@ -17,137 +17,158 @@ class HomeScreen extends StatelessWidget {
       drawer: CustomDrawer(),
       backgroundColor: bgColor,
       appBar: CustomAppBar(subtitle: 'English Learning', useBackButton: false),
-      body: Stack(
-        children: [
-          // Background ellipse
-          Positioned.fill(
-            child: Transform.translate(
-              offset: Offset(-mobileWidth(context) * 0.32, 0),
-              child: Image.asset(
-                'assets/images/home-img/ellipse.png',
-                color: primaryColor,
-              ),
-            ),
-          ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final width = constraints.maxWidth;
+          final height = constraints.maxHeight;
 
-          // Vocabulary (Category wise)
-          Positioned(
-            top: mobileHeight(context) * 0.06,
-            left: mobileWidth(context) * 0.14,
-            child: MenuOptionRow(
+          final isWide = width > 450;
+          final isMedium = width > 360;
+
+          final startingTop = height * 0.02;
+
+          double getLeftOffset(int index) {
+            if (isWide) {
+              return [0.11, 0.31, 0.42, 0.47, 0.46, 0.37, 0.19][index] * width;
+            } else if (isMedium) {
+              return [0.09, 0.32, 0.43, 0.47, 0.45, 0.36, 0.20][index] * width;
+            } else {
+              return [0.12, 0.30, 0.42, 0.48, 0.46, 0.38, 0.22][index] * width;
+            }
+          }
+
+          final options = [
+            MenuOptionData(
               title: 'Vocabulary',
               subtitle: '(Category wise)',
               urduText: 'ذخیرہ الفاظ',
               assetPath: 'assets/images/home-img/vocabulary.png',
               backgroundColor: kBrightTeal,
-              onTap: () {
-                Get.toNamed(AppRoutes.vocabulary);
-              },
+              onTap: () => Get.toNamed(AppRoutes.vocabulary),
             ),
-          ),
-
-          // Vocabulary (Alphabetical Order)
-          Positioned(
-            top: mobileHeight(context) * 0.16,
-            left: mobileWidth(context) * 0.32,
-            child: MenuOptionRow(
+            MenuOptionData(
               title: 'Vocabulary',
               subtitle: '(Alphabetical Order)',
               urduText: 'ذخیرہ الفاظ',
               assetPath: 'assets/images/home-img/alphabet.png',
               backgroundColor: kWarmGold,
-              onTap: () {
-                Get.toNamed(AppRoutes.alphabet);
-              },
+              onTap: () => Get.toNamed(AppRoutes.alphabet),
             ),
-          ),
-
-          // Phrases
-          Positioned(
-            top: mobileHeight(context) * 0.28,
-            left: mobileWidth(context) * 0.41,
-            child: MenuOptionRow(
+            MenuOptionData(
               title: 'Phrases',
               urduText: 'جملے',
               assetPath: 'assets/images/home-img/phrases.png',
               backgroundColor: kMintGreen,
-              onTap: () {
-                Get.toNamed(AppRoutes.phrases);
-              },
+              onTap: () => Get.toNamed(AppRoutes.phrases),
             ),
-          ),
-          // Grammar
-          Positioned(
-            top: mobileHeight(context) * 0.40,
-            left: mobileWidth(context) * 0.42,
-            child: MenuOptionRow(
+            MenuOptionData(
               title: 'Grammar',
               urduText: 'گرامر',
               assetPath: 'assets/images/home-img/grammar.png',
               backgroundColor: kCoral,
-              onTap: () {
-                Get.toNamed(AppRoutes.grammar);
-              },
+              onTap: () => Get.toNamed(AppRoutes.grammar),
             ),
-          ),
-          // Tenses
-          Positioned(
-            top: mobileHeight(context) * 0.52,
-            left: mobileWidth(context) * 0.38,
-            child: MenuOptionRow(
+            MenuOptionData(
               title: 'Tenses',
               urduText: 'زمانے',
               assetPath: 'assets/images/home-img/tenses.png',
               backgroundColor: kSlatePurple,
-              onTap: () {
-                Get.toNamed(AppRoutes.tenses);
-              },
+              onTap: () => Get.toNamed(AppRoutes.tenses),
             ),
-          ),
-          // Conversation
-          Positioned(
-            top: mobileHeight(context) * 0.62,
-            left: mobileWidth(context) * 0.24,
-            child: MenuOptionRow(
+            MenuOptionData(
               title: 'Conversation',
               urduText: 'مکالمہ',
               assetPath: 'assets/images/home-img/convo.png',
               backgroundColor: kPurple,
-              onTap: () {
-                Get.toNamed(AppRoutes.conversation);
-              },
+              onTap: () => Get.toNamed(AppRoutes.conversation),
             ),
-          ),
-
-          // Dictionary
-          Positioned(
-            top: mobileHeight(context) * 0.71,
-            left: mobileWidth(context) * 0.08,
-            child: MenuOptionRow(
+            MenuOptionData(
               title: 'Dictionary',
               urduText: 'لغت',
               assetPath: 'assets/images/home-img/dictionary.png',
               backgroundColor: kAquaBlue,
-              onTap: () {
-                Get.toNamed(AppRoutes.dictionary);
-              },
+              onTap: () => Get.toNamed(AppRoutes.dictionary),
             ),
-          ),
+          ];
 
-          // Decorative blackboard
-          Positioned(
-            top: mobileHeight(context) * 0.35,
-            left: mobileWidth(context) * 0.05,
-            child: Opacity(
-              opacity: 0.24,
-              child: Image.asset(
-                'assets/images/home-img/black_board.png',
-                width: mobileWidth(context) * 0.3,
+          return Stack(
+            children: [
+              Positioned.fill(
+                child: Transform.translate(
+                  offset: Offset(-width * 0.55, 0),
+                  child: CustomPaint(
+                    painter: EllipseBorderPainter(strokeWidth: width * 0.14),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ],
+              for (int i = 0; i < options.length; i++)
+                Positioned(
+                  top: startingTop + (i * height * 0.135),
+                  left: getLeftOffset(i),
+                  child: MenuOptionRow(
+                    title: options[i].title,
+                    subtitle: options[i].subtitle,
+                    urduText: options[i].urduText,
+                    assetPath: options[i].assetPath,
+                    backgroundColor: options[i].backgroundColor,
+                    onTap: options[i].onTap,
+                  ),
+                ),
+              Positioned(
+                top: height * 0.35,
+                left: width * 0.05,
+                child: Opacity(
+                  opacity: 0.24,
+                  child: Image.asset(
+                    'assets/images/home-img/black_board.png',
+                    width: width * 0.3,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
+}
+
+class MenuOptionData {
+  final String title;
+  final String? subtitle;
+  final String urduText;
+  final String assetPath;
+  final Color backgroundColor;
+  final VoidCallback onTap;
+
+  MenuOptionData({
+    required this.title,
+    this.subtitle,
+    required this.urduText,
+    required this.assetPath,
+    required this.backgroundColor,
+    required this.onTap,
+  });
+}
+
+class EllipseBorderPainter extends CustomPainter {
+  final double strokeWidth;
+  EllipseBorderPainter({required this.strokeWidth});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint =
+        Paint()
+          ..color = primaryColor
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = strokeWidth;
+
+    canvas.drawOval(
+      Rect.fromLTWH(-size.width, 0, size.width * 2, size.height),
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

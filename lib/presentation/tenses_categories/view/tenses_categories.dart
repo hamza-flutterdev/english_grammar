@@ -52,13 +52,18 @@ class TensesCategoriesScreen extends StatelessWidget {
                       title: indexLabels[index] ?? 'Negative Sentences',
                     ),
                   Card(
-                    color: primaryColor.withValues(alpha: 0.3),
+                    color: primaryColor.withValues(alpha: 0.7),
                     elevation: 2,
                     child: ListTile(
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Text(
+                            category['english_words']?.toString() ?? '',
+                            style: titleSmallStyle.copyWith(color: kWhite),
+                          ),
+                          const SizedBox(height: kElementInnerGap),
                           Align(
                             alignment: Alignment.centerRight,
                             child: Text(
@@ -68,11 +73,6 @@ class TensesCategoriesScreen extends StatelessWidget {
                                 color: kWhite,
                               ),
                             ),
-                          ),
-                          const SizedBox(height: kElementInnerGap),
-                          Text(
-                            category['english_words']?.toString() ?? '',
-                            style: titleSmallStyle.copyWith(color: kWhite),
                           ),
                         ],
                       ),

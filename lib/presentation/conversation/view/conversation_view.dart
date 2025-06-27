@@ -1,10 +1,10 @@
 import 'package:english_grammer/core/constants/constant.dart';
 import 'package:english_grammer/core/theme/app_colors.dart';
 import 'package:english_grammer/core/theme/app_styles.dart';
+import 'package:english_grammer/core/widgets/icon_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/widgets/custom_appbar.dart';
-import '../../../core/widgets/section_header.dart';
+import '../../../core/widgets/bg_circle.dart';
 import '../../../routes/app_routes.dart';
 import '../controller/conversation_controller.dart';
 
@@ -17,96 +17,77 @@ class ConversationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      appBar: const CustomAppBar(subtitle: 'Conversations'),
-      body: SingleChildScrollView(
-        child: Obx(() {
-          if (controller.isLoading.value) {
-            return const Center(
-              child: Padding(
-                padding: EdgeInsets.all(kBodyHp),
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-          return Padding(
-            padding: const EdgeInsets.all(kBodyHp),
-            child: Column(
-              children: List.generate(
-                controller.sections.length,
-                (index) => ConversationSectionWidget(
-                  controller: controller,
-                  sectionIndex: index,
-                ),
-              ),
-            ),
-          );
-        }),
-      ),
-    );
-  }
-}
+      body: Stack(
+        children: [
+          const AppbarCircle(),
 
-class ConversationSectionWidget extends StatelessWidget {
-  final ConversationController controller;
-  final int sectionIndex;
+          Obx(() {
+            if (controller.isLoading.value) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-  const ConversationSectionWidget({
-    super.key,
-    required this.controller,
-    required this.sectionIndex,
-  });
+            final allCategories =
+                controller.sections
+                    .expand((section) => section.categories)
+                    .toList();
 
-  @override
-  Widget build(BuildContext context) {
-    final section = controller.sections[sectionIndex];
-    return Column(
-      children: [
-        SectionHeader(title: section.heading),
-        const SizedBox(height: kElementInnerGap),
-        Obx(() {
-          bool sectionLoaded = section.categories.every(
-            (category) => controller.allCategories.containsKey(category),
-          );
-          if (!sectionLoaded) {
-            return const Padding(
-              padding: EdgeInsets.all(20),
-              child: CircularProgressIndicator(),
-            );
-          }
-          return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 2.4,
-              mainAxisSpacing: kElementGap,
-              crossAxisSpacing: kElementWidthGap,
-            ),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: section.categories.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  Get.toNamed(
-                    AppRoutes.conversationCategory,
-                    arguments: section.categories[index],
-                  );
-                },
-                child: Container(
-                  decoration: roundedPrimaryBorderDecoration,
-                  child: Center(
-                    child: Text(
-                      section.categories[index],
-                      style: bodyBoldMediumStyle.copyWith(color: kWhite),
-                      textAlign: TextAlign.center,
-                    ),
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(kBodyHp),
+              child: Column(
+                children: [
+                  SizedBox(height: mobileHeight(context) * 0.4),
+                  GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1,
+                          mainAxisSpacing: 0,
+                          crossAxisSpacing: 0,
+                        ),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: allCategories.length,
+                    itemBuilder: (context, index) {
+                      final category = allCategories[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Get.toNamed(
+                            AppRoutes.conversationCategory,
+                            arguments: category,
+                          );
+                        },
+                        child: Container(
+                          decoration: roundedDecorationWithShadow,
+                          margin: const EdgeInsets.all(4),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ImageActionButton(
+                                backgroundColor: kWhite,
+                                isCircular: true,
+                                assetPath: 'assets/images/home-img/tenses.png',
+                                size: primaryIcon(context),
+                              ),
+                              const SizedBox(height: kElementInnerGap),
+                              Text(
+                                category,
+                                style: bodyBoldMediumStyle,
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: kElementInnerGap),
+                              Text('4/5', style: bodyMediumStyle),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ),
-              );
-            },
-          );
-        }),
-        const SizedBox(height: kElementGap),
-      ],
+                ],
+              ),
+            );
+          }),
+        ],
+      ),
     );
   }
 }
