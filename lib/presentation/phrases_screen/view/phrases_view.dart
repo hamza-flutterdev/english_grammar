@@ -29,44 +29,53 @@ class PhrasesScreen extends StatelessWidget {
                   .where((category) => category['category_name'] == 'Phrases')
                   .toList();
 
-          return ListView.builder(
-            itemCount: phraseCategories.length,
-            itemBuilder: (context, index) {
-              final category = phraseCategories[index];
-              return Card(
-                color: primaryColor,
-                elevation: 2,
-                //  margin: kMargin,
-                child: ListTile(
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          category['urdu_words']?.toString() ?? '',
-                          textAlign: TextAlign.right,
-                          style: titleSmallBoldStyle.copyWith(color: kWhite),
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: phraseCategories.length,
+                  itemBuilder: (context, index) {
+                    final category = phraseCategories[index];
+                    return Card(
+                      color: primaryColor,
+                      elevation: 2,
+                      child: ListTile(
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                category['urdu_words']?.toString() ?? '',
+                                textAlign: TextAlign.right,
+                                style: titleSmallBoldStyle.copyWith(
+                                  color: kWhite,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: kElementInnerGap),
+                            Text(
+                              category['english_words']?.toString() ?? '',
+                              style: titleSmallStyle.copyWith(color: kWhite),
+                            ),
+                          ],
                         ),
+                        trailing: SpeakButton(
+                          textToSpeak:
+                              category['english_words']?.toString() ??
+                              'No phrase',
+                          color: kWhite,
+                          size: secondaryIcon(context),
+                        ),
+                        contentPadding: kContentPadding,
                       ),
-                      const SizedBox(height: kElementInnerGap),
-                      Text(
-                        category['english_words']?.toString() ?? '',
-                        style: titleSmallStyle.copyWith(color: kWhite),
-                      ),
-                    ],
-                  ),
-                  trailing: SpeakButton(
-                    textToSpeak:
-                        category['english_words']?.toString() ?? 'No phrase',
-                    color: kWhite,
-                    size: secondaryIcon(context),
-                  ),
-                  contentPadding: kContentPadding,
+                    );
+                  },
                 ),
-              );
-            },
+              ),
+              const SizedBox(height: kBodyHp),
+            ],
           );
         }),
       ),

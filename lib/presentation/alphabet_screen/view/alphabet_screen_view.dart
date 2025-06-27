@@ -81,6 +81,12 @@ class AlphabetScreenView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            Text(
+                              english,
+                              style: titleSmallStyle.copyWith(color: kWhite),
+                            ),
+
+                            const SizedBox(height: kElementInnerGap),
                             Align(
                               alignment: Alignment.centerRight,
                               child: Text(
@@ -90,11 +96,6 @@ class AlphabetScreenView extends StatelessWidget {
                                   color: kWhite,
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: kElementInnerGap),
-                            Text(
-                              english,
-                              style: titleSmallStyle.copyWith(color: kWhite),
                             ),
                           ],
                         ),
@@ -112,6 +113,8 @@ class AlphabetScreenView extends StatelessWidget {
               }),
             ),
           ),
+
+          const SizedBox(height: kBodyHp),
         ],
       ),
     );

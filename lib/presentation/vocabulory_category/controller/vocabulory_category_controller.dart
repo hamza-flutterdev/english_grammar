@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../../../data/database/db_helper.dart';
@@ -10,6 +12,9 @@ class VocabularyCategoryController extends GetxController {
   Future<void> loadWords(String categoryTitle) async {
     try {
       isLoading.value = true;
+
+      await Future.delayed(const Duration(milliseconds: 200));
+
       await dbHelper.initDatabase();
 
       final data = await dbHelper.fetchBySubcategories([categoryTitle]);
@@ -20,9 +25,9 @@ class VocabularyCategoryController extends GetxController {
               .toList();
 
       words.assignAll(filteredWords);
-      isLoading.value = false;
     } catch (e) {
       debugPrint("Error loading words: $e");
+    } finally {
       isLoading.value = false;
     }
   }

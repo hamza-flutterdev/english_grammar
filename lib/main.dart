@@ -7,7 +7,7 @@ import 'routes/route_pages.dart';
 void main() {
   runApp(
     DevicePreview(
-      enabled: true, // Set to false before production release
+      enabled: false, // Set to false before production release
       builder: (context) => GrammarApp(),
     ),
   );

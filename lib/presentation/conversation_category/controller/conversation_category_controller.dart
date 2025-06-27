@@ -11,7 +11,7 @@ class ConversationCategoryController extends GetxController {
     try {
       isLoading.value = true;
       await dbHelper.initDatabase();
-
+      await Future.delayed(const Duration(milliseconds: 200));
       final data = await dbHelper.fetchBySubcategories([categoryTitle]);
       final filteredConversations =
           data

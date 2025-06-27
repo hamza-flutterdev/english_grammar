@@ -21,7 +21,6 @@ class DictionarySearchScreen extends StatelessWidget {
       appBar: CustomAppBar(subtitle: 'Dictionary'),
       body: Column(
         children: [
-          // Search bar
           Padding(
             padding: const EdgeInsets.all(kBodyHp),
             child: SearchBarField(
@@ -29,18 +28,14 @@ class DictionarySearchScreen extends StatelessWidget {
               onSearch: controller.performSearch,
             ),
           ),
-
-          // Content area
           Expanded(
             child: Obx(() {
-              // Show word details if a word is selected
               if (controller.selectedWord.isNotEmpty &&
                   controller.selectedMeaning.isNotEmpty) {
                 return SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: kBodyHp),
                   child: Column(
                     children: [
-                      // Basic word information container
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(kBodyHp),
@@ -55,16 +50,11 @@ class DictionarySearchScreen extends StatelessWidget {
                                   children: [
                                     Icon(
                                       Icons.menu_book_rounded,
-                                      color: kWhite,
+                                      color: kBlack,
                                       size: secondaryIcon(context),
                                     ),
                                     const SizedBox(width: kElementWidthGap),
-                                    Text(
-                                      'Word:',
-                                      style: bodyBoldMediumStyle.copyWith(
-                                        color: kWhite,
-                                      ),
-                                    ),
+                                    Text('Word:', style: bodyBoldMediumStyle),
                                   ],
                                 ),
                                 Row(
@@ -72,7 +62,7 @@ class DictionarySearchScreen extends StatelessWidget {
                                     SpeakButton(
                                       textToSpeak:
                                           controller.selectedMeaning.value,
-                                      color: kWhite,
+                                      color: kBlack,
                                       size: secondaryIcon(context),
                                     ),
 
@@ -87,7 +77,7 @@ class DictionarySearchScreen extends StatelessWidget {
                                               '${controller.aiResponse.value}',
                                             ),
                                         icon: Icons.copy,
-                                        color: kWhite,
+                                        color: kBlack,
                                         size: secondaryIcon(context),
                                       ),
                                     ),
@@ -99,19 +89,12 @@ class DictionarySearchScreen extends StatelessWidget {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'English:',
-                                  style: bodyBoldSmallStyle.copyWith(
-                                    color: kWhite,
-                                  ),
-                                ),
+                                Text('English:', style: bodyBoldSmallStyle),
                                 const SizedBox(width: kElementWidthGap),
                                 Expanded(
                                   child: Text(
                                     controller.selectedMeaning.value,
-                                    style: bodySmallStyle.copyWith(
-                                      color: kWhite,
-                                    ),
+                                    style: bodySmallStyle,
                                   ),
                                 ),
                               ],
@@ -120,20 +103,13 @@ class DictionarySearchScreen extends StatelessWidget {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Urdu:',
-                                  style: bodyBoldSmallStyle.copyWith(
-                                    color: kWhite,
-                                  ),
-                                ),
+                                Text('Urdu:', style: bodyBoldSmallStyle),
                                 const SizedBox(width: kElementInnerGap),
                                 Expanded(
                                   child: Text(
                                     controller.selectedWord.value,
                                     textDirection: TextDirection.rtl,
-                                    style: bodySmallStyle.copyWith(
-                                      color: kWhite,
-                                    ),
+                                    style: bodySmallStyle,
                                   ),
                                 ),
                               ],
@@ -154,15 +130,13 @@ class DictionarySearchScreen extends StatelessWidget {
                                 height: kBodyHp,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  color: kWhite,
+                                  color: kBlack,
                                 ),
                               ),
                               const SizedBox(width: kElementWidthGap),
                               Text(
                                 'Analyzing word...',
-                                style: bodyBoldSmallStyle.copyWith(
-                                  color: kWhite,
-                                ),
+                                style: bodyBoldSmallStyle,
                               ),
                             ],
                           ),
@@ -264,16 +238,14 @@ class DictionarySearchScreen extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.tips_and_updates_outlined,
-                                color: kWhite,
+                                color: kBlack,
                                 size: secondaryIcon(context),
                               ),
                               const SizedBox(width: kElementWidthGap),
                               Expanded(
                                 child: Text(
                                   'Auto-generating detailed analysis...',
-                                  style: bodyBoldSmallStyle.copyWith(
-                                    color: kWhite,
-                                  ),
+                                  style: bodyBoldSmallStyle,
                                 ),
                               ),
                             ],
@@ -293,12 +265,12 @@ class DictionarySearchScreen extends StatelessWidget {
                         Icon(
                           Icons.search,
                           size: primaryIcon(context),
-                          color: kWhite,
+                          color: kBlack,
                         ),
                         const SizedBox(height: kElementGap),
                         Text(
                           'Start typing to search for words',
-                          style: bodySmallStyle.copyWith(color: kWhite),
+                          style: bodySmallStyle,
                         ),
                       ],
                     ),
@@ -306,7 +278,7 @@ class DictionarySearchScreen extends StatelessWidget {
                 }
                 if (controller.isSearching.value) {
                   return const Center(
-                    child: CircularProgressIndicator(color: kWhite),
+                    child: CircularProgressIndicator(color: primaryColor),
                   );
                 }
                 if (controller.searchResults.isEmpty) {
@@ -350,25 +322,19 @@ class DictionarySearchScreen extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
+                                  Text(meaning, style: bodyBoldLargeStyle),
+                                  const SizedBox(height: kElementInnerGap),
+
                                   Text(
                                     word,
                                     textAlign: TextAlign.right,
-                                    style: bodyBoldLargeStyle.copyWith(
-                                      color: kWhite,
-                                    ),
-                                  ),
-                                  const SizedBox(height: kElementInnerGap),
-                                  Text(
-                                    meaning,
-                                    style: bodyBoldLargeStyle.copyWith(
-                                      color: kWhite,
-                                    ),
+                                    style: bodyBoldLargeStyle,
                                   ),
                                 ],
                               ),
                             ),
                             Divider(
-                              color: Colors.white54,
+                              color: kBlack.withValues(alpha: 0.3),
                               height: mobileHeight(context) * 0.025,
                             ),
                           ],

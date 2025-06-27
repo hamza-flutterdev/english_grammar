@@ -19,7 +19,10 @@ class SpeakButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TTSController tts = Get.put(TTSController());
+    final TTSController tts =
+        Get.isRegistered<TTSController>()
+            ? Get.find()
+            : Get.put(TTSController());
 
     return Obx(
       () => Tooltip(

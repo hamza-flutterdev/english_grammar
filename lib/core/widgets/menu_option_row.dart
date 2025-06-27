@@ -1,5 +1,4 @@
 import 'package:english_grammer/core/constants/constant.dart';
-import 'package:english_grammer/core/theme/app_colors.dart';
 import 'package:english_grammer/core/theme/app_styles.dart';
 import 'package:flutter/material.dart';
 import '../../../core/widgets/icon_buttons.dart';
@@ -45,15 +44,8 @@ class MenuOptionRow extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: titleSmallBoldStyle.copyWith(color: kWhite),
-                  ),
-                  if (subtitle != null)
-                    Text(
-                      subtitle!,
-                      style: bodyMediumStyle.copyWith(color: kWhite),
-                    ),
+                  Text(title, style: titleSmallBoldStyle),
+                  if (subtitle != null) Text(subtitle!, style: bodyMediumStyle),
                 ],
               ),
 
@@ -61,7 +53,7 @@ class MenuOptionRow extends StatelessWidget {
                 urduText,
                 textAlign: TextAlign.right,
                 textDirection: TextDirection.rtl,
-                style: bodyMediumStyle.copyWith(color: kWhite),
+                style: bodyMediumStyle,
               ),
             ],
           ),

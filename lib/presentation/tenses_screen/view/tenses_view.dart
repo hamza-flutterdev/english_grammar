@@ -49,27 +49,21 @@ class TensesView extends StatelessWidget {
                 autoPlay: true,
                 viewportFraction: 0.65,
                 iconPosition: IconPosition.bottom,
-                titleTextStyle: titleBoldMediumStyle.copyWith(
-                  color: kWhite,
-                  fontSize: 16,
-                ),
-                urduTextStyle: titleBoldMediumStyle.copyWith(
-                  color: kWhite,
-                  fontSize: 14,
-                ),
+                titleTextStyle: titleSmallBoldStyle.copyWith(color: kWhite),
+                urduTextStyle: titleSmallBoldStyle.copyWith(color: kWhite),
               ),
-              const SizedBox(height: kBodyHp),
+              const SizedBox(height: kElementGap),
               AnimatedSmoothIndicator(
                 activeIndex: controller.currentItem.value,
                 count: controller.currentCategory.length,
                 effect: WormEffect(
                   activeDotColor: primaryColor,
-                  dotColor: kWhite,
+                  dotColor: greyColor.withValues(alpha: 0.7),
                   dotHeight: mobileWidth(context) * 0.025,
                   dotWidth: mobileWidth(context) * 0.025,
                 ),
               ),
-              const SizedBox(height: kBodyHp),
+              const SizedBox(height: kElementGap),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kBodyHp),
                 child: Row(
@@ -77,19 +71,23 @@ class TensesView extends StatelessWidget {
                   children: [
                     Text(
                       'Tenses',
-                      style: titleBoldMediumStyle.copyWith(color: kWhite),
+                      style: titleBoldMediumStyle.copyWith(
+                        color: textGreyColor,
+                      ),
                     ),
                     GestureDetector(
                       onTap: () => Get.toNamed(AppRoutes.tensesList),
                       child: Text(
                         'Show All',
-                        style: titleBoldMediumStyle.copyWith(color: kWhite),
+                        style: titleBoldMediumStyle.copyWith(
+                          color: textGreyColor,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: kBodyHp),
+              const SizedBox(height: kElementGap),
               CarouselWidget(
                 items: controller.headingTitle,
                 carouselController: controller.bottomCarouselController,
@@ -111,6 +109,7 @@ class TensesView extends StatelessWidget {
                 iconPosition: IconPosition.top,
                 titleTextStyle: titleSmallBoldStyle.copyWith(color: kWhite),
               ),
+              const SizedBox(height: kBodyHp),
             ],
           ),
         ),

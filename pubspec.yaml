@@ -47,8 +47,7 @@ dependencies:
   google_generative_ai: ^0.4.7
   flutter_tts: ^4.2.3
   carousel_slider: ^5.1.1
-  responsive_builder: ^0.7.1
-  flutter_layout_grid: ^2.0.8
+
 
 dev_dependencies:
   flutter_test:

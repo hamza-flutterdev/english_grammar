@@ -213,11 +213,6 @@ Keep responses under 200 words. Use simple plain text without any special format
   void copyToClipboard(String text) {
     if (text.trim().isNotEmpty) {
       Clipboard.setData(ClipboardData(text: text));
-      Fluttertoast.showToast(
-        msg: "Copied to clipboard",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-      );
     }
   }
 }

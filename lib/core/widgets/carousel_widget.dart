@@ -1,3 +1,4 @@
+import 'package:english_grammer/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:english_grammer/core/constants/constant.dart';
@@ -78,7 +79,7 @@ class CarouselWidget extends StatelessWidget {
             isSelected: selectedIndex == index,
             containerColor:
                 containerColors?.elementAt(index) ??
-                primaryColor.withValues(alpha: 0.3),
+                primaryColor.withValues(alpha: 0.7),
             iconColor: iconColors?.elementAt(index),
             smallerIcons: smallerIcons,
             iconPosition: iconPosition,
@@ -157,7 +158,7 @@ class CarouselItemWidget extends StatelessWidget {
               color: containerColor,
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: isSelected ? primaryColor : Colors.transparent,
+                color: isSelected ? primaryColor : AppColors.transparent,
                 width: isSelected ? 1.0 : 0.0,
               ),
             ),

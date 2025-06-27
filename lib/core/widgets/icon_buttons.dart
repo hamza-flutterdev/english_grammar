@@ -205,6 +205,13 @@ class ImageActionButton extends StatelessWidget {
           color: backgroundColor,
           shape: isCircular ? BoxShape.circle : BoxShape.rectangle,
           borderRadius: isCircular ? null : BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: greyColor.withValues(alpha: 0.2),
+              blurRadius: 6,
+              offset: Offset(0, 2),
+            ),
+          ],
         ),
         child: image,
       ),
