@@ -7,7 +7,7 @@ import 'routes/route_pages.dart';
 void main() {
   runApp(
     DevicePreview(
-      enabled: false, // Set to false before production release
+      enabled: true, // Set to false before production release
       builder: (context) => GrammarApp(),
     ),
   );
@@ -26,10 +26,6 @@ class GrammarApp extends StatelessWidget {
       title: 'Learn English',
       initialRoute: AppRoutes.splash,
       getPages: RoutePages.routes,
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
     );
   }
 }
