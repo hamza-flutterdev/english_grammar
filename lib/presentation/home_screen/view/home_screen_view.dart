@@ -27,6 +27,11 @@ class HomeScreen extends StatelessWidget {
 
           final startingTop = height * 0.02;
 
+          /*
+          keep it in common because this
+          is use ahead
+          */
+
           double getLeftOffset(int index) {
             if (isWide) {
               return [0.11, 0.31, 0.42, 0.47, 0.46, 0.37, 0.19][index] * width;
@@ -38,7 +43,7 @@ class HomeScreen extends StatelessWidget {
           }
 
           final options = [
-            MenuOptionData(
+            _MenuOptionData(
               title: 'Vocabulary',
               subtitle: '(Category wise)',
               urduText: 'ذخیرہ الفاظ',
@@ -46,7 +51,7 @@ class HomeScreen extends StatelessWidget {
               backgroundColor: kBrightTeal,
               onTap: () => Get.toNamed(AppRoutes.vocabulary),
             ),
-            MenuOptionData(
+            _MenuOptionData(
               title: 'Vocabulary',
               subtitle: '(Alphabetical Order)',
               urduText: 'ذخیرہ الفاظ',
@@ -54,35 +59,35 @@ class HomeScreen extends StatelessWidget {
               backgroundColor: kWarmGold,
               onTap: () => Get.toNamed(AppRoutes.alphabet),
             ),
-            MenuOptionData(
+            _MenuOptionData(
               title: 'Phrases',
               urduText: 'جملے',
               assetPath: 'assets/images/home-img/phrases.png',
               backgroundColor: kMintGreen,
               onTap: () => Get.toNamed(AppRoutes.phrases),
             ),
-            MenuOptionData(
+            _MenuOptionData(
               title: 'Grammar',
               urduText: 'گرامر',
               assetPath: 'assets/images/home-img/grammar.png',
               backgroundColor: kCoral,
               onTap: () => Get.toNamed(AppRoutes.grammar),
             ),
-            MenuOptionData(
+            _MenuOptionData(
               title: 'Tenses',
               urduText: 'زمانے',
               assetPath: 'assets/images/home-img/tenses.png',
               backgroundColor: kSlatePurple,
               onTap: () => Get.toNamed(AppRoutes.tenses),
             ),
-            MenuOptionData(
+            _MenuOptionData(
               title: 'Conversation',
               urduText: 'مکالمہ',
               assetPath: 'assets/images/home-img/convo.png',
               backgroundColor: kPurple,
               onTap: () => Get.toNamed(AppRoutes.conversation),
             ),
-            MenuOptionData(
+            _MenuOptionData(
               title: 'Dictionary',
               urduText: 'لغت',
               assetPath: 'assets/images/home-img/dictionary.png',
@@ -91,6 +96,11 @@ class HomeScreen extends StatelessWidget {
             ),
           ];
 
+
+          /*
+          Create a stateless class for this
+          for correct harrier.
+          */
           return Stack(
             children: [
               Positioned.fill(
@@ -133,7 +143,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class MenuOptionData {
+class _MenuOptionData {
   final String title;
   final String? subtitle;
   final String urduText;
@@ -141,7 +151,7 @@ class MenuOptionData {
   final Color backgroundColor;
   final VoidCallback onTap;
 
-  MenuOptionData({
+  _MenuOptionData({
     required this.title,
     this.subtitle,
     required this.urduText,

@@ -122,3 +122,25 @@ class TensesController extends GetxController {
     bottomCarouselController.animateToPage(index);
   }
 }
+
+/*
+create model for this like below just follow
+this model
+*/
+class TenseGroup {
+  final String heading;
+  final List<String> categories;
+  final List<String> categoriesUrdu;
+  final String icon;
+  final Color containerColor;
+  final Color iconColor;
+
+  TenseGroup({
+    required this.heading,
+    required this.categories,
+    required this.categoriesUrdu,
+    required this.icon,
+    required this.containerColor,
+    required this.iconColor,
+  });
+}
