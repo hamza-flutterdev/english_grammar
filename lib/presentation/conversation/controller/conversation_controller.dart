@@ -94,6 +94,11 @@ class ConversationController extends GetxController {
   }
 }
 
+
+
+/*
+This class wrong place??
+*/
 class ConversationSection {
   //final String heading;
   final List<String> categories;

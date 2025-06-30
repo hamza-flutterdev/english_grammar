@@ -26,6 +26,11 @@ class HomeView extends StatelessWidget {
           final remainingHeight = height - topPadding;
           final itemHeight = remainingHeight / 7;
 
+          /*
+          keep it in common because this
+          is use ahead
+          */
+
           double getLeftOffset(int index) {
             if (isWide) {
               return [0.10, 0.30, 0.42, 0.47, 0.44, 0.34, 0.14][index] * width;
@@ -37,7 +42,7 @@ class HomeView extends StatelessWidget {
           }
 
           final options = [
-            MenuOptionData(
+            _MenuOptionData(
               title: 'Vocabulary',
               subtitle: '(Category wise)',
               urduText: 'ذخیرہ الفاظ',
@@ -45,7 +50,7 @@ class HomeView extends StatelessWidget {
               backgroundColor: kBrightTeal,
               onTap: () => Get.toNamed(AppRoutes.vocabulary),
             ),
-            MenuOptionData(
+            _MenuOptionData(
               title: 'Vocabulary',
               subtitle: '(Alphabetical Order)',
               urduText: 'ذخیرہ الفاظ',
@@ -53,35 +58,35 @@ class HomeView extends StatelessWidget {
               backgroundColor: kWarmGold,
               onTap: () => Get.toNamed(AppRoutes.alphabet),
             ),
-            MenuOptionData(
+            _MenuOptionData(
               title: 'Phrases',
               urduText: 'جملے',
               assetPath: 'assets/images/home-img/phrases.png',
               backgroundColor: kMintGreen,
               onTap: () => Get.toNamed(AppRoutes.phrases),
             ),
-            MenuOptionData(
+            _MenuOptionData(
               title: 'Grammar',
               urduText: 'گرامر',
               assetPath: 'assets/images/home-img/grammar.png',
               backgroundColor: kCoral,
               onTap: () => Get.toNamed(AppRoutes.grammar),
             ),
-            MenuOptionData(
+            _MenuOptionData(
               title: 'Tenses',
               urduText: 'زمانے',
               assetPath: 'assets/images/home-img/tenses.png',
               backgroundColor: kSlatePurple,
               onTap: () => Get.toNamed(AppRoutes.tenses),
             ),
-            MenuOptionData(
+            _MenuOptionData(
               title: 'Conversation',
               urduText: 'مکالمہ',
               assetPath: 'assets/images/home-img/convo.png',
               backgroundColor: kPurple,
               onTap: () => Get.toNamed(AppRoutes.conversation),
             ),
-            MenuOptionData(
+            _MenuOptionData(
               title: 'Dictionary',
               urduText: 'لغت',
               assetPath: 'assets/images/home-img/dictionary.png',
@@ -90,6 +95,11 @@ class HomeView extends StatelessWidget {
             ),
           ];
 
+
+          /*
+          Create a stateless class for this
+          for correct harrier.
+          */
           return Stack(
             children: [
               Positioned.fill(
@@ -132,7 +142,7 @@ class HomeView extends StatelessWidget {
   }
 }
 
-class MenuOptionData {
+class _MenuOptionData {
   final String title;
   final String? subtitle;
   final String urduText;
@@ -140,7 +150,7 @@ class MenuOptionData {
   final Color backgroundColor;
   final VoidCallback onTap;
 
-  MenuOptionData({
+  _MenuOptionData({
     required this.title,
     this.subtitle,
     required this.urduText,
