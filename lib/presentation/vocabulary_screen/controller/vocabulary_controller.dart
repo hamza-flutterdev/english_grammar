@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import '../../../data/database/db_helper.dart';
+
+import '../../../core/data/database/db_helper.dart';
 
 class VocabularyController extends GetxController {
   final DbHelper dbHelper = DbHelper();

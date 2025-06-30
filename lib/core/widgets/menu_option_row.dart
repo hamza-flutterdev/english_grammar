@@ -53,7 +53,7 @@ class MenuOptionRow extends StatelessWidget {
                 urduText,
                 textAlign: TextAlign.right,
                 textDirection: TextDirection.rtl,
-                style: bodyMediumStyle,
+                style: urduBodySmallStyle,
               ),
             ],
           ),

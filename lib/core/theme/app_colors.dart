@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+const Color transparent = Colors.transparent;
 // Whites
 const Color kWhite = Color(0xFFFFFFFF);
 const Color kWhiteF7 = Color(0xFFF7F7F7);
@@ -40,7 +41,9 @@ const kYellow = Color(0xffFFBB00);
 const kGold = Color(0xffCEA247);
 const kWarmGold = Color(0xFFEFB75E);
 const kCoral = Color(0xFFFA7F72);
-const kDeepCoral = Color(0xFFB41802);
+const kLightCoral = Color(0xFFEF5E5E);
+const kDeepCoral = Color(0xFFAA1803);
+const kChocoBrown = Color(0xFF8B4513);
 
 //text color
 const Color blackTextColor = Color(0xFF000000);
