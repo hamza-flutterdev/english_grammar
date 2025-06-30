@@ -11,6 +11,9 @@ import '../controller/tenses_categories_controller.dart';
 class TensesCategoriesScreen extends StatelessWidget {
   const TensesCategoriesScreen({super.key});
 
+  /*
+  this should be in controller??
+  */
   final Map<int, String> indexLabels = const {
     1: 'Affirmative Sentence',
     5: 'Negative Sentence',

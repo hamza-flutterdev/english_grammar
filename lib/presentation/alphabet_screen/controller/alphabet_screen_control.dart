@@ -19,44 +19,51 @@ class AlphabetsController extends GetxController {
     super.onClose();
   }
 
+  /*
+  correct name remove warning....
+  */
   var alphabetCateg = [].obs;
   var filteredAlphabetCateg = [].obs;
   var isSearching = false.obs;
 
-  List<String> categoryTitle = [
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'I',
-    'J',
-    'K',
-    'L',
-    'M',
-    'N',
-    'O',
-    'P',
-    'Q',
-    'R',
-    'S',
-    'T',
-    'U',
-    'V',
-    'W',
-    'X',
-    'Y',
-    'Z',
-  ];
+  /*
+  use ASCII
+  */
+  List<String> categoryTitle = List.generate(26, (index) => String.fromCharCode(65 + index));
+
+  // List<String> categoryTitle = [
+  //   'A',
+  //   'B',
+  //   'C',
+  //   'D',
+  //   'E',
+  //   'F',
+  //   'G',
+  //   'H',
+  //   'I',
+  //   'J',
+  //   'K',
+  //   'L',
+  //   'M',
+  //   'N',
+  //   'O',
+  //   'P',
+  //   'Q',
+  //   'R',
+  //   'S',
+  //   'T',
+  //   'U',
+  //   'V',
+  //   'W',
+  //   'X',
+  //   'Y',
+  //   'Z',
+  // ];
 
   Future<void> fetchAlphabetsData() async {
     try {
       await dbHelper.initDatabase();
       alphabetCateg.value = await dbHelper.fetchBySubcategories(categoryTitle);
-      // Initialize filtered list with all data
       filteredAlphabetCateg.value = alphabetCateg.value;
     } catch (e) {
       debugPrint('Error: $e');
@@ -65,7 +72,6 @@ class AlphabetsController extends GetxController {
 
   void performSearch(String query) {
     isSearching.value = query.isNotEmpty;
-
     if (query.isEmpty) {
       filteredAlphabetCateg.value = alphabetCateg.value;
     } else {
