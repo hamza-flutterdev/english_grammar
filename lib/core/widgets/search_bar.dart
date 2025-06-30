@@ -12,6 +12,7 @@ class SearchBarField extends StatelessWidget {
   final Color borderColor;
   final Color iconColor;
   final Color textColor;
+  final String? fontFamily;
 
   const SearchBarField({
     super.key,
@@ -21,6 +22,7 @@ class SearchBarField extends StatelessWidget {
     this.borderColor = primaryColor,
     this.iconColor = kWhite,
     this.textColor = kBlack,
+    this.fontFamily,
   });
 
   @override
@@ -28,12 +30,18 @@ class SearchBarField extends StatelessWidget {
     return CommonTextField(
       controller: controller,
       hintText: 'Enter word to search...',
-      textStyle: bodyBoldMediumStyle.copyWith(color: textColor),
-      hintStyle: bodyBoldMediumStyle.copyWith(color: textColor),
+      textStyle: bodyBoldMediumStyle.copyWith(
+        color: textColor,
+        fontFamily: fontFamily,
+      ),
+      hintStyle: bodyBoldMediumStyle.copyWith(
+        color: textColor,
+        fontFamily: fontFamily,
+      ),
       cursorColor: textColor,
       backgroundColor: backgroundColor,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(kBorderRadius),
+        borderRadius: BorderRadius.circular(kCircularBorderRadius),
         borderSide: BorderSide(color: borderColor),
       ),
       onChanged: onSearch,
@@ -41,6 +49,7 @@ class SearchBarField extends StatelessWidget {
       suffixIcon: Padding(
         padding: const EdgeInsets.all(kElementInnerGap),
         child: IconActionButton(
+          isCircular: true,
           backgroundColor: borderColor,
           icon: Icons.search,
           color: iconColor,

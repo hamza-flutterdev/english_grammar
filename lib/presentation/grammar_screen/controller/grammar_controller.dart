@@ -1,6 +1,7 @@
-import 'package:english_grammer/data/database/db_helper.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+
+import '../../../core/data/database/db_helper.dart';
 
 class GrammarController extends GetxController {
   final DbHelper dbHelper = DbHelper();

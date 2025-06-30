@@ -3,9 +3,9 @@ import 'package:english_grammer/core/theme/app_colors.dart';
 import 'package:english_grammer/core/theme/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/routes/app_routes.dart';
 import '../../../core/widgets/custom_appbar.dart';
 import '../../../core/widgets/section_header.dart';
-import '../../../routes/app_routes.dart';
 import '../controller/vocabulary_controller.dart';
 
 class VocabularyView extends StatelessWidget {
