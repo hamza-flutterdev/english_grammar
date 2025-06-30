@@ -1,8 +1,10 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:english_grammer/core/constants/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'routes/app_routes.dart';
-import 'routes/route_pages.dart';
+
+import 'core/routes/app_routes.dart';
+import 'core/routes/route_pages.dart';
 
 void main() {
   runApp(
@@ -26,6 +28,7 @@ class GrammarApp extends StatelessWidget {
       title: 'Learn English',
       initialRoute: AppRoutes.splash,
       getPages: RoutePages.routes,
+      theme: ThemeData(fontFamily: fontPrimary),
     );
   }
 }

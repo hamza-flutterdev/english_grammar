@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 
-class GrammarDetailController extends GetxController {
+class GrammarCategoriesController extends GetxController {
   final List<Map<String, dynamic>> _initialItems;
 
-  GrammarDetailController({required List<Map<String, dynamic>> items})
+  GrammarCategoriesController({required List<Map<String, dynamic>> items})
     : _initialItems = items;
 
   var items = <Map<String, dynamic>>[].obs;
