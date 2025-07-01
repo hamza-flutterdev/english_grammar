@@ -1,15 +1,14 @@
 import 'package:google_generative_ai/google_generative_ai.dart';
+import '../../../core/constants/global_key.dart';
 
 class AiService {
   final GenerativeModel _gm = GenerativeModel(
     model: "gemini-2.0-flash",
-    apiKey: "AIzaSyC6BcnlWO4hHGLL6gVGfrlrxZ4mVLrUEAw",
+    apiKey: geminiKey,
   );
 
-  // Method to handle conversation messages
   Future<String> sendMessage(List<Map<String, String>> messages) async {
     try {
-      // Convert messages to a single prompt
       String prompt = _convertMessagesToPrompt(messages);
       final content = [Content.text(prompt)];
       final response = await _gm.generateContent(content);

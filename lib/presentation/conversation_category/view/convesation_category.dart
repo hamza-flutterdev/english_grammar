@@ -45,7 +45,7 @@ class ConversationCategoryView extends StatelessWidget {
                         children: [
                           Text(
                             englishText,
-                            style: titleSmallStyle.copyWith(color: kWhite),
+                            style: titleMediumStyle.copyWith(color: kWhite),
                           ),
                           const SizedBox(height: kElementInnerGap),
                           Align(
@@ -53,9 +53,7 @@ class ConversationCategoryView extends StatelessWidget {
                             child: Text(
                               urduText,
                               textAlign: TextAlign.right,
-                              style: titleSmallBoldStyle.copyWith(
-                                color: kWhite,
-                              ),
+                              style: urduBodyLargeStyle.copyWith(color: kWhite),
                             ),
                           ),
                         ],

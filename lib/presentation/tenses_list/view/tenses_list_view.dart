@@ -14,18 +14,6 @@ class TensesListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(TensesController());
 
-    final sectionTitles = controller.headingTitle;
-    final categories = [
-      controller.prTCategory,
-      controller.fuTCategory,
-      controller.psTCategory,
-    ];
-    final urduTitles = [
-      controller.prTCategoryUrdu,
-      controller.fuTCategoryUrdu,
-      controller.psTCategoryUrdu,
-    ];
-
     return Scaffold(
       appBar: CustomAppBar(subtitle: 'Tenses'),
       body: Column(
@@ -33,12 +21,9 @@ class TensesListView extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(kBodyHp),
-              itemCount: sectionTitles.length,
+              itemCount: controller.tenseGroups.length,
               itemBuilder: (context, sectionIndex) {
-                final title = sectionTitles[sectionIndex];
-                final subItems = categories[sectionIndex];
-                final subItemsUrdu = urduTitles[sectionIndex];
-
+                final tenseGroup = controller.tenseGroups[sectionIndex];
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -46,58 +31,109 @@ class TensesListView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                         vertical: kElementGap,
                       ),
-                      child: Text(
-                        title,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: primaryColor,
-                        ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: primaryIcon(context),
+                            height: primaryIcon(context),
+                            padding: EdgeInsets.all(kElementInnerGap),
+                            decoration: roundedDecoration.copyWith(
+                              color: tenseGroup.iconColor.withValues(
+                                alpha: 0.2,
+                              ),
+                            ),
+                            child: Center(
+                              child: Image.asset(
+                                tenseGroup.icon,
+                                color: tenseGroup.iconColor,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: kElementWidthGap),
+                          Expanded(
+                            child: Text(
+                              tenseGroup.heading,
+                              style: Theme.of(
+                                context,
+                              ).textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: tenseGroup.containerColor,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
 
-                    ...List.generate(subItems.length, (index) {
-                      final english = subItems[index];
-                      final urdu = subItemsUrdu[index];
+                    ...List.generate(tenseGroup.categories.length, (index) {
+                      final englishName = tenseGroup.categories[index];
+                      final urduName = tenseGroup.categoriesUrdu[index];
+                      final tenseType = controller.getTenseType(index);
 
                       return Card(
-                        color: primaryColor,
+                        color: tenseGroup.containerColor,
                         elevation: 2,
-                        margin: const EdgeInsets.symmetric(vertical: 6),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         child: ListTile(
+                          contentPadding: kContentPadding,
+                          leading: Container(
+                            width: primaryIcon(context),
+                            height: primaryIcon(context),
+                            padding: EdgeInsets.all(kElementInnerGap),
+                            decoration: roundedDecoration.copyWith(
+                              color: tenseGroup.iconColor.withValues(
+                                alpha: 0.2,
+                              ),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Center(
+                              child: Image.asset(
+                                tenseType.image,
+                                color: kWhite,
+                              ),
+                            ),
+                          ),
                           title: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Text(
-                                english,
+                                englishName,
                                 style: titleSmallBoldStyle.copyWith(
                                   color: kWhite,
                                 ),
                               ),
-                              SizedBox(height: kElementInnerGap),
+                              const SizedBox(height: kElementInnerGap),
                               Text(
-                                urdu,
+                                urduName,
                                 textAlign: TextAlign.right,
-                                style: titleSmallBoldStyle.copyWith(
+                                style: urduBodyLargeStyle.copyWith(
                                   color: kWhite,
                                 ),
                               ),
                             ],
                           ),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            color: kWhite,
+                            size: secondaryIcon(context),
+                          ),
                           onTap: () {
                             Get.toNamed(
                               AppRoutes.tensesCategories,
-                              arguments: english,
+                              arguments: controller.currentCategory[index],
                             );
                           },
                         ),
                       );
                     }),
+                    const SizedBox(height: kBodyHp),
                   ],
                 );
               },
             ),
           ),
-          const SizedBox(height: kBodyHp),
         ],
       ),
     );

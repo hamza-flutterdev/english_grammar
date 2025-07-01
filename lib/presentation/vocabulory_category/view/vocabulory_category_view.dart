@@ -39,18 +39,18 @@ class VocabularyCategoryView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    Text(
+                      word['english_words'] ?? '',
+                      style: titleMediumStyle.copyWith(color: kWhite),
+                    ),
+                    const SizedBox(height: kElementInnerGap),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                         word['urdu_words']?.toString() ?? '',
                         textAlign: TextAlign.right,
-                        style: titleSmallBoldStyle.copyWith(color: kWhite),
+                        style: urduBodyLargeStyle.copyWith(color: kWhite),
                       ),
-                    ),
-                    const SizedBox(height: kElementInnerGap),
-                    Text(
-                      word['english_words'] ?? '',
-                      style: titleSmallStyle.copyWith(color: kWhite),
                     ),
                   ],
                 ),

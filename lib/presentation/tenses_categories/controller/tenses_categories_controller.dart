@@ -21,6 +21,12 @@ class TensesCategoriesController extends GetxController {
     'Interrogative Sentence',
   ];
 
+  final Map<int, String> indexLabels = const {
+    1: 'Affirmative Sentence',
+    5: 'Negative Sentence',
+    9: 'Interrogative Sentence',
+  };
+
   var tensesCat = [].obs;
 
   Future<void> fetchTensesData() async {

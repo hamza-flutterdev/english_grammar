@@ -11,15 +11,6 @@ import '../controller/tenses_categories_controller.dart';
 class TensesCategoriesView extends StatelessWidget {
   const TensesCategoriesView({super.key});
 
-  /*
-  this should be in controller??
-  */
-  final Map<int, String> indexLabels = const {
-    1: 'Affirmative Sentence',
-    5: 'Negative Sentence',
-    9: 'Interrogative Sentence',
-  };
-
   @override
   Widget build(BuildContext context) {
     final title = Get.arguments as String;
@@ -44,16 +35,12 @@ class TensesCategoriesView extends StatelessWidget {
             itemCount: filteredList.length,
             itemBuilder: (context, index) {
               final category = filteredList[index];
-              final englishText =
-                  category['english_words']?.toLowerCase() ?? '';
 
               return Column(
                 children: [
                   if (index == 0) SectionHeader(title: 'Definition'),
-                  if (englishText.contains('subject'))
-                    SectionHeader(
-                      title: indexLabels[index] ?? 'Negative Sentences',
-                    ),
+                  if (controller.indexLabels.containsKey(index))
+                    SectionHeader(title: controller.indexLabels[index]!),
                   Card(
                     color: primaryColor.withValues(alpha: 0.7),
                     elevation: 2,
@@ -64,7 +51,7 @@ class TensesCategoriesView extends StatelessWidget {
                         children: [
                           Text(
                             category['english_words']?.toString() ?? '',
-                            style: titleSmallStyle.copyWith(color: kWhite),
+                            style: titleSmallBoldStyle.copyWith(color: kWhite),
                           ),
                           const SizedBox(height: kElementInnerGap),
                           Align(
@@ -72,9 +59,7 @@ class TensesCategoriesView extends StatelessWidget {
                             child: Text(
                               category['urdu_words']?.toString() ?? '',
                               textAlign: TextAlign.right,
-                              style: titleSmallBoldStyle.copyWith(
-                                color: kWhite,
-                              ),
+                              style: urduBodyLargeStyle.copyWith(color: kWhite),
                             ),
                           ),
                         ],

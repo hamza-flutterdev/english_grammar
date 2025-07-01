@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
+import '../../../core/common_models/vocabulory_model.dart';
 import '../../../core/data/database/db_helper.dart';
 
 class VocabularyController extends GetxController {
@@ -68,11 +69,4 @@ class VocabularyController extends GetxController {
       isLoading.value = false;
     }
   }
-}
-
-class VocabularySection {
-  final String heading;
-  final List<String> categories;
-
-  VocabularySection({required this.heading, required this.categories});
 }

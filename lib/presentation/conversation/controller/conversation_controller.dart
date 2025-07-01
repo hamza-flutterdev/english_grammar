@@ -2,6 +2,7 @@ import 'package:english_grammer/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/common_models/convo_model.dart';
 import '../../../core/data/database/db_helper.dart';
 
 class ConversationController extends GetxController {
@@ -92,23 +93,4 @@ class ConversationController extends GetxController {
       isLoading.value = false;
     }
   }
-}
-
-
-
-/*
-This class wrong place??
-*/
-class ConversationSection {
-  //final String heading;
-  final List<String> categories;
-
-  ConversationSection({required this.categories});
-}
-
-class CategoryIcon {
-  final String assetImage;
-  final Color color;
-
-  CategoryIcon({required this.assetImage, required this.color});
 }

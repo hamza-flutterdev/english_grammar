@@ -32,12 +32,12 @@ class AlphabetView extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: kBodyHp),
               child: Obx(() {
-                if (controller.alphabetCateg.isEmpty) {
+                if (controller.alphabetCategory.isEmpty) {
                   return const Center(child: CircularProgressIndicator());
                 }
 
                 final filteredList =
-                    controller.filteredAlphabetCateg
+                    controller.filteredAlphabetCategory
                         .where(
                           (category) =>
                               category['category_name'] == 'vocabulary2',
@@ -83,16 +83,15 @@ class AlphabetView extends StatelessWidget {
                           children: [
                             Text(
                               english,
-                              style: titleSmallStyle.copyWith(color: kWhite),
+                              style: titleMediumStyle.copyWith(color: kWhite),
                             ),
-
                             const SizedBox(height: kElementInnerGap),
                             Align(
                               alignment: Alignment.centerRight,
                               child: Text(
                                 urdu,
                                 textAlign: TextAlign.right,
-                                style: titleSmallBoldStyle.copyWith(
+                                style: urduBodyLargeStyle.copyWith(
                                   color: kWhite,
                                 ),
                               ),
@@ -113,7 +112,6 @@ class AlphabetView extends StatelessWidget {
               }),
             ),
           ),
-
           const SizedBox(height: kBodyHp),
         ],
       ),

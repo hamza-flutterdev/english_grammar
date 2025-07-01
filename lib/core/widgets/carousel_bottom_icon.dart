@@ -100,7 +100,6 @@ class CarouselBottomIcon extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(height: kElementInnerGap),
-                        // Text content first
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -148,7 +147,7 @@ class CarouselBottomIcon extends StatelessWidget {
                                         );
                                   }
                                   return urduTextStyle ??
-                                      titleBoldMediumStyle.copyWith(
+                                      urduBodyLargeStyle.copyWith(
                                         color: kWhite,
                                       );
                                 }(),
@@ -156,7 +155,6 @@ class CarouselBottomIcon extends StatelessWidget {
                             ],
                           ],
                         ),
-                        // Icon at bottom
                         if (imgPath != null && imgPath!.length > index) ...[
                           const SizedBox(height: kElementInnerGap),
                           () {

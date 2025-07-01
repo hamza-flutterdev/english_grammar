@@ -93,7 +93,7 @@ class TensesView extends StatelessWidget {
                 autoPlay: true,
                 viewportFraction: 0.65,
                 titleTextStyle: titleSmallBoldStyle.copyWith(color: kWhite),
-                urduTextStyle: titleSmallBoldStyle.copyWith(color: kWhite),
+                urduTextStyle: urduBodyLargeStyle.copyWith(color: kWhite),
               ),
               const SizedBox(height: kElementGap),
               AnimatedSmoothIndicator(
