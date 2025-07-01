@@ -63,7 +63,12 @@ class ConversationCategoryView extends StatelessWidget {
                             englishText.isNotEmpty ? englishText : 'No phrase',
                         color: kWhite,
                         size: secondaryIcon(context),
+                        onSpeakPressed:
+                            () =>
+                                controller
+                                    .onSpeakButtonPressed(), // Increment speak count
                       ),
+
                       contentPadding: kContentPaddingSmall,
                     ),
                   );

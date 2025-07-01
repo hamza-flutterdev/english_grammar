@@ -12,6 +12,7 @@ import '../controller/conversation_controller.dart';
 
 class ConversationView extends StatelessWidget {
   final ConversationController controller = Get.put(ConversationController());
+
   ConversationView({super.key});
 
   @override
@@ -28,23 +29,17 @@ class ConversationView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header section
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconActionButton(
                       onTap: Get.back,
                       icon: Icons.arrow_back_ios_new,
                       color: kWhite,
                     ),
+                    SizedBox(width: mobileWidth(context) * 0.25),
                     Text(
                       'Conversation',
                       style: titleBoldMediumStyle.copyWith(color: kWhite),
-                    ),
-                    IconActionButton(
-                      onTap: () {},
-                      icon: Icons.more_vert,
-                      color: kWhite,
                     ),
                   ],
                 ),
@@ -142,9 +137,16 @@ class ConversationView extends StatelessWidget {
                                       ),
                                   width: double.infinity,
                                   padding: kContentPaddingSmall,
-                                  child: HorizontalProgress(
-                                    currentStep: 32,
-                                    selectedColor: iconContainer.color,
+                                  child: Obx(
+                                    () => HorizontalProgress(
+                                      currentStep: controller.getCurrentStep(
+                                        category,
+                                      ),
+                                      totalSteps:
+                                          ConversationController
+                                              .totalProgressSteps,
+                                      selectedColor: iconContainer.color,
+                                    ),
                                   ),
                                 ),
                               ],

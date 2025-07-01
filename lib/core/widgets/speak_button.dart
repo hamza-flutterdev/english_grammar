@@ -8,6 +8,8 @@ class SpeakButton extends StatelessWidget {
   final String? message;
   final Color color;
   final double size;
+  final VoidCallback?
+  onSpeakPressed; // Optional callback for additional actions
 
   const SpeakButton({
     super.key,
@@ -15,6 +17,7 @@ class SpeakButton extends StatelessWidget {
     this.message = 'Speak Word',
     required this.color,
     required this.size,
+    this.onSpeakPressed, // Add optional callback parameter
   });
 
   @override
@@ -36,6 +39,12 @@ class SpeakButton extends StatelessWidget {
               tts.stop();
             } else {
               tts.speak(textToSpeak);
+
+              // Call the optional callback when starting to speak
+              // This is where the speak count will be incremented
+              if (onSpeakPressed != null) {
+                onSpeakPressed!();
+              }
             }
           },
           icon:
