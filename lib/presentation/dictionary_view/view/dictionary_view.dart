@@ -324,13 +324,13 @@ class DictionaryView extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  Text(meaning, style: bodyBoldLargeStyle),
+                                  Text(meaning, style: titleMediumStyle),
                                   const SizedBox(height: kElementInnerGap),
 
                                   Text(
                                     word,
                                     textAlign: TextAlign.right,
-                                    style: bodyBoldLargeStyle,
+                                    style: urduBodyLargeStyle,
                                   ),
                                 ],
                               ),

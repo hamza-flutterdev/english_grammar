@@ -1,11 +1,11 @@
 import 'package:english_grammer/core/theme/app_colors.dart';
-import 'package:english_grammer/presentation/grammar_screen/controller/grammar_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/constants/constant.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../core/widgets/custom_appbar.dart';
 import '../../../core/widgets/section_header.dart';
+import '../controller/grammar_controller.dart';
 
 class GrammarView extends StatelessWidget {
   GrammarView({super.key});

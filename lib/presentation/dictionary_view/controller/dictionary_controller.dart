@@ -172,7 +172,10 @@ Keep responses under 200 words. Use simple plain text without any special format
       }
 
       wordDetails.value = WordDetails(
-        definition: _fallback(sections['definition'], 'No definition available'),
+        definition: _fallback(
+          sections['definition'],
+          'No definition available',
+        ),
         partOfSpeech: _fallback(sections['partOfSpeech'], 'Not specified'),
         pronunciation: _fallback(sections['pronunciation'], 'Not available'),
         examples: _fallback(sections['examples'], 'No examples available'),
@@ -190,74 +193,12 @@ Keep responses under 200 words. Use simple plain text without any special format
   String _normalizeKey(String key) {
     return key
         .replaceAll(' ', '')
-        .replaceAllMapped(RegExp(r'^[a-z]'), (match) => match.group(0)!.toLowerCase());
+        .replaceAllMapped(
+          RegExp(r'^[a-z]'),
+          (match) => match.group(0)!.toLowerCase(),
+        );
   }
 
-  // void _parseAiResponse(String response) {
-  //   try {
-  //     String definition = '';
-  //     String partOfSpeech = '';
-  //     String pronunciation = '';
-  //     String examples = '';
-  //     String synonyms = '';
-  //     String antonyms = '';
-  //
-  //     final lines = response.split('\n');
-  //
-  //     String currentSection = '';
-  //
-  //     for (String line in lines) {
-  //       final trimmedLine = line.trim();
-  //       if (trimmedLine.isEmpty) continue;
-  //
-  //       if (trimmedLine.toLowerCase().startsWith('definition:')) {
-  //         definition =
-  //             trimmedLine.substring(trimmedLine.indexOf(':') + 1).trim();
-  //         currentSection = 'definition';
-  //       } else if (trimmedLine.toLowerCase().startsWith('part of speech:')) {
-  //         partOfSpeech =
-  //             trimmedLine.substring(trimmedLine.indexOf(':') + 1).trim();
-  //         currentSection = 'partOfSpeech';
-  //       } else if (trimmedLine.toLowerCase().startsWith('pronunciation:')) {
-  //         pronunciation =
-  //             trimmedLine.substring(trimmedLine.indexOf(':') + 1).trim();
-  //         currentSection = 'pronunciation';
-  //       } else if (trimmedLine.toLowerCase().startsWith('examples:')) {
-  //         examples = trimmedLine.substring(trimmedLine.indexOf(':') + 1).trim();
-  //         currentSection = 'examples';
-  //       } else if (trimmedLine.toLowerCase().startsWith('synonyms:')) {
-  //         synonyms = trimmedLine.substring(trimmedLine.indexOf(':') + 1).trim();
-  //         currentSection = 'synonyms';
-  //       } else if (trimmedLine.toLowerCase().startsWith('antonyms:')) {
-  //         antonyms = trimmedLine.substring(trimmedLine.indexOf(':') + 1).trim();
-  //         currentSection = 'antonyms';
-  //       } else {
-  //         if (currentSection == 'examples') {
-  //           if (examples.isNotEmpty) {
-  //             examples += '\n';
-  //           }
-  //           examples += trimmedLine;
-  //         }
-  //       }
-  //     }
-  //
-  //     // Create WordDetails object
-  //     wordDetails.value = WordDetails(
-  //       definition: definition.isEmpty ? 'No definition available' : definition,
-  //       partOfSpeech: partOfSpeech.isEmpty ? 'Not specified' : partOfSpeech,
-  //       pronunciation: pronunciation.isEmpty ? 'Not available' : pronunciation,
-  //       examples: examples.isEmpty ? 'No examples available' : examples,
-  //       synonyms: synonyms.isEmpty ? 'No synonyms available' : synonyms,
-  //       antonyms: antonyms.isEmpty ? 'No antonyms available' : antonyms,
-  //     );
-  //   } catch (e) {
-  //     debugPrint('Error parsing AI response: $e');
-  //   }
-  // }
-
-  /*
-  If you need copy text or share multiple places ?
-  */
   void _clearAiDetails() {
     aiResponse.value = '';
     aiError.value = '';
@@ -280,8 +221,6 @@ Keep responses under 200 words. Use simple plain text without any special format
     }
   }
 }
-
-
 
 /*
 Wrong place use this.....??

@@ -44,20 +44,20 @@ class PhrasesView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            Text(
+                              category['english_words']?.toString() ?? '',
+                              style: titleMediumStyle.copyWith(color: kWhite),
+                            ),
+                            const SizedBox(height: kElementInnerGap),
                             Align(
                               alignment: Alignment.centerRight,
                               child: Text(
                                 category['urdu_words']?.toString() ?? '',
                                 textAlign: TextAlign.right,
-                                style: titleSmallBoldStyle.copyWith(
+                                style: urduBodyLargeStyle.copyWith(
                                   color: kWhite,
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: kElementInnerGap),
-                            Text(
-                              category['english_words']?.toString() ?? '',
-                              style: titleSmallStyle.copyWith(color: kWhite),
                             ),
                           ],
                         ),

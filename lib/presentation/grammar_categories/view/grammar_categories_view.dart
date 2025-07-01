@@ -79,7 +79,7 @@ class GrammarCategoriesView extends StatelessWidget {
                         Text(
                           controller.items.first['english_words']?.toString() ??
                               '',
-                          style: titleSmallStyle.copyWith(color: kWhite),
+                          style: titleMediumStyle.copyWith(color: kWhite),
                         ),
                         const SizedBox(height: kElementInnerGap),
                         Align(
@@ -88,7 +88,7 @@ class GrammarCategoriesView extends StatelessWidget {
                             controller.items.first['urdu_words']?.toString() ??
                                 '',
                             textAlign: TextAlign.right,
-                            style: titleSmallBoldStyle.copyWith(color: kWhite),
+                            style: urduBodyLargeStyle.copyWith(color: kWhite),
                           ),
                         ),
                       ],
@@ -112,7 +112,6 @@ class GrammarCategoriesView extends StatelessWidget {
                     final englishText = item['english_words']?.toString() ?? '';
                     final textToSpeak =
                         englishText.isNotEmpty ? englishText : 'No phrase';
-
                     return Card(
                       color: primaryColor,
                       elevation: 2,
@@ -147,7 +146,7 @@ class GrammarCategoriesView extends StatelessWidget {
                             ),
                             Text(
                               englishText,
-                              style: titleSmallStyle.copyWith(color: kWhite),
+                              style: titleMediumStyle.copyWith(color: kWhite),
                             ),
                             const SizedBox(height: kElementInnerGap),
                             Align(
@@ -155,7 +154,7 @@ class GrammarCategoriesView extends StatelessWidget {
                               child: Text(
                                 urduText,
                                 textAlign: TextAlign.right,
-                                style: titleSmallBoldStyle.copyWith(
+                                style: urduBodyLargeStyle.copyWith(
                                   color: kWhite,
                                 ),
                               ),

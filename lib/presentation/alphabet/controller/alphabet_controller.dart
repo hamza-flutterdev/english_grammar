@@ -20,52 +20,22 @@ class AlphabetController extends GetxController {
     super.onClose();
   }
 
-  /*
-  correct name remove warning....
-  */
-  var alphabetCateg = [].obs;
-  var filteredAlphabetCateg = [].obs;
+  var alphabetCategory = [].obs;
+  var filteredAlphabetCategory = [].obs;
   var isSearching = false.obs;
 
-  /*
-  use ASCII
-  */
-  List<String> categoryTitle = List.generate(26, (index) => String.fromCharCode(65 + index));
-
-  // List<String> categoryTitle = [
-  //   'A',
-  //   'B',
-  //   'C',
-  //   'D',
-  //   'E',
-  //   'F',
-  //   'G',
-  //   'H',
-  //   'I',
-  //   'J',
-  //   'K',
-  //   'L',
-  //   'M',
-  //   'N',
-  //   'O',
-  //   'P',
-  //   'Q',
-  //   'R',
-  //   'S',
-  //   'T',
-  //   'U',
-  //   'V',
-  //   'W',
-  //   'X',
-  //   'Y',
-  //   'Z',
-  // ];
+  List<String> categoryTitle = List.generate(
+    26,
+    (index) => String.fromCharCode(65 + index),
+  );
 
   Future<void> fetchAlphabetsData() async {
     try {
       await dbHelper.initDatabase();
-      alphabetCateg.value = await dbHelper.fetchBySubcategories(categoryTitle);
-      filteredAlphabetCateg.value = alphabetCateg.value;
+      alphabetCategory.value = await dbHelper.fetchBySubcategories(
+        categoryTitle,
+      );
+      filteredAlphabetCategory.value = alphabetCategory.value;
     } catch (e) {
       debugPrint('Error: $e');
     }
@@ -74,10 +44,10 @@ class AlphabetController extends GetxController {
   void performSearch(String query) {
     isSearching.value = query.isNotEmpty;
     if (query.isEmpty) {
-      filteredAlphabetCateg.value = alphabetCateg.value;
+      filteredAlphabetCategory.value = alphabetCategory.value;
     } else {
-      filteredAlphabetCateg.value =
-          alphabetCateg.where((category) {
+      filteredAlphabetCategory.value =
+          alphabetCategory.where((category) {
             final englishWord =
                 (category['english_words'] ?? '').toString().toLowerCase();
             final urduWord =
