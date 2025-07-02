@@ -8,6 +8,7 @@ class GrammarCategoriesController extends GetxController {
 
   var items = <Map<String, dynamic>>[].obs;
   var isLoading = true.obs;
+  var showUrdu = false.obs;
 
   @override
   void onInit() {
@@ -34,6 +35,10 @@ class GrammarCategoriesController extends GetxController {
             return urdu.contains(searchQuery) || english.contains(searchQuery);
           }).toList();
     }
+  }
+
+  void toggleUrdu() {
+    showUrdu.value = !showUrdu.value;
   }
 
   void resetItems() {

@@ -90,7 +90,7 @@ class TensesController extends GetxController {
       ],
       icon: 'assets/images/tense-img/past.png',
       containerColor: kDeepCoral,
-      iconColor: kLightCoral,
+      iconColor: kCoral,
     ),
   ];
 

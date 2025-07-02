@@ -1,5 +1,6 @@
 import 'package:english_grammer/core/theme/app_colors.dart';
 import 'package:english_grammer/core/theme/app_styles.dart';
+import 'package:english_grammer/core/widgets/icon_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -47,8 +48,8 @@ class GrammarCategoriesView extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            IconButton(
-                              onPressed: () {
+                            IconActionButton(
+                              onTap: () {
                                 final urduText =
                                     controller.items.first['urdu_words']
                                         ?.toString() ??
@@ -62,11 +63,9 @@ class GrammarCategoriesView extends StatelessWidget {
                                   ClipboardData(text: textToCopy),
                                 );
                               },
-                              icon: Icon(
-                                Icons.copy,
-                                color: kWhite,
-                                size: secondaryIcon(context),
-                              ),
+                              icon: Icons.copy,
+                              color: kWhite,
+                              size: secondaryIcon(context),
                             ),
                             SpeakButton(
                               textToSpeak:
@@ -87,22 +86,37 @@ class GrammarCategoriesView extends StatelessWidget {
                               '',
                           style: titleMediumStyle.copyWith(color: kWhite),
                         ),
+                        SizedBox(width: kElementWidthGap),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconActionButton(
+                              onTap: controller.toggleUrdu,
+                              icon: Icons.arrow_drop_down,
+                              color: kWhite,
+                              size: secondaryIcon(context),
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: kElementInnerGap),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            right: kElementWidthGap,
-                          ),
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              controller.items.first['urdu_words']
-                                      ?.toString() ??
-                                  '',
-                              textAlign: TextAlign.right,
-                              style: urduBodyLargeStyle.copyWith(color: kWhite),
+                        if (controller.showUrdu.value)
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              right: kElementWidthGap,
+                            ),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                controller.items.first['urdu_words']
+                                        ?.toString() ??
+                                    '',
+                                textAlign: TextAlign.right,
+                                style: urduBodyLargeStyle.copyWith(
+                                  color: kWhite,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
                       ],
                     ),
                     contentPadding: kContentPaddingSmall,

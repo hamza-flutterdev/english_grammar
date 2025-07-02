@@ -20,7 +20,7 @@ const kSilver = Color(0xff999898);
 const kGreenColor = Color(0xff00AB3F);
 const kDarkGreenColor = Color(0xff008631);
 const kBrightTeal = Color(0xFF5ECADC);
-const kMintGreen = Color(0xFF59C896);
+const kMintGreen = Color(0xFFAAFFDC);
 const kDeepTeal = Color(0xFF007163);
 
 //blue
@@ -41,7 +41,7 @@ const kYellow = Color(0xffFFBB00);
 const kGold = Color(0xffCEA247);
 const kWarmGold = Color(0xFFEFB75E);
 const kCoral = Color(0xFFFA7F72);
-const kLightCoral = Color(0xFFEF5E5E);
+const kLightCoral = Color(0xFFFFB8B8);
 const kDeepCoral = Color(0xFFAA1803);
 const kChocoBrown = Color(0xFF8B4513);
 

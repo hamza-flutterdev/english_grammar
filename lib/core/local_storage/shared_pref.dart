@@ -13,7 +13,6 @@ class SharedPrefsService extends GetxController {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  // Generic get method with reactive updates
   T getValue<T>(String key, T defaultValue) {
     if (T == int) {
       if (!intValues.containsKey(key)) {
@@ -38,7 +37,6 @@ class SharedPrefsService extends GetxController {
     }
   }
 
-  // Generic set method with reactive updates
   Future<void> setValue<T>(String key, T value) async {
     if (T == int) {
       intValues[key] = value as int;
@@ -54,7 +52,6 @@ class SharedPrefsService extends GetxController {
     }
   }
 
-  // String list methods with reactive updates
   List<String> getStringList(String key) {
     if (!stringListValues.containsKey(key)) {
       final value = _prefs.getStringList(key) ?? <String>[];
@@ -84,14 +81,11 @@ class SharedPrefsService extends GetxController {
     return getStringList(key).length;
   }
 
-  // Batch operations
   Future<void> loadKeys(List<String> keys) async {
     for (String key in keys) {
-      // Load int values
       if (_prefs.containsKey(key) && _prefs.get(key) is int) {
         intValues[key] = _prefs.getInt(key)!;
       }
-      // Load string lists
       if (_prefs.containsKey(key) && _prefs.get(key) is List) {
         stringListValues[key] = _prefs.getStringList(key) ?? [];
       }
@@ -113,7 +107,6 @@ class SharedPrefsService extends GetxController {
     return total;
   }
 
-  // Counter-specific convenience methods
   Future<void> incrementCounter(String key) async {
     final current = getValue<int>(key, 0);
     await setValue<int>(key, current + 1);
