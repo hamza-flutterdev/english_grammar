@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:english_grammer/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,14 +11,13 @@ class ConversationController extends GetxController {
   var allCategories = <String, dynamic>{}.obs;
   var isLoading = true.obs;
   var selectedCategory = 'Greetings'.obs;
-
-  // Reference to SharedPrefsService
-  final SharedPrefsService _prefsService = SharedPrefsService.instance;
-
-  // Total steps for progress calculation
+  final SharedPrefsService prefsService = SharedPrefsService();
   static const int totalProgressSteps = 100;
 
-  // Category data (moved from SharedPrefsService)
+  Timer? _refreshTimer;
+  final Map<String, int> _cachedSpeakCounts = {};
+  final _refreshTrigger = 0.obs;
+
   final List<ConversationSection> sections = [
     ConversationSection(
       categories: [
@@ -76,87 +76,119 @@ class ConversationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadData();
+    _startPeriodicRefresh();
   }
 
-  /// Get all category names as a flat list
+  @override
+  void onClose() {
+    _refreshTimer?.cancel();
+    super.onClose();
+  }
+
+  void _startPeriodicRefresh() {
+    _refreshTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
+      loadData();
+      loadAllCachedSpeakCounts();
+    });
+  }
+
+  void stopPeriodicRefresh() {
+    _refreshTimer?.cancel();
+    _refreshTimer = null;
+  }
+
+  void restartPeriodicRefresh() {
+    stopPeriodicRefresh();
+    _startPeriodicRefresh();
+  }
+
   List<String> get allCategoryNames {
     return sections.expand((section) => section.categories).toList();
   }
 
-  /// Generate unique key for speak count tracking
-  String getSpeakCountKey(String category) {
-    return 'speak_count_$category';
+  String getSpeakCountKey(String category) => 'speak_count_$category';
+
+  int getSpeakCount(String category) {
+    // Trigger refresh by accessing _refreshTrigger.value
+    _refreshTrigger.value;
+    return _cachedSpeakCounts[category] ?? 0;
   }
 
-  /// Get speak count for a specific category
-  Future<int> getSpeakCount(String category) async {
-    final key = getSpeakCountKey(category);
-    return await _prefsService.getCounter(key);
-  }
-
-  /// Get speak count synchronously
-  int getSpeakCountSync(String category) {
-    final key = getSpeakCountKey(category);
-    return _prefsService.getCounterSync(key);
-  }
-
-  /// Increment speak count for a category
   Future<void> incrementSpeakCount(String category) async {
-    final key = getSpeakCountKey(category);
-    await _prefsService.incrementCounter(key);
+    await prefsService.incrementCounter(getSpeakCountKey(category));
+    await loadAllCachedSpeakCounts();
   }
 
-  /// Get progress percentage for a specific category (0-100)
   int getProgressPercentage(String category) {
-    final count = getSpeakCountSync(category);
-    final percentage =
-        ((count / totalProgressSteps) * 100).clamp(0, 100).toInt();
-    return percentage;
+    final count = getSpeakCount(category);
+    return ((count / totalProgressSteps) * 100).clamp(0, 100).toInt();
   }
 
-  /// Get current step for progress bar
   int getCurrentStep(String category) {
-    final count = getSpeakCountSync(category);
-    return count.clamp(0, totalProgressSteps);
+    return getSpeakCount(category).clamp(0, totalProgressSteps);
   }
 
-  /// Reset speak count for a specific category
   Future<void> resetSpeakCount(String category) async {
-    final key = getSpeakCountKey(category);
-    await _prefsService.resetCounter(key);
+    await prefsService.resetCounter(getSpeakCountKey(category));
+    await loadAllCachedSpeakCounts();
   }
 
-  /// Reset all speak counts
   Future<void> resetAllSpeakCounts() async {
-    final keys = allCategoryNames.map((cat) => getSpeakCountKey(cat)).toList();
-    await _prefsService.resetCounters(keys);
+    final keys = allCategoryNames.map(getSpeakCountKey).toList();
+    await prefsService.resetKeys(keys);
+    await loadAllCachedSpeakCounts();
   }
 
-  /// Get total speak count across all categories
-  Future<int> getTotalSpeakCount() async {
-    final keys = allCategoryNames.map((cat) => getSpeakCountKey(cat)).toList();
-    return await _prefsService.getTotalCount(keys);
+  int getTotalSpeakCount() {
+    final keys = allCategoryNames.map(getSpeakCountKey).toList();
+    return prefsService.getTotalForKeys(keys);
   }
 
-  Future loadData() async {
+  // Load all cached speak counts from SharedPrefs
+  Future<void> loadAllCachedSpeakCounts() async {
+    try {
+      if (allCategoryNames.isEmpty) {
+        debugPrint('allCategoryNames is empty, skipping cache load');
+        return;
+      }
+      for (final category in allCategoryNames) {
+        final speakCount = prefsService.getValue<int>(
+          getSpeakCountKey(category),
+          0,
+        );
+        _cachedSpeakCounts[category] = speakCount;
+      }
+      // Trigger UI refresh
+      _refreshTrigger.value++;
+      debugPrint(
+        'Cached speak counts loaded. Refresh trigger: ${_refreshTrigger.value}',
+      );
+    } catch (e) {
+      debugPrint('Error loading cached speak counts: $e');
+    }
+  }
+
+  // Method to be called by ConversationCategoryController
+  Future<void> refreshSpeakCounts() async {
+    await loadAllCachedSpeakCounts();
+  }
+
+  Future<void> loadData() async {
     try {
       isLoading.value = true;
-
-      // Load all speak count keys
-      final speakCountKeys =
-          allCategoryNames.map((cat) => getSpeakCountKey(cat)).toList();
-      await _prefsService.loadCounters(speakCountKeys);
-
+      await prefsService.init();
+      final speakCountKeys = allCategoryNames.map(getSpeakCountKey).toList();
+      await prefsService.loadKeys(speakCountKeys);
       await Future.delayed(const Duration(milliseconds: 200));
       await dbHelper.initDatabase();
-
       for (var section in sections) {
         for (String category in section.categories) {
           final data = await dbHelper.fetchBySubcategories([category]);
           allCategories[category] = data;
         }
       }
+      // Load cached speak counts after data is loaded
+      await loadAllCachedSpeakCounts();
       isLoading.value = false;
     } catch (e) {
       debugPrint("Error loading conversations: $e");

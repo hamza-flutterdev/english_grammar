@@ -7,11 +7,18 @@ class GrammarCategoriesController extends GetxController {
     : _initialItems = items;
 
   var items = <Map<String, dynamic>>[].obs;
+  var isLoading = true.obs;
 
   @override
   void onInit() {
     super.onInit();
+    _loadItems();
+  }
+
+  Future<void> _loadItems() async {
+    await Future.delayed(const Duration(milliseconds: 400));
     items.value = _initialItems;
+    isLoading.value = false;
   }
 
   void filterItems(String query) {

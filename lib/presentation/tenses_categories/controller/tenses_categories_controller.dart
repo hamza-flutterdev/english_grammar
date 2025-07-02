@@ -11,7 +11,7 @@ class TensesCategoriesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    Timer(const Duration(milliseconds: 300), () => fetchTensesData());
+    Timer(const Duration(milliseconds: 400), () => fetchTensesData());
   }
 
   List<String> categoryTitle = [

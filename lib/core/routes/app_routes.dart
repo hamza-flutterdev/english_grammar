@@ -2,6 +2,7 @@ class AppRoutes {
   static const String splash = '/Splash';
   static const String home = '/Home';
   static const String vocabulary = '/vocabulary';
+  static const String vocabularyTiles = '/vocabulary_tiles';
   static const String alphabet = '/alphabet';
   static const String phrases = '/phrases';
   static const String grammar = '/grammar';

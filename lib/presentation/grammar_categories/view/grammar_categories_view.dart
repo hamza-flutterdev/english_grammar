@@ -23,13 +23,19 @@ class GrammarCategoriesView extends StatelessWidget {
     return Scaffold(
       backgroundColor: bgColor,
       appBar: CustomAppBar(subtitle: categoryName),
-      body: Obx(
-        () => Column(
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return Column(
           children: [
             if (controller.items.isNotEmpty)
               Container(
                 width: double.infinity,
-                margin: const EdgeInsets.all(kBodyHp),
+                margin: const EdgeInsets.symmetric(
+                  horizontal: kElementWidthGap,
+                ),
                 child: Card(
                   color: primaryColor,
                   elevation: 4,
@@ -82,13 +88,19 @@ class GrammarCategoriesView extends StatelessWidget {
                           style: titleMediumStyle.copyWith(color: kWhite),
                         ),
                         const SizedBox(height: kElementInnerGap),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            controller.items.first['urdu_words']?.toString() ??
-                                '',
-                            textAlign: TextAlign.right,
-                            style: urduBodyLargeStyle.copyWith(color: kWhite),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            right: kElementWidthGap,
+                          ),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              controller.items.first['urdu_words']
+                                      ?.toString() ??
+                                  '',
+                              textAlign: TextAlign.right,
+                              style: urduBodyLargeStyle.copyWith(color: kWhite),
+                            ),
                           ),
                         ),
                       ],
@@ -149,13 +161,18 @@ class GrammarCategoriesView extends StatelessWidget {
                               style: titleMediumStyle.copyWith(color: kWhite),
                             ),
                             const SizedBox(height: kElementInnerGap),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                urduText,
-                                textAlign: TextAlign.right,
-                                style: urduBodyLargeStyle.copyWith(
-                                  color: kWhite,
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                right: kElementWidthGap,
+                              ),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  urduText,
+                                  textAlign: TextAlign.right,
+                                  style: urduBodyLargeStyle.copyWith(
+                                    color: kWhite,
+                                  ),
                                 ),
                               ),
                             ),
@@ -169,8 +186,8 @@ class GrammarCategoriesView extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
+        );
+      }),
     );
   }
 }

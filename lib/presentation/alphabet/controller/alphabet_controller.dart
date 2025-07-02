@@ -31,6 +31,7 @@ class AlphabetController extends GetxController {
 
   Future<void> fetchAlphabetsData() async {
     try {
+      await Future.delayed(Duration(milliseconds: 400));
       await dbHelper.initDatabase();
       alphabetCategory.value = await dbHelper.fetchBySubcategories(
         categoryTitle,

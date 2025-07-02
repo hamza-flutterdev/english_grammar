@@ -1,35 +1,31 @@
+// ConversationCategoryController - Updated to trigger cache refresh
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../../../core/data/database/db_helper.dart';
 import '../../../core/local_storage/shared_pref.dart';
+import '../../conversation/controller/conversation_controller.dart';
 
 class ConversationCategoryController extends GetxController {
   final DbHelper dbHelper = DbHelper();
   var conversations = <Map<String, dynamic>>[].obs;
   var isLoading = false.obs;
-
-  // Add reference to SharedPrefsService
-  final SharedPrefsService _prefsService = SharedPrefsService.instance;
-
-  // Track current category for speak button updates
+  final SharedPrefsService prefsService = SharedPrefsService();
   String? currentCategory;
 
-  /// Generate unique key for speak count tracking
-  String getSpeakCountKey(String category) {
-    return 'speak_count_$category';
-  }
+  String getSpokenItemsKey(String category) => 'spoken_items_$category';
+  String getSpeakCountKey(String category) => 'speak_count_$category';
 
   Future<void> loadConversations(String categoryTitle) async {
     try {
       isLoading.value = true;
-      currentCategory = categoryTitle; // Store current category
-
-      // Load the speak count for this specific category
-      final speakCountKey = getSpeakCountKey(categoryTitle);
-      await _prefsService.loadCounter(speakCountKey);
-
+      currentCategory = categoryTitle;
+      await prefsService.init();
+      await prefsService.loadKeys([
+        getSpeakCountKey(categoryTitle),
+        getSpokenItemsKey(categoryTitle),
+      ]);
       await dbHelper.initDatabase();
-      await Future.delayed(const Duration(milliseconds: 200));
+      await Future.delayed(const Duration(milliseconds: 400));
       final data = await dbHelper.fetchBySubcategories([categoryTitle]);
       final filteredConversations =
           data
@@ -44,28 +40,61 @@ class ConversationCategoryController extends GetxController {
     }
   }
 
-  // Method to handle speak button press
-  Future<void> onSpeakButtonPressed() async {
-    if (currentCategory != null) {
-      final key = getSpeakCountKey(currentCategory!);
-      await _prefsService.incrementCounter(key);
+  Future<void> onSpeakButtonPressed(String itemId) async {
+    if (currentCategory == null) return;
+
+    final spokenItemsKey = getSpokenItemsKey(currentCategory!);
+    final countKey = getSpeakCountKey(currentCategory!);
+
+    final wasAlreadySpoken = prefsService.isInStringList(
+      spokenItemsKey,
+      itemId,
+    );
+
+    if (!wasAlreadySpoken) {
+      await prefsService.addToStringList(spokenItemsKey, itemId);
+      final newCount = prefsService.getStringListCount(spokenItemsKey);
+      await prefsService.setValue<int>(countKey, newCount);
+
+      await _refreshConversationController();
+
+      debugPrint(
+        'Item $itemId marked as spoken in $currentCategory. Total unique items: $newCount',
+      );
+    } else {
+      debugPrint('Item $itemId already spoken in $currentCategory');
     }
   }
 
-  /// Get current speak count for the loaded category
+  Future<void> _refreshConversationController() async {
+    try {
+      if (Get.isRegistered<ConversationController>()) {
+        await Get.find<ConversationController>().refreshSpeakCounts();
+        debugPrint('ConversationController speak counts refreshed');
+      }
+    } catch (e) {
+      debugPrint('Failed to refresh ConversationController: $e');
+    }
+  }
+
+  bool hasItemBeenSpoken(String itemId) {
+    if (currentCategory == null) return false;
+    return prefsService.isInStringList(
+      getSpokenItemsKey(currentCategory!),
+      itemId,
+    );
+  }
+
   int getCurrentSpeakCount() {
-    if (currentCategory != null) {
-      final key = getSpeakCountKey(currentCategory!);
-      return _prefsService.getCounterSync(key);
-    }
-    return 0;
+    if (currentCategory == null) return 0;
+    return prefsService.getValue<int>(getSpeakCountKey(currentCategory!), 0);
   }
 
-  /// Reset speak count for current category
   Future<void> resetCurrentSpeakCount() async {
-    if (currentCategory != null) {
-      final key = getSpeakCountKey(currentCategory!);
-      await _prefsService.resetCounter(key);
-    }
+    if (currentCategory == null) return;
+    await prefsService.setStringList(getSpokenItemsKey(currentCategory!), []);
+    await prefsService.setValue<int>(getSpeakCountKey(currentCategory!), 0);
+
+    await _refreshConversationController();
   }
 }

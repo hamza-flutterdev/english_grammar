@@ -170,9 +170,11 @@ class ImageActionButton extends StatelessWidget {
   final Color? color;
   final double? size;
   final double? width;
+  final double? height;
   final bool isCircular;
   final Color? backgroundColor;
   final EdgeInsetsGeometry padding;
+  final BorderRadius? borderRadius;
 
   const ImageActionButton({
     super.key,
@@ -184,8 +186,9 @@ class ImageActionButton extends StatelessWidget {
     this.isCircular = false,
     this.backgroundColor,
     this.padding = const EdgeInsets.all(8),
+    this.borderRadius,
+    this.height,
   });
-
   @override
   Widget build(BuildContext context) {
     final image = Image.asset(
@@ -200,11 +203,13 @@ class ImageActionButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: width,
+        height: height,
         padding: padding,
         decoration: BoxDecoration(
           color: backgroundColor,
           shape: isCircular ? BoxShape.circle : BoxShape.rectangle,
-          borderRadius: isCircular ? null : BorderRadius.circular(8),
+          borderRadius:
+              isCircular ? null : borderRadius ?? BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(
               color: greyColor.withValues(alpha: 0.2),
@@ -213,7 +218,7 @@ class ImageActionButton extends StatelessWidget {
             ),
           ],
         ),
-        child: image,
+        child: Center(child: image),
       ),
     );
   }

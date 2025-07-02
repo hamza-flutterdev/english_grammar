@@ -81,6 +81,8 @@ flutter:
      - assets/images/home-img/
      - assets/images/tense-img/
      - assets/images/convo-img/
+     - assets/images/grammar-img/
+     - assets/images/vocab-img/
 
   fonts:
     - family: Montserrat

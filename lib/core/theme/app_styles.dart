@@ -111,7 +111,7 @@ final TextStyle urduTitleStyle = TextStyle(
 
 final TextStyle urduBodyLargeStyle = TextStyle(
   fontFamily: urduFontFamily,
-  fontSize: 18,
+  fontSize: 20,
   fontWeight: FontWeight.w500,
   color: blackTextColor,
 );

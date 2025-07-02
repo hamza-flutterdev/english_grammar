@@ -35,6 +35,9 @@ class ConversationCategoryView extends StatelessWidget {
                   final englishText =
                       conversation['english_words']?.toString() ?? '';
 
+                  final uniqueItemId =
+                      conversation['id']?.toString() ?? 'item_$index';
+
                   return Card(
                     color: primaryColor,
                     elevation: 2,
@@ -64,9 +67,7 @@ class ConversationCategoryView extends StatelessWidget {
                         color: kWhite,
                         size: secondaryIcon(context),
                         onSpeakPressed:
-                            () =>
-                                controller
-                                    .onSpeakButtonPressed(), // Increment speak count
+                            () => controller.onSpeakButtonPressed(uniqueItemId),
                       ),
 
                       contentPadding: kContentPaddingSmall,

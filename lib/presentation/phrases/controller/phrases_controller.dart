@@ -25,8 +25,8 @@ class PhrasesController extends GetxController {
   ];
 
   Future<void> fetchPhrasesData() async {
-    Future.delayed(const Duration(milliseconds: 200));
     try {
+      await Future.delayed(Duration(milliseconds: 400));
       await dbHelper.initDatabase();
       categories.value = await dbHelper.fetchBySubcategories(categoryTitle);
     } catch (e) {

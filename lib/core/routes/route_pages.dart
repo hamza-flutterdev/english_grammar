@@ -6,6 +6,7 @@ import 'package:english_grammer/presentation/splash/view/splash_view.dart';
 import 'package:english_grammer/presentation/tenses/view/tenses_view.dart';
 import 'package:english_grammer/presentation/tenses_categories/view/tenses_categories_view.dart';
 import 'package:english_grammer/presentation/tenses_list/view/tenses_list_view.dart';
+import 'package:english_grammer/presentation/vocabulary_tiles/view/vocabulary_tiles.dart';
 import 'package:english_grammer/presentation/vocabulory_category/view/vocabulory_category_view.dart';
 import 'package:get/get.dart';
 
@@ -26,6 +27,7 @@ class RoutePages {
     GetPage(name: AppRoutes.conversation, page: () => ConversationView()),
     GetPage(name: AppRoutes.dictionary, page: () => DictionaryView()),
     GetPage(name: AppRoutes.alphabet, page: () => AlphabetView()),
+    GetPage(name: AppRoutes.vocabularyTiles, page: () => VocabularyTiles()),
     GetPage(
       name: AppRoutes.grammarCategories,
       page: () => GrammarCategoriesView(),

@@ -11,12 +11,12 @@ import '../../../core/widgets/common_drop_down.dart';
 import '../controller/conversation_controller.dart';
 
 class ConversationView extends StatelessWidget {
-  final ConversationController controller = Get.put(ConversationController());
-
-  ConversationView({super.key});
+  const ConversationView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ConversationController controller = Get.put(ConversationController());
+
     final categories =
         controller.sections.expand((section) => section.categories).toList();
 
@@ -82,7 +82,6 @@ class ConversationView extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: mobileHeight(context) * 0.02),
-
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(kBodyHp),
@@ -137,17 +136,21 @@ class ConversationView extends StatelessWidget {
                                       ),
                                   width: double.infinity,
                                   padding: kContentPaddingSmall,
-                                  child: Obx(
-                                    () => HorizontalProgress(
-                                      currentStep: controller.getCurrentStep(
-                                        category,
+                                  child: Obx(() {
+                                    final currentStep = controller
+                                        .getSpeakCount(category);
+                                    return HorizontalProgress(
+                                      currentStep: currentStep.clamp(
+                                        0,
+                                        ConversationController
+                                            .totalProgressSteps,
                                       ),
                                       totalSteps:
                                           ConversationController
                                               .totalProgressSteps,
                                       selectedColor: iconContainer.color,
-                                    ),
-                                  ),
+                                    );
+                                  }),
                                 ),
                               ],
                             ),

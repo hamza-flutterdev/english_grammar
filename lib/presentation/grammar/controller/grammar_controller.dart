@@ -1,6 +1,5 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../core/data/database/db_helper.dart';
 
 class GrammarController extends GetxController {
@@ -41,6 +40,7 @@ class GrammarController extends GetxController {
 
   Future<void> fetchGrammarData() async {
     try {
+      await Future.delayed(Duration(milliseconds: 400));
       await dbHelper.initDatabase();
       grammar.value = await dbHelper.fetchBySubcategories(grammarTitle);
     } catch (e) {

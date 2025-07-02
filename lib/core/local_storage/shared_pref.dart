@@ -2,167 +2,124 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsService extends GetxController {
-  static SharedPrefsService get instance {
-    if (!Get.isRegistered<SharedPrefsService>()) {
-      Get.put(SharedPrefsService._internal());
+  late SharedPreferences _prefs;
+
+  var intValues = <String, int>{}.obs;
+  var stringValues = <String, String>{}.obs;
+  var boolValues = <String, bool>{}.obs;
+  var stringListValues = <String, List<String>>{}.obs;
+
+  Future<void> init() async {
+    _prefs = await SharedPreferences.getInstance();
+  }
+
+  // Generic get method with reactive updates
+  T getValue<T>(String key, T defaultValue) {
+    if (T == int) {
+      if (!intValues.containsKey(key)) {
+        final value = _prefs.getInt(key) ?? defaultValue as int;
+        intValues[key] = value;
+      }
+      return intValues[key] as T;
+    } else if (T == String) {
+      if (!stringValues.containsKey(key)) {
+        final value = _prefs.getString(key) ?? defaultValue as String;
+        stringValues[key] = value;
+      }
+      return stringValues[key] as T;
+    } else if (T == bool) {
+      if (!boolValues.containsKey(key)) {
+        final value = _prefs.getBool(key) ?? defaultValue as bool;
+        boolValues[key] = value;
+      }
+      return boolValues[key] as T;
+    } else {
+      throw UnsupportedError('Type $T is not supported');
     }
-    return Get.find<SharedPrefsService>();
   }
 
-  SharedPrefsService._internal();
-
-  SharedPreferences? _prefs;
-  bool _isInitialized = false;
-
-  // Generic observable map to track any key-value pairs
-  var counters = <String, int>{}.obs;
-
-  /// Initialize SharedPreferences only when needed
-  Future<void> _ensureInitialized() async {
-    if (_isInitialized && _prefs != null) return;
-
-    try {
-      _prefs = await SharedPreferences.getInstance();
-      _isInitialized = true;
-    } catch (e) {
-      print('Error initializing SharedPreferences: $e');
+  // Generic set method with reactive updates
+  Future<void> setValue<T>(String key, T value) async {
+    if (T == int) {
+      intValues[key] = value as int;
+      await _prefs.setInt(key, value as int);
+    } else if (T == String) {
+      stringValues[key] = value as String;
+      await _prefs.setString(key, value as String);
+    } else if (T == bool) {
+      boolValues[key] = value as bool;
+      await _prefs.setBool(key, value as bool);
+    } else {
+      throw UnsupportedError('Type $T is not supported');
     }
   }
 
-  /// Load a specific counter by key
-  Future<void> loadCounter(String key) async {
-    await _ensureInitialized();
-    if (_prefs == null) return;
-
-    final count = _prefs!.getInt(key) ?? 0;
-    counters[key] = count;
+  // String list methods with reactive updates
+  List<String> getStringList(String key) {
+    if (!stringListValues.containsKey(key)) {
+      final value = _prefs.getStringList(key) ?? <String>[];
+      stringListValues[key] = value;
+    }
+    return stringListValues[key]!;
   }
 
-  /// Load multiple counters by keys
-  Future<void> loadCounters(List<String> keys) async {
-    await _ensureInitialized();
-    if (_prefs == null) return;
+  Future<void> setStringList(String key, List<String> value) async {
+    stringListValues[key] = value;
+    await _prefs.setStringList(key, value);
+  }
 
+  Future<void> addToStringList(String key, String value) async {
+    final currentList = List<String>.from(getStringList(key));
+    if (!currentList.contains(value)) {
+      currentList.add(value);
+      await setStringList(key, currentList);
+    }
+  }
+
+  bool isInStringList(String key, String value) {
+    return getStringList(key).contains(value);
+  }
+
+  int getStringListCount(String key) {
+    return getStringList(key).length;
+  }
+
+  // Batch operations
+  Future<void> loadKeys(List<String> keys) async {
     for (String key in keys) {
-      final count = _prefs!.getInt(key) ?? 0;
-      counters[key] = count;
+      // Load int values
+      if (_prefs.containsKey(key) && _prefs.get(key) is int) {
+        intValues[key] = _prefs.getInt(key)!;
+      }
+      // Load string lists
+      if (_prefs.containsKey(key) && _prefs.get(key) is List) {
+        stringListValues[key] = _prefs.getStringList(key) ?? [];
+      }
     }
   }
 
-  /// Increment counter for a specific key
-  Future<void> incrementCounter(String key) async {
-    await _ensureInitialized();
-    if (_prefs == null) return;
-
-    final currentCount = counters[key] ?? 0;
-    final newCount = currentCount + 1;
-
-    // Update observable map
-    counters[key] = newCount;
-
-    // Save to SharedPreferences
-    await _prefs!.setInt(key, newCount);
-
-    print('Counter for $key: $newCount');
-  }
-
-  /// Get counter value for a specific key
-  Future<int> getCounter(String key) async {
-    await _ensureInitialized();
-    if (!counters.containsKey(key)) {
-      await loadCounter(key);
-    }
-    return counters[key] ?? 0;
-  }
-
-  /// Get counter value synchronously (use after ensuring the key is loaded)
-  int getCounterSync(String key) {
-    return counters[key] ?? 0;
-  }
-
-  /// Reset counter for a specific key
-  Future<void> resetCounter(String key) async {
-    await _ensureInitialized();
-    if (_prefs == null) return;
-
-    counters[key] = 0;
-    await _prefs!.setInt(key, 0);
-  }
-
-  /// Reset multiple counters
-  Future<void> resetCounters(List<String> keys) async {
-    await _ensureInitialized();
-    if (_prefs == null) return;
-
+  Future<void> resetKeys(List<String> keys) async {
     for (String key in keys) {
-      counters[key] = 0;
-      await _prefs!.setInt(key, 0);
+      await setValue<int>(key, 0);
+      await setStringList(key, []);
     }
   }
 
-  /// Get total count for a list of keys
-  Future<int> getTotalCount(List<String> keys) async {
-    await _ensureInitialized();
-    await loadCounters(keys);
-
+  int getTotalForKeys(List<String> keys) {
     int total = 0;
     for (String key in keys) {
-      total += counters[key] ?? 0;
+      total += getValue<int>(key, 0);
     }
     return total;
   }
 
-  /// Generic method to save any int value
-  Future<void> saveInt(String key, int value) async {
-    await _ensureInitialized();
-    if (_prefs == null) return;
-
-    counters[key] = value;
-    await _prefs!.setInt(key, value);
+  // Counter-specific convenience methods
+  Future<void> incrementCounter(String key) async {
+    final current = getValue<int>(key, 0);
+    await setValue<int>(key, current + 1);
   }
 
-  /// Generic method to get any int value
-  Future<int> getInt(String key, {int defaultValue = 0}) async {
-    await _ensureInitialized();
-    if (_prefs == null) return defaultValue;
-
-    final value = _prefs!.getInt(key) ?? defaultValue;
-    counters[key] = value;
-    return value;
+  Future<void> resetCounter(String key) async {
+    await setValue<int>(key, 0);
   }
-
-  /// Generic method to save any string value
-  Future<void> saveString(String key, String value) async {
-    await _ensureInitialized();
-    if (_prefs == null) return;
-
-    await _prefs!.setString(key, value);
-  }
-
-  /// Generic method to get any string value
-  Future<String?> getString(String key) async {
-    await _ensureInitialized();
-    if (_prefs == null) return null;
-
-    return _prefs!.getString(key);
-  }
-
-  /// Generic method to save any bool value
-  Future<void> saveBool(String key, bool value) async {
-    await _ensureInitialized();
-    if (_prefs == null) return;
-
-    await _prefs!.setBool(key, value);
-  }
-
-  /// Generic method to get any bool value
-  Future<bool> getBool(String key, {bool defaultValue = false}) async {
-    await _ensureInitialized();
-    if (_prefs == null) return defaultValue;
-
-    return _prefs!.getBool(key) ?? defaultValue;
-  }
-
-  /// Check if service is initialized
-  bool get isInitialized => _isInitialized;
 }
