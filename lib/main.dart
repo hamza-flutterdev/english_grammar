@@ -1,12 +1,15 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:english_grammer/core/constants/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'core/routes/app_routes.dart';
 import 'core/routes/route_pages.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
     DevicePreview(
       enabled: false, // Set to false before production release

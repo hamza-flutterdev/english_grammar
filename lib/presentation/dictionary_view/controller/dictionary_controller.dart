@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:toastification/toastification.dart';
 import '../../../core/data/database/db_helper.dart';
 import '../../../core/service/ai_service.dart';
+import '../../../core/widgets/custom_toast.dart';
 
 class DictionaryController extends GetxController {
   final TextEditingController searchController = TextEditingController();
@@ -36,7 +37,7 @@ class DictionaryController extends GetxController {
     await _dbHelper.initDatabase();
   }
 
-  Future<void> performSearch(String query) async {
+  Future<void> performSearch(BuildContext context, String query) async {
     if (query.trim().isEmpty) {
       searchResults.clear();
       hasSearched.value = false;
@@ -51,10 +52,12 @@ class DictionaryController extends GetxController {
       searchResults.assignAll(results);
 
       if (results.isEmpty) {
-        Fluttertoast.showToast(
-          msg: "No word in dictionary. Try another word.",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
+        ToastHelper.showCustomToast(
+          context: context,
+          message: "No word in dictionary. Try another word.",
+          type: ToastificationType.warning,
+          primaryColor: Colors.orange,
+          icon: Icons.warning_amber_rounded,
         );
       }
 
@@ -62,10 +65,12 @@ class DictionaryController extends GetxController {
       selectedMeaning.value = '';
       _clearAiDetails();
     } catch (e) {
-      Fluttertoast.showToast(
-        msg: "Error searching word: ${e.toString()}",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
+      ToastHelper.showCustomToast(
+        context: context,
+        message: "Error searching word: ${e.toString()}",
+        type: ToastificationType.warning,
+        primaryColor: Colors.orange,
+        icon: Icons.warning_amber_rounded,
       );
     } finally {
       isSearching.value = false;

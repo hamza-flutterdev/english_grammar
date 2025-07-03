@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.english_grammer"
+    namespace = "com.teramob.learn_english"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "28.0.12916984"
 

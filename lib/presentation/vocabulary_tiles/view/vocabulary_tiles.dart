@@ -23,47 +23,49 @@ class VocabularyTiles extends StatelessWidget {
     return Scaffold(
       backgroundColor: bgColor,
       appBar: CustomAppBar(subtitle: sectionTitle),
-      body: SingleChildScrollView(
-        child: Obx(() {
-          if (controller.isLoading.value) {
-            return Center(
-              child: Padding(
-                padding: EdgeInsets.all(kBodyHp),
-                child: CircularProgressIndicator(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Obx(() {
+            if (controller.isLoading.value) {
+              return Center(
+                child: Padding(
+                  padding: EdgeInsets.all(kBodyHp),
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+
+            bool allCategoriesLoaded = categories.every(
+              (category) => controller.allCategories.containsKey(category),
+            );
+
+            if (!allCategoriesLoaded) {
+              return Center(child: CircularProgressIndicator());
+            }
+
+            return Padding(
+              padding: const EdgeInsets.all(kBodyHp),
+              child: Column(
+                children:
+                    categories.map((category) {
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: kElementGap),
+                        child: VocabularyTileCard(
+                          category: category,
+                          sectionTitle: sectionTitle,
+                          onTap: () {
+                            Get.toNamed(
+                              AppRoutes.vocabularyCategory,
+                              arguments: category,
+                            );
+                          },
+                        ),
+                      );
+                    }).toList(),
               ),
             );
-          }
-
-          bool allCategoriesLoaded = categories.every(
-            (category) => controller.allCategories.containsKey(category),
-          );
-
-          if (!allCategoriesLoaded) {
-            return Center(child: CircularProgressIndicator());
-          }
-
-          return Padding(
-            padding: const EdgeInsets.all(kBodyHp),
-            child: Column(
-              children:
-                  categories.map((category) {
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: kElementGap),
-                      child: VocabularyTileCard(
-                        category: category,
-                        sectionTitle: sectionTitle,
-                        onTap: () {
-                          Get.toNamed(
-                            AppRoutes.vocabularyCategory,
-                            arguments: category,
-                          );
-                        },
-                      ),
-                    );
-                  }).toList(),
-            ),
-          );
-        }),
+          }),
+        ),
       ),
     );
   }

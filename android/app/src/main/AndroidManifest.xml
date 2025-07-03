@@ -3,7 +3,7 @@
 
 
     <application
-        android:label="english_grammer"
+        android:label="Learn English"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

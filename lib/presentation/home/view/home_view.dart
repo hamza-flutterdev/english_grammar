@@ -3,6 +3,7 @@ import 'package:english_grammer/core/theme/app_colors.dart';
 import 'package:english_grammer/core/widgets/menu_option_row.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../core/widgets/custom_appbar.dart';
 import '../../../core/widgets/custom_drawer.dart';
@@ -16,11 +17,30 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
-    return Scaffold(
-      drawer: CustomDrawer(),
-      backgroundColor: bgColor,
-      appBar: CustomAppBar(subtitle: 'English Learning', useBackButton: false),
-      body: const HomeMenuLayout(),
+    return WillPopScope(
+      onWillPop: () async {
+        bool? exit = await PanaraConfirmDialog.show(
+          context,
+          title: "Exit App?",
+          message: "Do you really want to exit the app?",
+          confirmButtonText: "Exit",
+          cancelButtonText: "Cancel",
+          onTapCancel: () => Navigator.pop(context, false),
+          onTapConfirm: () => Navigator.pop(context, true),
+          panaraDialogType: PanaraDialogType.normal,
+          barrierDismissible: false,
+        );
+        return exit ?? false;
+      },
+      child: Scaffold(
+        drawer: CustomDrawer(),
+        backgroundColor: bgColor,
+        appBar: CustomAppBar(
+          subtitle: 'English Learning',
+          useBackButton: false,
+        ),
+        body: SafeArea(child: const HomeMenuLayout()),
+      ),
     );
   }
 }

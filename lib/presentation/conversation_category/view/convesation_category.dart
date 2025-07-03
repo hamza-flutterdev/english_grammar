@@ -19,67 +19,75 @@ class ConversationCategoryView extends StatelessWidget {
     return Scaffold(
       backgroundColor: bgColor,
       appBar: CustomAppBar(subtitle: title),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(kBodyHp),
-                itemCount: controller.conversations.length,
-                itemBuilder: (context, index) {
-                  final conversation = controller.conversations[index];
-                  final urduText = conversation['urdu_words']?.toString() ?? '';
-                  final englishText =
-                      conversation['english_words']?.toString() ?? '';
+      body: SafeArea(
+        child: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(kBodyHp),
+                  itemCount: controller.conversations.length,
+                  itemBuilder: (context, index) {
+                    final conversation = controller.conversations[index];
+                    final urduText =
+                        conversation['urdu_words']?.toString() ?? '';
+                    final englishText =
+                        conversation['english_words']?.toString() ?? '';
 
-                  final uniqueItemId =
-                      conversation['id']?.toString() ?? 'item_$index';
+                    final uniqueItemId =
+                        conversation['id']?.toString() ?? 'item_$index';
 
-                  return Card(
-                    color: primaryColor,
-                    elevation: 2,
-                    child: ListTile(
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            englishText,
-                            style: titleMediumStyle.copyWith(color: kWhite),
-                          ),
-                          const SizedBox(height: kElementInnerGap),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              urduText,
-                              textAlign: TextAlign.right,
-                              style: urduBodyLargeStyle.copyWith(color: kWhite),
+                    return Card(
+                      color: primaryColor,
+                      elevation: 2,
+                      child: ListTile(
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              englishText,
+                              style: titleMediumStyle.copyWith(color: kWhite),
                             ),
-                          ),
-                        ],
-                      ),
-                      trailing: SpeakButton(
-                        textToSpeak:
-                            englishText.isNotEmpty ? englishText : 'No phrase',
-                        color: kWhite,
-                        size: secondaryIcon(context),
-                        onSpeakPressed:
-                            () => controller.onSpeakButtonPressed(uniqueItemId),
-                      ),
+                            const SizedBox(height: kElementInnerGap),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                urduText,
+                                textAlign: TextAlign.right,
+                                style: urduBodyLargeStyle.copyWith(
+                                  color: kWhite,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        trailing: SpeakButton(
+                          textToSpeak:
+                              englishText.isNotEmpty
+                                  ? englishText
+                                  : 'No phrase',
+                          color: kWhite,
+                          size: secondaryIcon(context),
+                          onSpeakPressed:
+                              () =>
+                                  controller.onSpeakButtonPressed(uniqueItemId),
+                        ),
 
-                      contentPadding: kContentPaddingSmall,
-                    ),
-                  );
-                },
+                        contentPadding: kContentPaddingSmall,
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-            const SizedBox(height: kBodyHp),
-          ],
-        );
-      }),
+              const SizedBox(height: kBodyHp),
+            ],
+          );
+        }),
+      ),
     );
   }
 }

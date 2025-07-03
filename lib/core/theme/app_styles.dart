@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import '../constants/constant.dart';
 import 'app_colors.dart';
 
+const TextStyle headlineLargeStyle = TextStyle(
+  fontSize: 40,
+  fontWeight: FontWeight.w700,
+  color: blackTextColor,
+);
 const TextStyle headlineMediumStyle = TextStyle(
   fontSize: 30,
   fontWeight: FontWeight.w700,

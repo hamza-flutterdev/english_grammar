@@ -20,51 +20,54 @@ class VocabularyCategoryView extends StatelessWidget {
     return Scaffold(
       backgroundColor: bgColor,
       appBar: CustomAppBar(subtitle: title),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
-        }
+      body: SafeArea(
+        child: Obx(() {
+          if (controller.isLoading.value) {
+            return Center(child: CircularProgressIndicator());
+          }
 
-        return ListView.builder(
-          padding: EdgeInsets.all(kBodyHp),
-          itemCount: controller.words.length,
-          itemBuilder: (context, index) {
-            final word = controller.words[index];
-            return Card(
-              color: primaryColor,
-              elevation: 2,
-              margin: kVerticalMargin,
-              child: ListTile(
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      word['english_words'] ?? '',
-                      style: titleMediumStyle.copyWith(color: kWhite),
-                    ),
-                    const SizedBox(height: kElementInnerGap),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        word['urdu_words']?.toString() ?? '',
-                        textAlign: TextAlign.right,
-                        style: urduBodyLargeStyle.copyWith(color: kWhite),
+          return ListView.builder(
+            padding: EdgeInsets.all(kBodyHp),
+            itemCount: controller.words.length,
+            itemBuilder: (context, index) {
+              final word = controller.words[index];
+              return Card(
+                color: primaryColor,
+                elevation: 2,
+                margin: kVerticalMargin,
+                child: ListTile(
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        word['english_words'] ?? '',
+                        style: titleMediumStyle.copyWith(color: kWhite),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: kElementInnerGap),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          word['urdu_words']?.toString() ?? '',
+                          textAlign: TextAlign.right,
+                          style: urduBodyLargeStyle.copyWith(color: kWhite),
+                        ),
+                      ),
+                    ],
+                  ),
+                  trailing: SpeakButton(
+                    textToSpeak:
+                        word['english_words']?.toString() ?? 'No phrase',
+                    color: kWhite,
+                    size: secondaryIcon(context),
+                  ),
+                  contentPadding: kContentPaddingSmall,
                 ),
-                trailing: SpeakButton(
-                  textToSpeak: word['english_words']?.toString() ?? 'No phrase',
-                  color: kWhite,
-                  size: secondaryIcon(context),
-                ),
-                contentPadding: kContentPaddingSmall,
-              ),
-            );
-          },
-        );
-      }),
+              );
+            },
+          );
+        }),
+      ),
     );
   }
 }

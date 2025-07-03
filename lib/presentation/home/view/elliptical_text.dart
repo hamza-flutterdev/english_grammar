@@ -23,7 +23,7 @@ class EllipticalTextPainter extends CustomPainter {
 
     final radiusOffset = 35.0;
 
-    final totalCount = 21;
+    final totalCount = 25;
     final repeatedTexts = List.generate(
       totalCount,
       (i) => texts[i % texts.length],

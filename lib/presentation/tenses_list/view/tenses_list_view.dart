@@ -1,6 +1,5 @@
 import 'package:english_grammer/core/constants/constant.dart';
 import 'package:english_grammer/core/theme/app_styles.dart';
-import 'package:english_grammer/core/widgets/icon_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/routes/app_routes.dart';
@@ -18,98 +17,102 @@ class TensesListView extends StatelessWidget {
     return Scaffold(
       backgroundColor: bgColor,
       appBar: CustomAppBar(subtitle: 'Tenses'),
-      body: Builder(
-        builder: (context) {
-          final List<Widget> sections = [];
+      body: SafeArea(
+        child: Builder(
+          builder: (context) {
+            final List<Widget> sections = [];
 
-          for (
-            int groupIndex = 0;
-            groupIndex < controller.tenseGroups.length;
-            groupIndex++
-          ) {
-            final tenseGroup = controller.tenseGroups[groupIndex];
-            sections.add(
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: kElementGap),
-                child: Row(
-                  children: [
-                    Container(
-                      width: primaryIcon(context),
-                      height: primaryIcon(context),
-                      padding: EdgeInsets.all(kElementInnerGap),
-                      decoration: roundedDecoration.copyWith(
-                        color: tenseGroup.iconColor.withValues(alpha: 0.2),
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          tenseGroup.icon,
-                          color: tenseGroup.containerColor,
+            for (
+              int groupIndex = 0;
+              groupIndex < controller.tenseGroups.length;
+              groupIndex++
+            ) {
+              final tenseGroup = controller.tenseGroups[groupIndex];
+              sections.add(
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: kElementGap),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: primaryIcon(context),
+                        height: primaryIcon(context),
+                        padding: EdgeInsets.all(kElementInnerGap),
+                        decoration: roundedDecoration.copyWith(
+                          color: tenseGroup.iconColor.withValues(alpha: 0.2),
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            tenseGroup.icon,
+                            color: tenseGroup.containerColor,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: kElementWidthGap),
-                    Expanded(
-                      child: Text(
-                        tenseGroup.heading,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: kBlack,
+                      const SizedBox(width: kElementWidthGap),
+                      Expanded(
+                        child: Text(
+                          tenseGroup.heading,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: kBlack,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-            final List<Widget> rows = [];
-            for (int i = 0; i < tenseGroup.categories.length; i += 2) {
-              final rowItems = <TenseItem>[];
-
-              for (
-                int j = i;
-                j < i + 2 && j < tenseGroup.categories.length;
-                j++
-              ) {
-                final englishName = tenseGroup.categories[j];
-                final urduName = tenseGroup.categoriesUrdu[j];
-                final tenseType = controller.getTenseType(j);
-
-                rowItems.add(
-                  TenseItem(
-                    assetPath: tenseType.image,
-                    englishText: englishName,
-                    urduText: urduName,
-                    iconColor: tenseGroup.iconColor,
-                    backgroundColor: tenseGroup.iconColor,
-                    onTap: () {
-                      Get.toNamed(
-                        AppRoutes.tensesCategories,
-                        arguments: controller.currentCategory[j],
-                      );
-                    },
+                    ],
                   ),
-                );
+                ),
+              );
+              final List<Widget> rows = [];
+              for (int i = 0; i < tenseGroup.categories.length; i += 2) {
+                final rowItems = <TenseItem>[];
+
+                for (
+                  int j = i;
+                  j < i + 2 && j < tenseGroup.categories.length;
+                  j++
+                ) {
+                  final englishName = tenseGroup.categories[j];
+                  final urduName = tenseGroup.categoriesUrdu[j];
+                  final tenseType = controller.getTenseType(j);
+
+                  rowItems.add(
+                    TenseItem(
+                      assetPath: tenseType.image,
+                      englishText: englishName,
+                      urduText: urduName,
+                      iconColor: tenseGroup.iconColor,
+                      backgroundColor: tenseGroup.iconColor,
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.tensesCategories,
+                          arguments: controller.currentCategory[j],
+                        );
+                      },
+                    ),
+                  );
+                }
+
+                rows.add(TenseRow(items: rowItems));
+                if (i + 2 < tenseGroup.categories.length) {
+                  rows.add(SizedBox(height: kElementGap));
+                }
               }
 
-              rows.add(TenseRow(items: rowItems));
-              if (i + 2 < tenseGroup.categories.length) {
-                rows.add(SizedBox(height: kElementGap));
+              sections.addAll(rows);
+
+              // Add spacing between groups
+              if (groupIndex < controller.tenseGroups.length - 1) {
+                sections.add(SizedBox(height: kBodyHp));
               }
             }
 
-            sections.addAll(rows);
-
-            // Add spacing between groups
-            if (groupIndex < controller.tenseGroups.length - 1) {
-              sections.add(SizedBox(height: kBodyHp));
-            }
-          }
-
-          return Padding(
-            padding: const EdgeInsets.all(kBodyHp),
-            child: SingleChildScrollView(child: Column(children: sections)),
-          );
-        },
+            return Padding(
+              padding: const EdgeInsets.all(kBodyHp),
+              child: SingleChildScrollView(child: Column(children: sections)),
+            );
+          },
+        ),
       ),
     );
   }

@@ -22,7 +22,7 @@ class HomeController extends GetxController
   final textColor = [
     kBrightTeal,
     kWarmGold,
-    kMintGreen,
+    kDarkGreenColor,
     kCoral,
     kSlatePurple,
     kPurple,

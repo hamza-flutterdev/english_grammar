@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:english_grammer/core/theme/app_colors.dart';
 import 'package:english_grammer/core/theme/app_styles.dart';
-import 'package:english_grammer/core/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toastification/toastification.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'custom_toast.dart';
 
@@ -18,6 +18,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: Container(
         color: secondaryColor,
         child: ListView(
@@ -31,13 +32,10 @@ class CustomDrawer extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 12.0),
-                    child: Image.asset(
-                      'assets/images/home-img/tenses.png',
-                      height: 80,
-                    ),
+                    child: Image.asset('assets/images/icon.png', height: 80),
                   ),
                   Text(
-                    'English Grammar',
+                    'Learn English',
                     style: headlineMediumStyle.copyWith(color: kWhite),
                   ),
                 ],
@@ -47,7 +45,7 @@ class CustomDrawer extends StatelessWidget {
               icon: Icons.more,
               title: 'More Apps',
               onTap: () {
-                //   moreApp();
+                moreApp();
               },
             ),
             Divider(color: primaryColor.withValues(alpha: 0.1)),
@@ -55,7 +53,7 @@ class CustomDrawer extends StatelessWidget {
               icon: Icons.privacy_tip_rounded,
               title: 'Privacy Policy',
               onTap: () {
-                //  privacy();
+                privacy();
               },
             ),
             Divider(color: primaryColor.withValues(alpha: 0.1)),
@@ -63,14 +61,14 @@ class CustomDrawer extends StatelessWidget {
               icon: Icons.star_rounded,
               title: 'Rate Us',
               onTap: () {
-                //  rateUs();
+                rateUs();
               },
             ),
             Divider(color: primaryColor.withValues(alpha: 0.1)),
             DrawerTile(
               icon: Icons.restart_alt,
               title: 'Reset App',
-              onTap: () => _showResetConfirmation,
+              onTap: () => _showResetConfirmation(context),
             ),
             Divider(color: primaryColor.withValues(alpha: 0.1)),
           ],
@@ -111,6 +109,48 @@ class CustomDrawer extends StatelessWidget {
       primaryColor: primaryColor,
       icon: Icons.restart_alt,
     );
+  }
+}
+
+void privacy() async {
+  const androidUrl = 'https://privacypolicymuslimapplications.blogspot.com/';
+  const iosUrl = 'https://asadarmantech.blogspot.com';
+
+  final url = Platform.isIOS ? iosUrl : androidUrl;
+
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+void rateUs() async {
+  const androidUrl =
+      'https://play.google.com/store/apps/details?id=com.ma.gkquiz.generalknowledge';
+  const iosUrl = 'https://apps.apple.com/us/app/GK Quiz/6747742199';
+
+  final url = Platform.isIOS ? iosUrl : androidUrl;
+
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+void moreApp() async {
+  const androidUrl =
+      'https://play.google.com/store/apps/developer?id=Muslim+Applications';
+  const iosUrl =
+      'https://apps.apple.com/us/developer/muhammad-asad-arman/id1487950157?see-all=i-phonei-pad-apps';
+
+  final url = Platform.isIOS ? iosUrl : androidUrl;
+
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  } else {
+    throw 'Could not launch $url';
   }
 }
 

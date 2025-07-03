@@ -18,50 +18,52 @@ class GrammarView extends StatelessWidget {
     return Scaffold(
       backgroundColor: bgColor,
       appBar: const CustomAppBar(subtitle: 'Parts of Speech'),
-      body: Obx(() {
-        if (controller.grammar.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        final List<Widget> rows = [];
-        final entries = controller.groupedData.entries.toList();
-        for (int i = 0; i < entries.length; i += 2) {
-          final rowItems = <CategoryItem>[];
-
-          for (int j = i; j < i + 2 && j < entries.length; j++) {
-            final entry = entries[j];
-            final categoryName = entry.key;
-            final items = entry.value;
-
-            rowItems.add(
-              CategoryItem(
-                assetPath:
-                    'assets/images/grammar-img/${categoryName.toLowerCase()}.png',
-                text: categoryName,
-                iconColor: primaryColor,
-                backgroundColor: secondaryColor,
-                onTap: () {
-                  Get.toNamed(
-                    AppRoutes.grammarCategories,
-                    arguments: {'categoryName': categoryName, 'items': items},
-                  );
-                },
-              ),
-            );
+      body: SafeArea(
+        child: Obx(() {
+          if (controller.grammar.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
           }
 
-          rows.add(CategoryRow(items: rowItems));
+          final List<Widget> rows = [];
+          final entries = controller.groupedData.entries.toList();
+          for (int i = 0; i < entries.length; i += 2) {
+            final rowItems = <CategoryItem>[];
 
-          if (i + 2 < entries.length) {
-            rows.add(SizedBox(height: kElementGap));
+            for (int j = i; j < i + 2 && j < entries.length; j++) {
+              final entry = entries[j];
+              final categoryName = entry.key;
+              final items = entry.value;
+
+              rowItems.add(
+                CategoryItem(
+                  assetPath:
+                      'assets/images/grammar-img/${categoryName.toLowerCase()}.png',
+                  text: categoryName,
+                  iconColor: primaryColor,
+                  backgroundColor: secondaryColor,
+                  onTap: () {
+                    Get.toNamed(
+                      AppRoutes.grammarCategories,
+                      arguments: {'categoryName': categoryName, 'items': items},
+                    );
+                  },
+                ),
+              );
+            }
+
+            rows.add(CategoryRow(items: rowItems));
+
+            if (i + 2 < entries.length) {
+              rows.add(SizedBox(height: kElementGap));
+            }
           }
-        }
 
-        return Padding(
-          padding: const EdgeInsets.all(kBodyHp),
-          child: SingleChildScrollView(child: Column(children: rows)),
-        );
-      }),
+          return Padding(
+            padding: const EdgeInsets.all(kBodyHp * 1.5),
+            child: SingleChildScrollView(child: Column(children: rows)),
+          );
+        }),
+      ),
     );
   }
 }
@@ -91,8 +93,8 @@ class CategoryColumn extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ImageActionButton(
-            width: mobileWidth(context) * 0.37,
-            height: mobileWidth(context) * 0.37,
+            width: mobileWidth(context) * 0.33,
+            height: mobileWidth(context) * 0.33,
             borderRadius: BorderRadius.circular(24),
             assetPath: item.assetPath,
             size: largeIcon(context),

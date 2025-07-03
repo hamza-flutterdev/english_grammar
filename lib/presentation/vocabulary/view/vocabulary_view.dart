@@ -17,54 +17,59 @@ class VocabularyView extends StatelessWidget {
     return Scaffold(
       backgroundColor: bgColor,
       appBar: CustomAppBar(subtitle: 'English Vocabulary'),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return Center(
-            child: Padding(
-              padding: EdgeInsets.all(kBodyHp),
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-
-        final List<Widget> rows = [];
-        final sections = controller.sections;
-
-        for (int i = 0; i < sections.length; i += 2) {
-          final rowItems = <VocabularyItem>[];
-          for (int j = i; j < i + 2 && j < sections.length; j++) {
-            final sectionTitle = sections[j];
-            final categories = controller.sectionCategories[sectionTitle] ?? [];
-
-            rowItems.add(
-              VocabularyItem(
-                assetPath: 'assets/images/vocab-img/$sectionTitle.png',
-                text: sectionTitle,
-                iconColor: primaryColor,
-                backgroundColor: secondaryColor,
-                onTap: () {
-                  Get.toNamed(
-                    AppRoutes.vocabularyTiles,
-                    arguments: {
-                      'sectionTitle': sectionTitle,
-                      'categories': categories,
-                    },
-                  );
-                },
+      body: SafeArea(
+        child: Obx(() {
+          if (controller.isLoading.value) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.all(kBodyHp),
+                child: CircularProgressIndicator(),
               ),
             );
           }
-          rows.add(VocabularyRow(items: rowItems));
-          if (i + 2 < sections.length) {
-            rows.add(SizedBox(height: kElementGap));
-          }
-        }
 
-        return Padding(
-          padding: const EdgeInsets.all(kBodyHp),
-          child: SingleChildScrollView(child: Column(children: rows)),
-        );
-      }),
+          final List<Widget> rows = [];
+          final sections = controller.sections;
+
+          for (int i = 0; i < sections.length; i += 2) {
+            final rowItems = <VocabularyItem>[];
+            for (int j = i; j < i + 2 && j < sections.length; j++) {
+              final sectionTitle = sections[j];
+              final categories =
+                  controller.sectionCategories[sectionTitle] ?? [];
+
+              rowItems.add(
+                VocabularyItem(
+                  assetPath: 'assets/images/vocab-img/$sectionTitle.png',
+                  text: sectionTitle,
+                  iconColor: primaryColor,
+                  backgroundColor: secondaryColor,
+                  onTap: () {
+                    Get.toNamed(
+                      AppRoutes.vocabularyTiles,
+                      arguments: {
+                        'sectionTitle': sectionTitle,
+                        'categories': categories,
+                      },
+                    );
+                  },
+                ),
+              );
+            }
+            rows.add(VocabularyRow(items: rowItems));
+            if (i + 2 < sections.length) {
+              rows.add(SizedBox(height: kElementGap));
+            }
+          }
+
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(kBodyHp * 1.5),
+              child: Column(children: rows),
+            ),
+          );
+        }),
+      ),
     );
   }
 }
@@ -94,8 +99,8 @@ class VocabularyColumn extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ImageActionButton(
-            width: mobileWidth(context) * 0.36,
-            height: mobileWidth(context) * 0.36,
+            width: mobileWidth(context) * 0.33,
+            height: mobileWidth(context) * 0.33,
             borderRadius: BorderRadius.circular(24),
             assetPath: item.assetPath,
             size: largeIcon(context),
