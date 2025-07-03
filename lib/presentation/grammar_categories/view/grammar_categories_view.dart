@@ -154,6 +154,29 @@ class GrammarCategoriesView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               mainAxisSize: MainAxisSize.min,
                               children: [
+                                Text(
+                                  englishText,
+                                  style: titleMediumStyle.copyWith(
+                                    color: kWhite,
+                                  ),
+                                ),
+                                const SizedBox(height: kElementInnerGap),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: kElementWidthGap,
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      urduText,
+                                      textAlign: TextAlign.right,
+                                      style: urduBodyLargeStyle.copyWith(
+                                        color: kWhite,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: kElementInnerGap),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
@@ -177,28 +200,6 @@ class GrammarCategoriesView extends StatelessWidget {
                                       size: secondaryIcon(context),
                                     ),
                                   ],
-                                ),
-                                Text(
-                                  englishText,
-                                  style: titleMediumStyle.copyWith(
-                                    color: kWhite,
-                                  ),
-                                ),
-                                const SizedBox(height: kElementInnerGap),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    right: kElementWidthGap,
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      urduText,
-                                      textAlign: TextAlign.right,
-                                      style: urduBodyLargeStyle.copyWith(
-                                        color: kWhite,
-                                      ),
-                                    ),
-                                  ),
                                 ),
                               ],
                             ),

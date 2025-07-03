@@ -2,6 +2,7 @@ import 'package:english_grammer/core/constants/constant.dart';
 import 'package:english_grammer/core/theme/app_colors.dart';
 import 'package:english_grammer/core/widgets/menu_option_row.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 import '../../../core/routes/app_routes.dart';
@@ -26,7 +27,7 @@ class HomeView extends StatelessWidget {
           confirmButtonText: "Exit",
           cancelButtonText: "Cancel",
           onTapCancel: () => Navigator.pop(context, false),
-          onTapConfirm: () => Navigator.pop(context, true),
+          onTapConfirm: () => SystemNavigator.pop(),
           panaraDialogType: PanaraDialogType.normal,
           barrierDismissible: false,
         );

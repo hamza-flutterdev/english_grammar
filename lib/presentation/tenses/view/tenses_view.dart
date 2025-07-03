@@ -53,9 +53,12 @@ class TensesView extends StatelessWidget {
                   items: controller.headingTitle,
                   carouselController: controller.bottomCarouselController,
                   imgPath: controller.iconImages,
-                  onIndexChanged:
-                      (index) => controller.onBottomCarouselChanged(index),
-                  onItemTap: (index) => controller.onTenseTypeSelected(index),
+                  onIndexChanged: (index) {
+                    controller.onBottomCarouselChanged(index);
+                    controller.onTenseTypeSelected(
+                      index,
+                    ); // Move tap logic here
+                  },
                   currentIndex: controller.bottomCarousel.value,
                   selectedIndex: controller.selectedTenseType.value,
                   autoPlay: false,

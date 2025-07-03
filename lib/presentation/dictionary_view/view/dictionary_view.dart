@@ -107,7 +107,9 @@ class DictionaryView extends StatelessWidget {
                                     Expanded(
                                       child: Text(
                                         controller.selectedMeaning.value,
-                                        style: bodyBoldMediumStyle,
+                                        style: titleBoldMediumStyle.copyWith(
+                                          color: textGreyColor,
+                                        ),
                                       ),
                                     ),
                                   ],
