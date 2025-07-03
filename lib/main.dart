@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:english_grammer/core/constants/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,12 +9,7 @@ import 'core/routes/route_pages.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(
-    DevicePreview(
-      enabled: false, // Set to false before production release
-      builder: (context) => GrammarApp(),
-    ),
-  );
+  runApp(const GrammarApp());
 }
 
 class GrammarApp extends StatelessWidget {
@@ -26,8 +20,6 @@ class GrammarApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       useInheritedMediaQuery: true,
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
       title: 'Learn English',
       initialRoute: AppRoutes.splash,
       getPages: RoutePages.routes,
